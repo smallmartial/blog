@@ -6,7 +6,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="https://github.com/smallmartial/blog.git/"/>
-  <updated>2019-03-30T09:06:42.308Z</updated>
+  <updated>2019-04-02T07:21:59.567Z</updated>
   <id>https://github.com/smallmartial/blog.git/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JAVA知识点总结一</title>
+    <link href="https://github.com/smallmartial/blog.git/2019/04/02/JAVA%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93%E4%B8%80/"/>
+    <id>https://github.com/smallmartial/blog.git/2019/04/02/JAVA知识点总结一/</id>
+    <published>2019-04-02T06:26:04.000Z</published>
+    <updated>2019-04-02T07:21:59.567Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-HashMap和HashTable的描述"><a href="#1-HashMap和HashTable的描述" class="headerlink" title="1.HashMap和HashTable的描述"></a>1.HashMap和HashTable的描述</h3><ul><li>他们都实现了Map接口</li><li>HashMap非线程安全，在多个线程访问Hashtable时，不需要自己为他的方法实现同步，而HashMap必须为此提供额外的同步。</li><li>HashMap允许将null作为一个entry的key或者value,而Hashtable不允许。</li><li>HashMap无contains方法<h3 id="2-在java7中，不用用作switch参数的类型是浮点型"><a href="#2-在java7中，不用用作switch参数的类型是浮点型" class="headerlink" title="2.在java7中，不用用作switch参数的类型是浮点型"></a>2.在java7中，不用用作switch参数的类型是浮点型</h3></li><li>switch语句后控制表达式只能是short、char、int、long整数类型和枚举类型，不能是float、double、boolean类型，String类型是java7支持的。<h3 id="ArrayList和LinkedList的区别"><a href="#ArrayList和LinkedList的区别" class="headerlink" title="ArrayList和LinkedList的区别"></a>ArrayList和LinkedList的区别</h3></li><li>ArrayList是实现了基于动态数组的数据结构，LinkedList是基于链表的数据结构</li><li>对于随机访问get和set,ArrayList优于LinkedList,因为LinkedList要移动指针</li><li>对于新增和删除操作add和remove,LinkedList比较占优势,因为ArrayList要移动资源</li><li>ArrayList的空间浪费主要体现在list列表的结构预留一定的容量空间，而LinkedList的空间花费则体现在它的每一个都需要消耗相当的空间。</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;1-HashMap和HashTable的描述&quot;&gt;&lt;a href=&quot;#1-HashMap和HashTable的描述&quot; class=&quot;headerlink&quot; title=&quot;1.HashMap和HashTable的描述&quot;&gt;&lt;/a&gt;1.HashMap和HashTable的
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>SSM知识总结</title>
