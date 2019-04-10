@@ -6,7 +6,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="https://github.com/smallmartial/blog.git/"/>
-  <updated>2019-04-07T11:51:38.042Z</updated>
+  <updated>2019-04-10T06:29:33.637Z</updated>
   <id>https://github.com/smallmartial/blog.git/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>springcloud</title>
+    <link href="https://github.com/smallmartial/blog.git/2019/04/09/springcloud/"/>
+    <id>https://github.com/smallmartial/blog.git/2019/04/09/springcloud/</id>
+    <published>2019-04-09T13:44:42.000Z</published>
+    <updated>2019-04-10T06:29:33.637Z</updated>
+    
+    <content type="html"><![CDATA[<p>添加图片<br><img src="/smallmartial/blog.git/2019/04/09/springcloud/love.jpg" alt="love"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;添加图片&lt;br&gt;&lt;img src=&quot;/smallmartial/blog.git/2019/04/09/springcloud/love.jpg&quot; alt=&quot;love&quot;&gt;&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>springboot一</title>
