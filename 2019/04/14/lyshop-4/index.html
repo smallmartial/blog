@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,乐优商城,springboot,FastDFS,">
+
+
+
+
+
+  <link rel="alternate" href="/blog/atom.xml" title="smallmartial's blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="FastDFS学习1.什么是分布式文件系统分布式文件系统（Distributed File System）是指文件系统管理的物理存储资源不一定直接连接在本地节点上，而是通过计算机网络与节点相连。  通俗来讲：  传统文件系统管理的文件就存储在本机。 分布式文件系统管理的文件存储在很多机器，这些机器通过网络连接，要被统一管理。无论是上传或者访问文件，都需要通过管理中心来访问  2.什么是FastDF">
+<meta name="keywords" content="java,乐优商城,springboot,FastDFS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="乐优商城学习笔记四">
+<meta property="og:url" content="https://github.com/smallmartial/blog.git/2019/04/14/lyshop-4/index.html">
+<meta property="og:site_name" content="smallmartial&#39;s blog">
+<meta property="og:description" content="FastDFS学习1.什么是分布式文件系统分布式文件系统（Distributed File System）是指文件系统管理的物理存储资源不一定直接连接在本地节点上，而是通过计算机网络与节点相连。  通俗来讲：  传统文件系统管理的文件就存储在本机。 分布式文件系统管理的文件存储在很多机器，这些机器通过网络连接，要被统一管理。无论是上传或者访问文件，都需要通过管理中心来访问  2.什么是FastDF">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://img.smallmartial.cn/1526205834487.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1524237531578.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1524237414200.png">
+<meta property="og:image" content="http://img.smallmartial.cn/QQ%E6%88%AA%E5%9B%BE20190414140705.png">
+<meta property="og:updated_time" content="2019-04-14T06:10:36.635Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="乐优商城学习笔记四">
+<meta name="twitter:description" content="FastDFS学习1.什么是分布式文件系统分布式文件系统（Distributed File System）是指文件系统管理的物理存储资源不一定直接连接在本地节点上，而是通过计算机网络与节点相连。  通俗来讲：  传统文件系统管理的文件就存储在本机。 分布式文件系统管理的文件存储在很多机器，这些机器通过网络连接，要被统一管理。无论是上传或者访问文件，都需要通过管理中心来访问  2.什么是FastDF">
+<meta name="twitter:image" content="http://img.smallmartial.cn/1526205834487.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/smallmartial/blog.git/2019/04/14/lyshop-4/">
+
+
+
+
+
+  <title>乐优商城学习笔记四 | smallmartial's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">smallmartial's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-首页"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-作者简介"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-标签"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-分类"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/smallmartial/blog.git/blog/2019/04/14/lyshop-4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小武">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="smallmartial's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">乐优商城学习笔记四</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-14T13:29:48+08:00">
+                2019-04-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/乐优商城/" itemprop="url" rel="index">
+                    <span itemprop="name">乐优商城</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/blog/2019/04/14/lyshop-4/" class="leancloud_visitors" data-flag-title="乐优商城学习笔记四">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="FastDFS学习"><a href="#FastDFS学习" class="headerlink" title="FastDFS学习"></a>FastDFS学习</h1><h2 id="1-什么是分布式文件系统"><a href="#1-什么是分布式文件系统" class="headerlink" title="1.什么是分布式文件系统"></a>1.什么是分布式文件系统</h2><p>分布式文件系统（Distributed File System）是指文件系统管理的物理存储资源不一定直接连接在本地节点上，而是通过计算机网络与节点相连。 </p>
+<p>通俗来讲：</p>
+<ul>
+<li>传统文件系统管理的文件就存储在本机。</li>
+<li>分布式文件系统管理的文件存储在很多机器，这些机器通过网络连接，要被统一管理。无论是上传或者访问文件，都需要通过管理中心来访问</li>
+</ul>
+<h2 id="2-什么是FastDFS"><a href="#2-什么是FastDFS" class="headerlink" title="2.什么是FastDFS"></a>2.什么是FastDFS</h2><p>FastDFS是由淘宝的余庆先生所开发的一个轻量级、高性能的开源分布式文件系统。用纯C语言开发，功能丰富：</p>
+<ul>
+<li>文件存储</li>
+<li>文件同步</li>
+<li>文件访问（上传、下载）</li>
+<li>存取负载均衡</li>
+<li>在线扩容</li>
+</ul>
+<p>适合有大容量存储需求的应用或系统。同类的分布式文件系统有谷歌的GFS、HDFS（Hadoop）、TFS（淘宝）等。</p>
+<h3 id="2-1-Ubuntu下安装FastDFS"><a href="#2-1-Ubuntu下安装FastDFS" class="headerlink" title="2.1. Ubuntu下安装FastDFS"></a>2.1. Ubuntu下安装FastDFS</h3><h4 id="2-1-1上传"><a href="#2-1-1上传" class="headerlink" title="2.1.1上传"></a>2.1.1上传</h4><p><img src="http://img.smallmartial.cn/1526205834487.png" alt="1526205834487"></p>
+<h3 id="2-1-2安装依赖"><a href="#2-1-2安装依赖" class="headerlink" title="2.1.2安装依赖"></a>2.1.2安装依赖</h3><h4 id="安装GCC依赖"><a href="#安装GCC依赖" class="headerlink" title="安装GCC依赖"></a>安装GCC依赖</h4><p>GCC用来对C语言代码进行编译运行，使用yum命令安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install gcc</span><br></pre></td></tr></table></figure>
+<h4 id="安装unzip工具"><a href="#安装unzip工具" class="headerlink" title="安装unzip工具"></a>安装unzip工具</h4><p>unzip工具可以帮我们对压缩包进行解压</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install unzip zip</span><br></pre></td></tr></table></figure>
+<h4 id="安装libevent"><a href="#安装libevent" class="headerlink" title="安装libevent"></a>安装libevent</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libevent</span><br></pre></td></tr></table></figure>
+<h4 id="安装Nginx所需依赖"><a href="#安装Nginx所需依赖" class="headerlink" title="安装Nginx所需依赖"></a>安装Nginx所需依赖</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install pcre pcre-devel zlib zlib-devel openssl openssl-devel</span><br></pre></td></tr></table></figure>
+<h4 id="安装libfastcommon-master"><a href="#安装libfastcommon-master" class="headerlink" title="安装libfastcommon-master"></a>安装libfastcommon-master</h4><p>这个没有包，只能通过编译安装：</p>
+<ul>
+<li><p>解压刚刚上传的<code>libfastcommon-master.zip</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf libfastcommon-master.zip</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进入解压完成的目录：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd libfastcommon-master</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译并且安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ./make.sh </span><br><span class="line">sudo ./makesh install</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="2-1-3-安装FastDFS"><a href="#2-1-3-安装FastDFS" class="headerlink" title="2.1.3 安装FastDFS"></a>2.1.3 安装FastDFS</h3><p>这里我们也采用编译安装，步骤与刚才的编译安装方式一样：</p>
+<ul>
+<li><p>解压</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf FastDFS_v5.08.tar.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进入目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd FastDFS</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译并安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ./make.sh </span><br><span class="line">sudo ./make.sh install</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>校验安装结果</p>
+</li>
+</ul>
+<p>1）安装完成，我们应该能在<code>/etc/init.d/</code>目录，通过命令<code>ll /etc/init.d/ | grep fdfs</code>看到FastDFS提供的启动脚本：<br>其中：</p>
+<ul>
+<li><code>fdfs_trackerd</code> 是tracker启动脚本</li>
+<li><p><code>fdfs_storaged</code> 是storage启动脚本<br>2）我们可以在 <code>/etc/fdfs</code>目录，通过命令查看到以下配置文件模板：</p>
+<p><img src="http://img.smallmartial.cn/1524237531578.png" alt="1524237531578"></p>
+</li>
+</ul>
+<p>其中：</p>
+<ul>
+<li><code>tarcker.conf.sample</code> 是tracker的配置文件模板</li>
+<li><code>storage.conf.sample</code> 是storage的配置文件模板</li>
+<li><code>client.conf.sample</code> 是客户端的配置文件模板<h4 id="2-2-启动tracker"><a href="#2-2-启动tracker" class="headerlink" title="2.2 启动tracker"></a>2.2 启动tracker</h4></li>
+</ul>
+<p>FastDFS的tracker和storage在刚刚的安装过程中，都已经被安装了，因此我们安装这两种角色的方式是一样的。不同的是，两种需要不同的配置文件。</p>
+<p>我们要启动tracker，就修改刚刚看到的<code>tarcker.conf</code>，并且启动<code>fdfs_trackerd</code>脚本即可。</p>
+<ul>
+<li>编辑tracker配置</li>
+</ul>
+<p>首先我们将模板文件进行赋值和重命名：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo cp tracker.conf.sample tracker.conf</span><br><span class="line">sudo vim tracker.conf</span><br></pre></td></tr></table></figure>
+<p>打开<code>tracker.conf</code>，修改<code>base_path</code>配置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">base_path=/leyou/fdfs/tracker # tracker的数据和日志存放目录</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建目录</li>
+</ul>
+<p>刚刚配置的目录可能不存在，我们创建出来</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /leyou/fdfs/tracker</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>启动tracker</p>
+<p>我们可以使用 <code>sh /etc/init.d/fdfs_trackerd</code> 启动，不过安装过程中，fdfs已经被设置为系统服务，我们可以采用熟悉的服务启动方式：</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service fdfs_trackerd start # 启动fdfs_trackerd服务，停止用stop</span><br></pre></td></tr></table></figure>
+<h4 id="2-3-启动storage"><a href="#2-3-启动storage" class="headerlink" title="2.3 启动storage"></a>2.3 启动storage</h4><p>我们要启动tracker，就修改刚刚看到的<code>tarcker.conf</code>，并且启动<code>fdfs_trackerd</code>脚本即可。</p>
+<ul>
+<li>编辑storage配置</li>
+</ul>
+<p>首先我们将模板文件进行赋值和重命名：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo cp storage.conf.sample storage.conf</span><br><span class="line">sudo vim storage.conf</span><br></pre></td></tr></table></figure>
+<p>打开<code>storage.conf</code>，修改<code>base_path</code>配置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">base_path=/leyou/fdfs/storage # storage的数据和日志存放目录</span><br><span class="line">store_path0=/leyou/fdfs/storage # storage的上传文件存放路径</span><br><span class="line">tracker_server=192.168.56.101:22122 # tracker的地址</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建目录</li>
+</ul>
+<p>刚刚配置的目录可能不存在，我们创建出来</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /leyou/fdfs/storage</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>启动storage</p>
+<p>我们可以使用 <code>sh /etc/init.d/fdfs_storaged</code> 启动，同样我们可以用服务启动方式：</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service fdfs_storaged start  # 启动fdfs_storaged服务，停止用stop</span><br></pre></td></tr></table></figure>
+<p>最后，通过<code>ps -ef | grep fdfs</code> 查看进程：</p>
+<p><img src="http://img.smallmartial.cn/1524237414200.png" alt="1524237414200"></p>
+<h3 id="2-4-安装Nginx及FastDFS模块"><a href="#2-4-安装Nginx及FastDFS模块" class="headerlink" title="2.4 安装Nginx及FastDFS模块"></a>2.4 安装Nginx及FastDFS模块</h3><h4 id="2-4-1-FastDFS的Nginx模块"><a href="#2-4-1-FastDFS的Nginx模块" class="headerlink" title="2.4.1 FastDFS的Nginx模块"></a>2.4.1 FastDFS的Nginx模块</h4><ul>
+<li><p>解压</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf fastdfs-nginx-module_v1.16.tar.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置config文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 进入配置目录</span><br><span class="line">cd /home/ubuntu/leyou/fdfs/fastdfs-nginx-module/src/</span><br><span class="line"><span class="meta">#</span> 修改配置</span><br><span class="line">vim config</span><br><span class="line"><span class="meta">#</span> 执行下面命令（将配置中的/usr/local改为/usr）：</span><br><span class="line">:%s+/usr/local/+/usr/+g</span><br></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+<li><p>配置mod_fastdfs.conf</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 将src目录下的mod_fastdfs.conf复制到 /etc/fdfs目录：</span><br><span class="line">sudo cp mod_fastdfs.conf /etc/fdfs/</span><br><span class="line"><span class="meta">#</span> 编辑该文件</span><br><span class="line">sudo vim /etc/fdfs/mod_fastdfs.cof</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改一下配置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">connect_timeout=10                  		# 客户端访问文件连接超时时长（单位：秒）</span><br><span class="line">tracker_server=192.168.56.101:22122  	# tracker服务IP和端口</span><br><span class="line">url_have_group_name=true            		# 访问链接前缀加上组名</span><br><span class="line">store_path0=/leyou/fdfs/storage        		# 文件存储路径</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>复制 FastDFS的部分配置文件到/etc/fdfs目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /home/ubuntu/leyou/fdfs/FastDFS/conf/</span><br><span class="line">cp http.conf mime.types /etc/fdfs/</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="1-4-2-安装Nginx"><a href="#1-4-2-安装Nginx" class="headerlink" title="1.4.2 安装Nginx"></a>1.4.2 安装Nginx</h4><ul>
+<li><p>解压</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf nginx-1.10.0.tar.gz</span><br></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+<li><p>配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ./configure --prefix=/opt/nginx --sbin-path=/usr/bin/nginx --add-module=/home/ubuntu/leyou/fdfs/fastdfs-nginx-module/src</span><br></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+<li><p>编译安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo make &amp;&amp; sudo make install</span><br></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+<li><p>配置nginx整合fastdfs-module模块</p>
+<p>我们需要修改nginx配置文件，在/opt/nginx/config/nginx.conf文件中：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim  /opt/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure>
+<p>将文件中，原来的<code>server 80{ ...}</code> 部分代码替换为如下代码：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">    <span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">server_name</span>  image.taotao.com;</span><br><span class="line"></span><br><span class="line">	<span class="comment"># 监听域名中带有group的，交给FastDFS模块处理</span></span><br><span class="line">    <span class="attribute">location</span> ~/group([<span class="number">0</span>-<span class="number">9</span>])/ &#123;</span><br><span class="line">        ngx_fastdfs_module;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">        <span class="attribute">root</span>   html;</span><br><span class="line">        <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">error_page</span>   <span class="number">500</span> <span class="number">502</span> <span class="number">503</span> <span class="number">504</span>  /50x.html;</span><br><span class="line">    <span class="attribute">location</span> = /50x.html &#123;</span><br><span class="line">        <span class="attribute">root</span>   html;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nginx # 启动</span><br><span class="line">nginx -s stop # 停止</span><br><span class="line">nginx -s reload # 重新加载配置</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="3-引入依赖"><a href="#3-引入依赖" class="headerlink" title="3.引入依赖"></a>3.引入依赖</h2><p>在父工程中，我们已经管理了依赖，版本为：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">fastDFS.client.version</span>&gt;</span>1.26.2<span class="tag">&lt;/<span class="name">fastDFS.client.version</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>因此，这里我们直接引入坐标即可：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.tobato<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>fastdfs-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-2-引入配置类"><a href="#3-2-引入配置类" class="headerlink" title="3.2.引入配置类"></a>3.2.引入配置类</h3><p>纯java配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@Import</span>(FdfsClientConfig.class)</span><br><span class="line"><span class="comment">// 解决jmx重复注册bean的问题</span></span><br><span class="line"><span class="meta">@EnableMBeanExport</span>(registration = RegistrationPolicy.IGNORE_EXISTING)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FastClientImporter</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-3-编写FastDFS属性"><a href="#3-3-编写FastDFS属性" class="headerlink" title="3.3.编写FastDFS属性"></a>3.3.编写FastDFS属性</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">fdfs:</span></span><br><span class="line"><span class="attr">  so-timeout:</span> <span class="number">1501</span></span><br><span class="line"><span class="attr">  connect-timeout:</span> <span class="number">601</span></span><br><span class="line"><span class="attr">  thumb-image:</span> <span class="comment"># 缩略图</span></span><br><span class="line"><span class="attr">    width:</span> <span class="number">60</span></span><br><span class="line"><span class="attr">    height:</span> <span class="number">60</span></span><br><span class="line"><span class="attr">  tracker-list:</span> <span class="comment"># tracker地址</span></span><br><span class="line"><span class="bullet">    -</span> <span class="number">192.168</span><span class="number">.56</span><span class="number">.101</span><span class="string">:22122</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-4-测试"><a href="#3-4-测试" class="headerlink" title="3.4.测试"></a>3.4.测试</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</span><br><span class="line"><span class="meta">@SpringBootTest</span>(classes = LyUploadService.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FdfsTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> FastFileStorageClient storageClient;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ThumbImageConfig thumbImageConfig;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testUpload</span><span class="params">()</span> <span class="keyword">throws</span> FileNotFoundException </span>&#123;</span><br><span class="line">        File file = <span class="keyword">new</span> File(<span class="string">"D:\\test\\baby.png"</span>);</span><br><span class="line">        <span class="comment">// 上传并且生成缩略图</span></span><br><span class="line">        StorePath storePath = <span class="keyword">this</span>.storageClient.uploadFile(</span><br><span class="line">                <span class="keyword">new</span> FileInputStream(file), file.length(), <span class="string">"png"</span>, <span class="keyword">null</span>);</span><br><span class="line">        <span class="comment">// 带分组的路径</span></span><br><span class="line">        System.out.println(storePath.getFullPath());</span><br><span class="line">        <span class="comment">// 不带分组的路径</span></span><br><span class="line">        System.out.println(storePath.getPath());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testUploadAndCreateThumb</span><span class="params">()</span> <span class="keyword">throws</span> FileNotFoundException </span>&#123;</span><br><span class="line">        File file = <span class="keyword">new</span> File(<span class="string">"D:\\test\\baby.png"</span>);</span><br><span class="line">        <span class="comment">// 上传并且生成缩略图</span></span><br><span class="line">        StorePath storePath = <span class="keyword">this</span>.storageClient.uploadImageAndCrtThumbImage(</span><br><span class="line">                <span class="keyword">new</span> FileInputStream(file), file.length(), <span class="string">"png"</span>, <span class="keyword">null</span>);</span><br><span class="line">        <span class="comment">// 带分组的路径</span></span><br><span class="line">        System.out.println(storePath.getFullPath());</span><br><span class="line">        <span class="comment">// 不带分组的路径</span></span><br><span class="line">        System.out.println(storePath.getPath());</span><br><span class="line">        <span class="comment">// 获取缩略图路径</span></span><br><span class="line">        String path = thumbImageConfig.getThumbImagePath(storePath.getPath());</span><br><span class="line">        System.out.println(path);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">group1/M00/00/00/CoeGQ1yyzaqAE_U5AAAgsUsN-Oo524.jpg</span><br><span class="line">M00/00/00/CoeGQ1yyzaqAE_U5AAAgsUsN-Oo524.jpg</span><br><span class="line">M00/00/00/CoeGQ1yyzaqAE_U5AAAgsUsN-Oo524_60x60.jpg</span><br></pre></td></tr></table></figure>
+<p><img src="http://img.smallmartial.cn/QQ%E6%88%AA%E5%9B%BE20190414140705.png" alt></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/java/" rel="tag"># java</a>
+          
+            <a href="/blog/tags/乐优商城/" rel="tag"># 乐优商城</a>
+          
+            <a href="/blog/tags/springboot/" rel="tag"># springboot</a>
+          
+            <a href="/blog/tags/FastDFS/" rel="tag"># FastDFS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2019/04/13/lyshop-3/" rel="next" title="乐优商城学习笔记三">
+                <i class="fa fa-chevron-left"></i> 乐优商城学习笔记三
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2019/04/14/lyshop-5/" rel="prev" title="lyshop-5">
+                lyshop-5 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">小武</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/blog/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/blog/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/blog/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/smallmartial" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-globe"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="豆瓣">
+                      
+                        <i class="fa fa-fw fa-globe"></i>豆瓣</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#FastDFS学习"><span class="nav-number">1.</span> <span class="nav-text">FastDFS学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-什么是分布式文件系统"><span class="nav-number">1.1.</span> <span class="nav-text">1.什么是分布式文件系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-什么是FastDFS"><span class="nav-number">1.2.</span> <span class="nav-text">2.什么是FastDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Ubuntu下安装FastDFS"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1. Ubuntu下安装FastDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1上传"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">2.1.1上传</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2安装依赖"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.1.2安装依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装GCC依赖"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">安装GCC依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装unzip工具"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">安装unzip工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装libevent"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">安装libevent</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装Nginx所需依赖"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">安装Nginx所需依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装libfastcommon-master"><span class="nav-number">1.2.2.5.</span> <span class="nav-text">安装libfastcommon-master</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3-安装FastDFS"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.1.3 安装FastDFS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-启动tracker"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">2.2 启动tracker</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-启动storage"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">2.3 启动storage</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-安装Nginx及FastDFS模块"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4 安装Nginx及FastDFS模块</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-1-FastDFS的Nginx模块"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">2.4.1 FastDFS的Nginx模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-2-安装Nginx"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">1.4.2 安装Nginx</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-引入依赖"><span class="nav-number">1.3.</span> <span class="nav-text">3.引入依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-引入配置类"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.2.引入配置类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-编写FastDFS属性"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.3.编写FastDFS属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-测试"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.4.测试</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小武</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("wVtY9vYudJ7sIqDYeIQpLXhk-gzGzoHsz", "1jpXi8YPzcRJN87pX2KJQCBP");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
