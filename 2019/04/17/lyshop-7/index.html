@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,乐优商城,springboot,">
+
+
+
+
+
+  <link rel="alternate" href="/blog/atom.xml" title="smallmartial's blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="0.学习目标 独立实现商品新增后台 独立实现商品编辑后台 独立搭建前台系统页面  1.商品新增1.1.页面预览当我们点击新增商品按钮：   就会出现一个弹窗：  里面把商品的数据分为了4部分来填写：  基本信息：主要是一些简单的文本数据，包含了SPU和SpuDetail的部分数据，如 商品分类：是SPU中的cid1，cid2，cid3属性 品牌：是spu中的brandId属性 标题：是spu中的t">
+<meta name="keywords" content="java,乐优商城,springboot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="乐优商城学习笔记七-商品管理（添加商品）">
+<meta property="og:url" content="https://github.com/smallmartial/blog.git/2019/04/17/lyshop-7/index.html">
+<meta property="og:site_name" content="smallmartial&#39;s blog">
+<meta property="og:description" content="0.学习目标 独立实现商品新增后台 独立实现商品编辑后台 独立搭建前台系统页面  1.商品新增1.1.页面预览当我们点击新增商品按钮：   就会出现一个弹窗：  里面把商品的数据分为了4部分来填写：  基本信息：主要是一些简单的文本数据，包含了SPU和SpuDetail的部分数据，如 商品分类：是SPU中的cid1，cid2，cid3属性 品牌：是spu中的brandId属性 标题：是spu中的t">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://img.smallmartial.cn/1528083727447.png">
+<meta property="og:image" content="http://img.smallmartial.cn//1528086595597.png">
+<meta property="og:image" content="http://img.smallmartial.cn//1528102363342.png">
+<meta property="og:image" content="http://img.smallmartial.cn//1528084394245.png">
+<meta property="og:image" content="http://img.smallmartial.cn//1528084463927.png">
+<meta property="og:image" content="http://img.smallmartial.cn//1529806981038.png">
+<meta property="og:image" content="http://img.smallmartial.cn//1528084601205.png">
+<meta property="og:image" content="http://img.smallmartial.cn//1528084678549.png">
+<meta property="og:image" content="http://img.smallmartial.cn//1528086595597.png">
+<meta property="og:image" content="http://img.smallmartial.cn//1528101303110.png">
+<meta property="og:image" content="http://img.smallmartial.cn//1528101483023.png">
+<meta property="og:image" content="http://img.smallmartial.cn//1528101622952.png">
+<meta property="og:image" content="http://img.smallmartial.cn//1528101649596.png">
+<meta property="og:image" content="http://img.smallmartial.cn//1528102075895.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1529631056153.png">
+<meta property="og:image" content="http://img.smallmartial.cn/QQ%E6%88%AA%E5%9B%BE20190417163732.png">
+<meta property="og:image" content="http://img.smallmartial.cn//1529631887407.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1529656674978.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1528856353718.png">
+<meta property="og:image" content="http://img.smallmartial.cn//1528860775149.png">
+<meta property="og:image" content="http://img.smallmartial.cn//1528860848276.png">
+<meta property="og:image" content="http://img.smallmartial.cn//1528861258072.png">
+<meta property="og:image" content="http://img.smallmartial.cn//1528861282193.png">
+<meta property="og:image" content="http://img.smallmartial.cn//1529667397378.png">
+<meta property="og:updated_time" content="2019-04-17T08:45:00.201Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="乐优商城学习笔记七-商品管理（添加商品）">
+<meta name="twitter:description" content="0.学习目标 独立实现商品新增后台 独立实现商品编辑后台 独立搭建前台系统页面  1.商品新增1.1.页面预览当我们点击新增商品按钮：   就会出现一个弹窗：  里面把商品的数据分为了4部分来填写：  基本信息：主要是一些简单的文本数据，包含了SPU和SpuDetail的部分数据，如 商品分类：是SPU中的cid1，cid2，cid3属性 品牌：是spu中的brandId属性 标题：是spu中的t">
+<meta name="twitter:image" content="http://img.smallmartial.cn/1528083727447.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/smallmartial/blog.git/2019/04/17/lyshop-7/">
+
+
+
+
+
+  <title>乐优商城学习笔记七-商品管理（添加商品） | smallmartial's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">smallmartial's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-首页"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-作者简介"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-标签"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-分类"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/smallmartial/blog.git/blog/2019/04/17/lyshop-7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小武">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="smallmartial's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">乐优商城学习笔记七-商品管理（添加商品）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-17T16:18:10+08:00">
+                2019-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/乐优商城/" itemprop="url" rel="index">
+                    <span itemprop="name">乐优商城</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/blog/2019/04/17/lyshop-7/" class="leancloud_visitors" data-flag-title="乐优商城学习笔记七-商品管理（添加商品）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="0-学习目标"><a href="#0-学习目标" class="headerlink" title="0.学习目标"></a>0.学习目标</h1><ul>
+<li>独立实现商品新增后台</li>
+<li>独立实现商品编辑后台</li>
+<li>独立搭建前台系统页面</li>
+</ul>
+<h1 id="1-商品新增"><a href="#1-商品新增" class="headerlink" title="1.商品新增"></a>1.商品新增</h1><h2 id="1-1-页面预览"><a href="#1-1-页面预览" class="headerlink" title="1.1.页面预览"></a>1.1.页面预览</h2><p>当我们点击新增商品按钮：</p>
+<p> <img src="http://img.smallmartial.cn/1528083727447.png" alt="1528083727447"></p>
+<p>就会出现一个弹窗：</p>
+<p><img src="http://img.smallmartial.cn//1528086595597.png" alt="1528086595597"></p>
+<p>里面把商品的数据分为了4部分来填写：</p>
+<ul>
+<li>基本信息：主要是一些简单的文本数据，包含了SPU和SpuDetail的部分数据，如<ul>
+<li>商品分类：是SPU中的<code>cid1</code>，<code>cid2</code>，<code>cid3</code>属性</li>
+<li>品牌：是spu中的<code>brandId</code>属性</li>
+<li>标题：是spu中的<code>title</code>属性</li>
+<li>子标题：是spu中的<code>subTitle</code>属性</li>
+<li>售后服务：是SpuDetail中的<code>afterService</code>属性</li>
+<li>包装列表：是SpuDetail中的<code>packingList</code>属性</li>
+</ul>
+</li>
+<li>商品描述：是SpuDetail中的<code>description</code>属性，数据较多，所以单独放一个页面</li>
+<li>规格参数：商品规格信息，对应SpuDetail中的<code>genericSpec</code>属性</li>
+<li>SKU属性：spu下的所有Sku信息</li>
+</ul>
+<p>对应到页面中的四个<code>stepper-content</code>：</p>
+<p> <img src="http://img.smallmartial.cn//1528102363342.png" alt="1528102363342"></p>
+<h2 id="1-2-弹窗事件"><a href="#1-2-弹窗事件" class="headerlink" title="1.2.弹窗事件"></a>1.2.弹窗事件</h2><p>弹窗是一个独立组件：</p>
+<p> <img src="http://img.smallmartial.cn//1528084394245.png" alt="1528084394245"></p>
+<p>并且在Goods组件中已经引用它：</p>
+<p> <img src="http://img.smallmartial.cn//1528084463927.png" alt="1528084463927"></p>
+<p>并且在页面中渲染：</p>
+<p> <img src="http://img.smallmartial.cn//1529806981038.png" alt="1529806981038"></p>
+<p>在<code>新增商品</code>按钮的点击事件中，改变这个<code>dialog</code>的<code>show</code>属性：</p>
+<p> <img src="http://img.smallmartial.cn//1528084601205.png" alt="1528084601205"></p>
+<p> <img src="http://img.smallmartial.cn//1528084678549.png" alt="1528084678549"></p>
+<h2 id="1-3-基本数据"><a href="#1-3-基本数据" class="headerlink" title="1.3.基本数据"></a>1.3.基本数据</h2><p>我们先来看下基本数据：</p>
+<p><img src="http://img.smallmartial.cn//1528086595597.png" alt="1528086595597"></p>
+<h3 id="1-3-1-商品分类"><a href="#1-3-1-商品分类" class="headerlink" title="1.3.1.商品分类"></a>1.3.1.商品分类</h3><p>商品分类信息查询我们之前已经做过，所以这里的级联选框已经实现完成：</p>
+<p><img src="http://img.smallmartial.cn//1528101303110.png" alt="1528101303110"></p>
+<p>刷新页面，可以看到请求已经发出：</p>
+<p> <img src="http://img.smallmartial.cn//1528101483023.png" alt="1528101483023"></p>
+<p> <img src="http://img.smallmartial.cn//1528101622952.png" alt="1528101622952"></p>
+<p> <img src="http://img.smallmartial.cn//1528101649596.png" alt="1528101649596"></p>
+<h3 id="1-3-2-品牌选择"><a href="#1-3-2-品牌选择" class="headerlink" title="1.3.2.品牌选择"></a>1.3.2.品牌选择</h3><h4 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h4><p>品牌也是一个下拉选框，不过其选项是不确定的，只有当用户选择了商品分类，才会把这个分类下的所有品牌展示出来。</p>
+<p>所以页面编写了watch函数，监控商品分类的变化，每当商品分类值有变化，就会发起请求，查询品牌列表：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"goods.categories"</span>: &#123;</span><br><span class="line">  deep: <span class="literal">true</span>,</span><br><span class="line">  handler(val) &#123;</span><br><span class="line">    <span class="comment">// 判断商品分类是否存在，存在才查询</span></span><br><span class="line">    <span class="keyword">if</span> (val &amp;&amp; val.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="comment">// 根据分类查询品牌</span></span><br><span class="line">      <span class="keyword">this</span>.$http</span><br><span class="line">        .get(<span class="string">"/item/brand/cid/"</span> + <span class="keyword">this</span>.goods.categories[<span class="number">2</span>].id)</span><br><span class="line">        .then(<span class="function">(<span class="params">&#123; data &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">this</span>.brandOptions = data;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<p>刷新页面，可以看到请求发起：</p>
+<p> <img src="http://img.smallmartial.cn//1528102075895.png" alt="1528102075895"></p>
+<p>接下来，我们只要编写后台接口，根据商品分类id，查询对应品牌即可。</p>
+<h4 id="后台接口"><a href="#后台接口" class="headerlink" title="后台接口"></a>后台接口</h4><p>页面需要去后台查询品牌信息，我们自然需要提供：</p>
+<blockquote>
+<p>controller</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * 根据分类查询品牌</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@param</span> cid</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"cid/&#123;cid&#125;"</span>)</span><br><span class="line"><span class="keyword">public</span> ResponseEntity&lt;List&lt;Brand&gt;&gt; queryBrandByCategory(<span class="meta">@PathVariable</span>(<span class="string">"cid"</span>) Long cid) &#123;</span><br><span class="line">    List&lt;Brand&gt; list = <span class="keyword">this</span>.brandService.queryBrandByCategory(cid);</span><br><span class="line">    <span class="keyword">if</span>(list == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ResponseEntity.ok(list);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>service</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> List&lt;Brand&gt; <span class="title">queryBrandByCategory</span><span class="params">(Long cid)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.brandMapper.queryByCategoryId(cid);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>mapper</p>
+</blockquote>
+<p>根据分类查询品牌有中间表，需要自己编写Sql：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Select</span>(<span class="string">"SELECT b.* FROM tb_category_brand cb LEFT JOIN tb_brand b ON cb.brand_id = b.id WHERE cb.category_id = #&#123;cid&#125;"</span>)</span><br><span class="line"><span class="function">List&lt;Brand&gt; <span class="title">queryByCategoryId</span><span class="params">(Long cid)</span></span>;</span><br></pre></td></tr></table></figure>
+<h2 id="1-4-商品规格参数"><a href="#1-4-商品规格参数" class="headerlink" title="1.4.商品规格参数"></a>1.4.商品规格参数</h2><p>规格参数的查询我们之前也已经编写过接口，因为商品规格参数也是与商品分类绑定，所以需要在商品分类变化后去查询，我们也是通过watch监控来实现：</p>
+<p> <img src="http://img.smallmartial.cn/1529631056153.png" alt="1529631056153"></p>
+<p>可以看到这里是根据商品分类id查询规格参数：SpecParam。我们之前写过一个根据gid（分组id）来查询规格参数的接口，我们可以对其进行扩展：</p>
+<blockquote>
+<h3 id="改造查询规格参数接口"><a href="#改造查询规格参数接口" class="headerlink" title="改造查询规格参数接口"></a>改造查询规格参数接口</h3></blockquote>
+<p>我们在原来的根据 gid（规格组id)查询规格参数的接口上，添加一个参数：cid，即商品分类id。</p>
+<p>等一下， 考虑到以后可能还会根据是否搜索、是否为通用属性等条件过滤，我们多添加几个过滤条件：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/params"</span>)</span><br><span class="line"><span class="keyword">public</span> ResponseEntity&lt;List&lt;SpecParam&gt;&gt; querySpecParam(</span><br><span class="line">    <span class="meta">@RequestParam</span>(value=<span class="string">"gid"</span>, required = <span class="keyword">false</span>) Long gid,</span><br><span class="line">    <span class="meta">@RequestParam</span>(value=<span class="string">"cid"</span>, required = <span class="keyword">false</span>) Long cid,</span><br><span class="line">    <span class="meta">@RequestParam</span>(value=<span class="string">"searching"</span>, required = <span class="keyword">false</span>) Boolean searching,</span><br><span class="line">    <span class="meta">@RequestParam</span>(value=<span class="string">"generic"</span>, required = <span class="keyword">false</span>) Boolean generic</span><br><span class="line">    )&#123;</span><br><span class="line">        List&lt;SpecParam&gt; list =</span><br><span class="line">                <span class="keyword">this</span>.specificationService.querySpecParams(gid,cid,searching,generic);</span><br><span class="line">        <span class="keyword">if</span>(list == <span class="keyword">null</span> || list.size() == <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ResponseEntity.ok(list);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>改造service：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> List&lt;SpecParam&gt; <span class="title">querySpecParams</span><span class="params">(Long gid, Long cid, Boolean searching, Boolean generic)</span> </span>&#123;</span><br><span class="line">    SpecParam param = <span class="keyword">new</span> SpecParam();</span><br><span class="line">    param.setGroupId(gid);</span><br><span class="line">    param.setCid(cid);</span><br><span class="line">    param.setSearching(searching);</span><br><span class="line">    param.setGeneric(generic);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.specParamMapper.select(param);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果param中有属性为null，则不会吧属性作为查询条件，因此该方法具备通用性，即可根据gid查询，也可根据cid查询。</p>
+<p>测试<br><img src="http://img.smallmartial.cn/QQ%E6%88%AA%E5%9B%BE20190417163732.png" alt></p>
+<p>刷新页面测试：</p>
+<p> <img src="http://img.smallmartial.cn//1529631887407.png" alt="1529631887407"></p>
+<h2 id="1-5-SKU信息"><a href="#1-5-SKU信息" class="headerlink" title="1.5.SKU信息"></a>1.5.SKU信息</h2><p>Sku属性是SPU下的每个商品的不同特征，如图：</p>
+<p><img src="http://img.smallmartial.cn/1529656674978.png" alt="1529656674978"></p>
+<p>当我们填写一些属性后，会在页面下方生成一个sku表格，大家可以计算下会生成多少个不同属性的Sku呢？</p>
+<p>当你选择了上图中的这些选项时：</p>
+<ul>
+<li>颜色共2种：夜空黑，绚丽红</li>
+<li>内存共2种：4GB，6GB</li>
+<li>机身存储1种：64GB</li>
+</ul>
+<p>此时会产生多少种SKU呢？ 应该是 2 <em> 2 </em> 1 = 4种，这其实就是在求笛卡尔积。</p>
+<p>我们会在页面下方生成一个sku的表格：</p>
+<p><img src="http://img.smallmartial.cn/1528856353718.png" alt="1528856353718"></p>
+<h2 id="1-7-页面表单提交"><a href="#1-7-页面表单提交" class="headerlink" title="1.7.页面表单提交"></a>1.7.页面表单提交</h2><p>在sku列表的下方，有一个提交按钮：</p>
+<p><img src="http://img.smallmartial.cn//1528860775149.png" alt="1528860775149"></p>
+<p>并且绑定了点击事件：</p>
+<p> <img src="http://img.smallmartial.cn//1528860848276.png" alt="1528860848276"></p>
+<p>点击后会组织数据并向后台提交：</p>
+<p> <img src="http://img.smallmartial.cn//1528861258072.png" alt="1528861258072"></p>
+<p>提交：</p>
+<p> <img src="http://img.smallmartial.cn//1528861282193.png" alt="1528861282193"></p>
+<p>点击提交，查看控制台提交的数据格式：</p>
+<p><img src="http://img.smallmartial.cn//1529667397378.png" alt="1529667397378"></p>
+<ul>
+<li>整体是一个json格式数据，包含Spu表所有数据：<ul>
+<li>brandId：品牌id</li>
+<li>cid1、cid2、cid3：商品分类id</li>
+<li>subTitle：副标题</li>
+<li>title：标题</li>
+<li>spuDetail：是一个json对象，代表商品详情表数据<ul>
+<li>afterService：售后服务</li>
+<li>description：商品描述</li>
+<li>packingList：包装列表</li>
+<li>specialSpec：sku规格属性模板</li>
+<li>genericSpec：通用规格参数</li>
+</ul>
+</li>
+<li>skus：spu下的所有sku数组，元素是每个sku对象：<ul>
+<li>title：标题</li>
+<li>images：图片</li>
+<li>price：价格</li>
+<li>stock：库存</li>
+<li>ownSpec：特有规格参数</li>
+<li>indexes：特有规格参数的下标</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-7-后台实现"><a href="#1-7-后台实现" class="headerlink" title="1.7.后台实现"></a>1.7.后台实现</h2><h3 id="实体类"><a href="#实体类" class="headerlink" title="实体类"></a>实体类</h3><blockquote>
+<p>Spu</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Table</span>(name = <span class="string">"tb_spu"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Spu</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@GeneratedValue</span>(strategy = GenerationType.IDENTITY)</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> Long brandId;</span><br><span class="line">    <span class="keyword">private</span> Long cid1;<span class="comment">// 1级类目</span></span><br><span class="line">    <span class="keyword">private</span> Long cid2;<span class="comment">// 2级类目</span></span><br><span class="line">    <span class="keyword">private</span> Long cid3;<span class="comment">// 3级类目</span></span><br><span class="line">    <span class="keyword">private</span> String title;<span class="comment">// 标题</span></span><br><span class="line">    <span class="keyword">private</span> String subTitle;<span class="comment">// 子标题</span></span><br><span class="line">    <span class="keyword">private</span> Boolean saleable;<span class="comment">// 是否上架</span></span><br><span class="line">    <span class="keyword">private</span> Boolean valid;<span class="comment">// 是否有效，逻辑删除用</span></span><br><span class="line">    <span class="keyword">private</span> Date createTime;<span class="comment">// 创建时间</span></span><br><span class="line">    <span class="keyword">private</span> Date lastUpdateTime;<span class="comment">// 最后修改时间</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>SpuDetail</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Table</span>(name=<span class="string">"tb_spu_detail"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpuDetail</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="keyword">private</span> Long spuId;<span class="comment">// 对应的SPU的id</span></span><br><span class="line">    <span class="keyword">private</span> String description;<span class="comment">// 商品描述</span></span><br><span class="line">    <span class="keyword">private</span> String specTemplate;<span class="comment">// 商品特殊规格的名称及可选值模板</span></span><br><span class="line">    <span class="keyword">private</span> String specifications;<span class="comment">// 商品的全局规格属性</span></span><br><span class="line">    <span class="keyword">private</span> String packingList;<span class="comment">// 包装清单</span></span><br><span class="line">    <span class="keyword">private</span> String afterService;<span class="comment">// 售后服务</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Sku</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Table</span>(name = <span class="string">"tb_sku"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Sku</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@GeneratedValue</span>(strategy = GenerationType.IDENTITY)</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> Long spuId;</span><br><span class="line">    <span class="keyword">private</span> String title;</span><br><span class="line">    <span class="keyword">private</span> String images;</span><br><span class="line">    <span class="keyword">private</span> Long price;</span><br><span class="line">    <span class="keyword">private</span> String ownSpec;<span class="comment">// 商品特殊规格的键值对</span></span><br><span class="line">    <span class="keyword">private</span> String indexes;<span class="comment">// 商品特殊规格的下标</span></span><br><span class="line">    <span class="keyword">private</span> Boolean enable;<span class="comment">// 是否有效，逻辑删除用</span></span><br><span class="line">    <span class="keyword">private</span> Date createTime;<span class="comment">// 创建时间</span></span><br><span class="line">    <span class="keyword">private</span> Date lastUpdateTime;<span class="comment">// 最后修改时间</span></span><br><span class="line">    <span class="meta">@Transient</span></span><br><span class="line">    <span class="keyword">private</span> Integer stock;<span class="comment">// 库存</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：这里保存了一个库存字段，在数据库中是另外一张表保存的，方便查询。</p>
+<blockquote>
+<p>Stock</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Table</span>(name = <span class="string">"tb_stock"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Stock</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="keyword">private</span> Long skuId;</span><br><span class="line">    <span class="keyword">private</span> Integer seckillStock;<span class="comment">// 秒杀可用库存</span></span><br><span class="line">    <span class="keyword">private</span> Integer seckillTotal;<span class="comment">// 已秒杀数量</span></span><br><span class="line">    <span class="keyword">private</span> Integer stock;<span class="comment">// 正常库存</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h3><p>四个问题：</p>
+<ul>
+<li><p>请求方式：POST</p>
+</li>
+<li><p>请求路径：/goods</p>
+</li>
+<li><p>请求参数：Spu的json格式的对象，spu中包含spuDetail和Sku集合。这里我们该怎么接收？我们之前定义了一个SpuBo对象，作为业务对象。这里也可以用它，不过需要再扩展spuDetail和skus字段：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpuBo</span> <span class="keyword">extends</span> <span class="title">Spu</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transient</span></span><br><span class="line">    String cname;<span class="comment">// 商品分类名称</span></span><br><span class="line">    <span class="meta">@Transient</span></span><br><span class="line">    String bname;<span class="comment">// 品牌名称</span></span><br><span class="line">    <span class="meta">@Transient</span></span><br><span class="line">    SpuDetail spuDetail;<span class="comment">// 商品详情</span></span><br><span class="line">    <span class="meta">@Transient</span></span><br><span class="line">    List&lt;Sku&gt; skus;<span class="comment">// sku列表</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>返回类型：无</p>
+</li>
+</ul>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 新增商品</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> spu</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@PostMapping</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ResponseEntity&lt;Void&gt; <span class="title">saveGoods</span><span class="params">(@RequestBody Spu spu)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.goodsService.save(spu);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.CREATED);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.INTERNAL_SERVER_ERROR);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：通过@RequestBody注解来接收Json请求</p>
+<blockquote>
+<p>Service</p>
+</blockquote>
+<p>这里的逻辑比较复杂，我们除了要对SPU新增以外，还要对SpuDetail、Sku、Stock进行保存</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">save</span><span class="params">(SpuBo spu)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 保存spu</span></span><br><span class="line">    spu.setSaleable(<span class="keyword">true</span>);</span><br><span class="line">    spu.setValid(<span class="keyword">true</span>);</span><br><span class="line">    spu.setCreateTime(<span class="keyword">new</span> Date());</span><br><span class="line">    spu.setLastUpdateTime(spu.getCreateTime());</span><br><span class="line">    <span class="keyword">this</span>.spuMapper.insert(spu);</span><br><span class="line">    <span class="comment">// 保存spu详情</span></span><br><span class="line">    spu.getSpuDetail().setSpuId(spu.getId());</span><br><span class="line">    <span class="keyword">this</span>.spuDetailMapper.insert(spu.getSpuDetail());</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 保存sku和库存信息</span></span><br><span class="line">    saveSkuAndStock(spu.getSkus(), spu.getId());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">saveSkuAndStock</span><span class="params">(List&lt;Sku&gt; skus, Long spuId)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (Sku sku : skus) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!sku.getEnable()) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 保存sku</span></span><br><span class="line">        sku.setSpuId(spuId);</span><br><span class="line">        <span class="comment">// 初始化时间</span></span><br><span class="line">        sku.setCreateTime(<span class="keyword">new</span> Date());</span><br><span class="line">        sku.setLastUpdateTime(sku.getCreateTime());</span><br><span class="line">        <span class="keyword">this</span>.skuMapper.insert(sku);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 保存库存信息</span></span><br><span class="line">        Stock stock = <span class="keyword">new</span> Stock();</span><br><span class="line">        stock.setSkuId(sku.getId());</span><br><span class="line">        stock.setStock(sku.getStock());</span><br><span class="line">        <span class="keyword">this</span>.stockMapper.insert(stock);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Mapper"><a href="#Mapper" class="headerlink" title="Mapper"></a>Mapper</h3><p>都是通用Mapper，略</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/java/" rel="tag"># java</a>
+          
+            <a href="/blog/tags/乐优商城/" rel="tag"># 乐优商城</a>
+          
+            <a href="/blog/tags/springboot/" rel="tag"># springboot</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2019/04/16/lyshop-6/" rel="next" title="乐优商城学习笔记六-商品管理">
+                <i class="fa fa-chevron-left"></i> 乐优商城学习笔记六-商品管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2019/04/17/lyshop-8/" rel="prev" title="乐优商城学习笔记八-商品管理(修改商品)">
+                乐优商城学习笔记八-商品管理(修改商品) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">小武</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/blog/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/blog/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/blog/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/smallmartial" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-globe"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="豆瓣">
+                      
+                        <i class="fa fa-fw fa-globe"></i>豆瓣</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0-学习目标"><span class="nav-number">1.</span> <span class="nav-text">0.学习目标</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-商品新增"><span class="nav-number">2.</span> <span class="nav-text">1.商品新增</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-页面预览"><span class="nav-number">2.1.</span> <span class="nav-text">1.1.页面预览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-弹窗事件"><span class="nav-number">2.2.</span> <span class="nav-text">1.2.弹窗事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-基本数据"><span class="nav-number">2.3.</span> <span class="nav-text">1.3.基本数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1-商品分类"><span class="nav-number">2.3.1.</span> <span class="nav-text">1.3.1.商品分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-品牌选择"><span class="nav-number">2.3.2.</span> <span class="nav-text">1.3.2.品牌选择</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#页面"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">页面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后台接口"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">后台接口</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-商品规格参数"><span class="nav-number">2.4.</span> <span class="nav-text">1.4.商品规格参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#改造查询规格参数接口"><span class="nav-number">2.4.1.</span> <span class="nav-text">改造查询规格参数接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-SKU信息"><span class="nav-number">2.5.</span> <span class="nav-text">1.5.SKU信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-7-页面表单提交"><span class="nav-number">2.6.</span> <span class="nav-text">1.7.页面表单提交</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-7-后台实现"><span class="nav-number">2.7.</span> <span class="nav-text">1.7.后台实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实体类"><span class="nav-number">2.7.1.</span> <span class="nav-text">实体类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Controller"><span class="nav-number">2.7.2.</span> <span class="nav-text">Controller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mapper"><span class="nav-number">2.7.3.</span> <span class="nav-text">Mapper</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小武</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("wVtY9vYudJ7sIqDYeIQpLXhk-gzGzoHsz", "1jpXi8YPzcRJN87pX2KJQCBP");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
