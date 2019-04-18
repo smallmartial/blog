@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,乐优商城,springboot,Elasticsearch,">
+
+
+
+
+
+  <link rel="alternate" href="/blog/atom.xml" title="smallmartial's blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="0.学习目标 独立安装Elasticsearch 会使用Rest的API操作索引 会使用Rest的API查询数据 会使用Rest的API聚合数据 掌握Spring Data Elasticsearch使用  1.Elasticsearch介绍和安装用户访问我们的首页，一般都会直接搜索来寻找自己想要购买的商品。 而商品的数量非常多，而且分类繁杂。如果能正确的显示出用户想要的商品，并进行合理的过滤，尽">
+<meta name="keywords" content="java,乐优商城,springboot,Elasticsearch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="乐优商城学习笔记九-Elasticsearch学习（一）">
+<meta property="og:url" content="https://github.com/smallmartial/blog.git/2019/04/18/lyshop-9/index.html">
+<meta property="og:site_name" content="smallmartial&#39;s blog">
+<meta property="og:description" content="0.学习目标 独立安装Elasticsearch 会使用Rest的API操作索引 会使用Rest的API查询数据 会使用Rest的API聚合数据 掌握Spring Data Elasticsearch使用  1.Elasticsearch介绍和安装用户访问我们的首页，一般都会直接搜索来寻找自己想要购买的商品。 而商品的数量非常多，而且分类繁杂。如果能正确的显示出用户想要的商品，并进行合理的过滤，尽">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-aaf1bcf9653ad7dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-1f11afa006fa1839.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-22bdba276c9cfa2e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-0b5f362be86271d9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-73df696c11c51b39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-bcfea4b439088d6a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-bb876e50edf000c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-5416b3886d4f531b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-d6485224dfe1e09e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-c754d3ab56c19af0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-eaf401d699d32b2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-befb11c71dd54bf0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-b5fff543536fe9ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-a5a07f835ef4f7ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-1dfb9707c12c80d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-6a8497303fe42c76.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-b7fe834ea59d9021.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-a32e903f702f1101.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-0a84c2e6e33afc83.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-c901c6df7824c22a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-8ff7cce2681f993b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-4b7c070babcef998.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-0f23654cad45bda3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-22910b78bc698d78.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-16b83a8048b3310c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/7149586-df1c98bc0d7b3f34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-04-18T03:29:15.201Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="乐优商城学习笔记九-Elasticsearch学习（一）">
+<meta name="twitter:description" content="0.学习目标 独立安装Elasticsearch 会使用Rest的API操作索引 会使用Rest的API查询数据 会使用Rest的API聚合数据 掌握Spring Data Elasticsearch使用  1.Elasticsearch介绍和安装用户访问我们的首页，一般都会直接搜索来寻找自己想要购买的商品。 而商品的数量非常多，而且分类繁杂。如果能正确的显示出用户想要的商品，并进行合理的过滤，尽">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/7149586-aaf1bcf9653ad7dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/smallmartial/blog.git/2019/04/18/lyshop-9/">
+
+
+
+
+
+  <title>乐优商城学习笔记九-Elasticsearch学习（一） | smallmartial's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">smallmartial's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-首页"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-作者简介"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-标签"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-分类"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/smallmartial/blog.git/blog/2019/04/18/lyshop-9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小武">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="smallmartial's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">乐优商城学习笔记九-Elasticsearch学习（一）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-18T11:24:09+08:00">
+                2019-04-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/乐优商城/" itemprop="url" rel="index">
+                    <span itemprop="name">乐优商城</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/blog/2019/04/18/lyshop-9/" class="leancloud_visitors" data-flag-title="乐优商城学习笔记九-Elasticsearch学习（一）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="0-学习目标"><a href="#0-学习目标" class="headerlink" title="0.学习目标"></a>0.学习目标</h1><ul>
+<li>独立安装Elasticsearch</li>
+<li>会使用Rest的API操作索引</li>
+<li>会使用Rest的API查询数据</li>
+<li>会使用Rest的API聚合数据</li>
+<li>掌握Spring Data Elasticsearch使用</li>
+</ul>
+<h1 id="1-Elasticsearch介绍和安装"><a href="#1-Elasticsearch介绍和安装" class="headerlink" title="1.Elasticsearch介绍和安装"></a>1.Elasticsearch介绍和安装</h1><p>用户访问我们的首页，一般都会直接搜索来寻找自己想要购买的商品。</p>
+<p>而商品的数量非常多，而且分类繁杂。如果能正确的显示出用户想要的商品，并进行合理的过滤，尽快促成交易，是搜索系统要研究的核心。</p>
+<p>面对这样复杂的搜索业务和数据量，使用传统数据库搜索就显得力不从心，一般我们都会使用全文检索技术，比如之前大家学习过的Solr。</p>
+<p>不过今天，我们要讲的是另一个全文检索技术：Elasticsearch。</p>
+<h2 id="1-1-简介"><a href="#1-1-简介" class="headerlink" title="1.1.简介"></a>1.1.简介</h2><h3 id="1-1-1-Elastic"><a href="#1-1-1-Elastic" class="headerlink" title="1.1.1.Elastic"></a>1.1.1.Elastic</h3><p>Elastic官网：<a href="https://www.elastic.co/cn/" target="_blank" rel="noopener">https://www.elastic.co/cn/</a></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7149586-aaf1bcf9653ad7dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526464088259"></p>
+<p>Elastic有一条完整的产品线：Elasticsearch、Kibana、Logstash等，前面说的三个就是大家常说的ELK技术栈。</p>
+<p> <img src="http://upload-images.jianshu.io/upload_images/7149586-1f11afa006fa1839.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526464220142"></p>
+<h3 id="1-1-2-Elasticsearch"><a href="#1-1-2-Elasticsearch" class="headerlink" title="1.1.2.Elasticsearch"></a>1.1.2.Elasticsearch</h3><p>Elasticsearch官网：<a href="https://www.elastic.co/cn/products/elasticsearch" target="_blank" rel="noopener">https://www.elastic.co/cn/products/elasticsearch</a></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7149586-22bdba276c9cfa2e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526464283575"></p>
+<p>如上所述，Elasticsearch具备以下特点：</p>
+<ul>
+<li>分布式，无需人工搭建集群（solr就需要人为配置，使用Zookeeper作为注册中心）</li>
+<li>Restful风格，一切API都遵循Rest原则，容易上手</li>
+<li>近实时搜索，数据更新在Elasticsearch中几乎是完全同步的。</li>
+</ul>
+<h3 id="1-1-3-版本"><a href="#1-1-3-版本" class="headerlink" title="1.1.3.版本"></a>1.1.3.版本</h3><p>目前Elasticsearch最新的版本是6.2.4，我们就使用这个版本</p>
+<p>需要虚拟机JDK1.8及以上</p>
+<h2 id="1-2-安装和配置"><a href="#1-2-安装和配置" class="headerlink" title="1.2.安装和配置"></a>1.2.安装和配置</h2><p>为了模拟真实场景，我们将在linux Ubuntu 下安装Elasticsearch。</p>
+<h3 id="1-2-1-新建一个用户leyou"><a href="#1-2-1-新建一个用户leyou" class="headerlink" title="1.2.1.新建一个用户leyou"></a>1.2.1.新建一个用户leyou</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd leyou</span><br></pre></td></tr></table></figure>
+<p>设置密码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd leyou</span><br></pre></td></tr></table></figure>
+<p>出于安全考虑，elasticsearch默认不允许以root账号运行。</p>
+<p>切换用户：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su - leyou</span><br></pre></td></tr></table></figure>
+<h3 id="1-2-2-上传安装包-并解压"><a href="#1-2-2-上传安装包-并解压" class="headerlink" title="1.2.2.上传安装包,并解压"></a>1.2.2.上传安装包,并解压</h3><p>我们将安装包上传到：/home/ubuntu/leyou目录</p>
+<p> <img src="http://upload-images.jianshu.io/upload_images/7149586-0b5f362be86271d9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526465700159"></p>
+<p>解压缩：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar xvf elasticsearch-6.2.4.tar.gz</span><br></pre></td></tr></table></figure>
+<p> <img src="http://upload-images.jianshu.io/upload_images/7149586-73df696c11c51b39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526465823442"></p>
+<p>我们把目录重命名：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv elasticsearch-6.2.4/ elasticsearch</span><br></pre></td></tr></table></figure>
+<p> <img src="http://upload-images.jianshu.io/upload_images/7149586-bcfea4b439088d6a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526465823442"></p>
+<p>进入，查看目录结构：</p>
+<p> <img src="http://upload-images.jianshu.io/upload_images/7149586-bb876e50edf000c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526465823442"></p>
+<h3 id="1-2-3-修改配置"><a href="#1-2-3-修改配置" class="headerlink" title="1.2.3.修改配置"></a>1.2.3.修改配置</h3><p>我们进入config目录：<code>cd config</code></p>
+<p>需要修改的配置文件有两个：</p>
+<p> <img src="http://upload-images.jianshu.io/upload_images/7149586-5416b3886d4f531b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526465823442"></p>
+<blockquote>
+<p>修改jvm配置</p>
+</blockquote>
+<p>Elasticsearch基于Lucene的，而Lucene底层是java实现，因此我们需要配置jvm参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim jvm.options</span><br></pre></td></tr></table></figure>
+<p>默认配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-Xms1g</span><br><span class="line">-Xmx1g</span><br></pre></td></tr></table></figure>
+<p>内存占用太多了，我们调小一些：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-Xms512m</span><br><span class="line">-Xmx512m</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>修改elasticsearch.yml</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim elasticsearch.yml</span><br></pre></td></tr></table></figure>
+<p>修改数据和日志目录：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">path.data:</span> <span class="string">/home/ubuntu/leyou/elasticsearch/data</span> <span class="comment"># 数据目录位置</span></span><br><span class="line"><span class="string">path.logs:</span> <span class="string">/home/ubuntu/leyou/elasticsearch/logs</span> <span class="comment"># 日志目录位置</span></span><br></pre></td></tr></table></figure>
+<p>修改绑定的ip：<br>修改绑定的ip：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">network.host: 0.0.0.0 # 绑定到0.0.0.0，允许任何ip来访问</span><br></pre></td></tr></table></figure>
+<p>默认只允许本机访问，修改为0.0.0.0后则可以远程访问</p>
+<p>目前我们是做的单机安装，如果要做集群，只需要在这个配置文件中添加其它节点信息即可。</p>
+<blockquote>
+<p>elasticsearch.yml的其它可配置信息：</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cluster.name</td>
+<td>配置elasticsearch的集群名称，默认是elasticsearch。建议修改成一个有意义的名称。</td>
+</tr>
+<tr>
+<td>node.name</td>
+<td>节点名，es会默认随机指定一个名字，建议指定一个有意义的名称，方便管理</td>
+</tr>
+<tr>
+<td>path.conf</td>
+<td>设置配置文件的存储路径，tar或zip包安装默认在es根目录下的config文件夹，rpm安装默认在/etc/ elasticsearch</td>
+</tr>
+<tr>
+<td>path.data</td>
+<td>设置索引数据的存储路径，默认是es根目录下的data文件夹，可以设置多个存储路径，用逗号隔开</td>
+</tr>
+<tr>
+<td>path.logs</td>
+<td>设置日志文件的存储路径，默认是es根目录下的logs文件夹</td>
+</tr>
+<tr>
+<td>path.plugins</td>
+<td>设置插件的存放路径，默认是es根目录下的plugins文件夹</td>
+</tr>
+<tr>
+<td>bootstrap.memory_lock</td>
+<td>设置为true可以锁住ES使用的内存，避免内存进行swap</td>
+</tr>
+<tr>
+<td>network.host</td>
+<td>设置bind_host和publish_host，设置为0.0.0.0允许外网访问</td>
+</tr>
+<tr>
+<td>http.port</td>
+<td>设置对外服务的http端口，默认为9200。</td>
+</tr>
+<tr>
+<td>transport.tcp.port</td>
+<td>集群结点之间通信端口</td>
+</tr>
+<tr>
+<td>discovery.zen.ping.timeout</td>
+<td>设置ES自动发现节点连接超时的时间，默认为3秒，如果网络延迟高可设置大些</td>
+</tr>
+<tr>
+<td>discovery.zen.minimum_master_nodes</td>
+<td>主结点数量的最少值 ,此值的公式为：(master_eligible_nodes / 2) + 1 ，比如：有3个符合要求的主结点，那么这里要设置为2</td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="1-2-4-创建data和logs目录"><a href="#1-2-4-创建data和logs目录" class="headerlink" title="1.2.4.创建data和logs目录"></a>1.2.4.创建data和logs目录</h3><p>刚才我们修改配置，把data和logs目录修改指向了elasticsearch的安装目录。但是这两个目录并不存在，因此我们需要创建出来：</p>
+<p>进入Elasticsearch的根目录，然后创建：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir data</span><br><span class="line">mkdir logs</span><br></pre></td></tr></table></figure>
+<p> <img src="http://upload-images.jianshu.io/upload_images/7149586-d6485224dfe1e09e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526467246550"></p>
+<h2 id="1-3-运行"><a href="#1-3-运行" class="headerlink" title="1.3.运行"></a>1.3.运行</h2><p>进入elasticsearch/bin目录，可以看到下面的执行文件：</p>
+<p> <img src="http://upload-images.jianshu.io/upload_images/7149586-c754d3ab56c19af0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526467324965"></p>
+<p>然后输入命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./elasticsearch</span><br></pre></td></tr></table></figure>
+<p>发现报错了，启动失败：</p>
+<h3 id="1-3-1-错误1：内核过低"><a href="#1-3-1-错误1：内核过低" class="headerlink" title="1.3.1.错误1：内核过低"></a>1.3.1.错误1：内核过低</h3><p><img src="http://upload-images.jianshu.io/upload_images/7149586-eaf401d699d32b2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526467439804"></p>
+<p>修改elasticsearch.yml文件，在最下面添加以后配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bootstrap.system_call_filter: false</span><br></pre></td></tr></table></figure>
+<p>然后重启</p>
+<h3 id="1-3-2-错误2："><a href="#1-3-2-错误2：" class="headerlink" title="1.3.2.错误2："></a>1.3.2.错误2：</h3><p>再次启动，又出错了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[1]: max file descriptors [4096] for elasticsearch process likely too low, increase to at least [65536]</span><br></pre></td></tr></table></figure>
+<p>我们用的是leyou用户，而不是root，所以文件权限不足。</p>
+<p><strong>首先用root用户登录。</strong></p>
+<p>然后修改配置文件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/security/limits.conf</span><br></pre></td></tr></table></figure>
+<p>添加下面的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">* soft nofile 65536</span><br><span class="line"></span><br><span class="line">* hard nofile 131072</span><br><span class="line"></span><br><span class="line">* soft nproc 4096</span><br><span class="line"></span><br><span class="line">* hard nproc 4096</span><br></pre></td></tr></table></figure>
+<h3 id="1-3-3-错误3"><a href="#1-3-3-错误3" class="headerlink" title="1.3.3.错误3"></a>1.3.3.错误3</h3><p>刚才报错中，还有一行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[1]: max number of threads [1024] for user [leyou] is too low, increase to at least [4096]</span><br></pre></td></tr></table></figure>
+<p>这是线程数不够。</p>
+<p>ubuntu继续修改配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/security/limits.conf</span><br></pre></td></tr></table></figure>
+<p>添加下面的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">* soft nofile 65536</span><br><span class="line">* hard nofile 131072</span><br><span class="line">* soft nproc 4096</span><br><span class="line">* hard nproc 4096</span><br></pre></td></tr></table></figure>
+<p>查看/etc/security/limits.d目录是否有文件“90-nproc.conf”，没有的话新建该文件，文件</p>
+<p>内容写为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">*               soft    nproc          4096</span><br><span class="line">*               hard    nproc          4096</span><br></pre></td></tr></table></figure></p>
+<h3 id="1-3-4-错误4"><a href="#1-3-4-错误4" class="headerlink" title="1.3.4.错误4"></a>1.3.4.错误4</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[3]: max virtual memory areas vm.max_map_count [65530] likely too low, increase to at least [262144]</span><br></pre></td></tr></table></figure>
+<p>继续修改配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/sysctl.conf</span><br></pre></td></tr></table></figure>
+<p>添加下面内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm.max_map_count=655360</span><br></pre></td></tr></table></figure>
+<p>然后执行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sysctl -p</span><br></pre></td></tr></table></figure>
+<h3 id="1-3-5-重启终端窗口"><a href="#1-3-5-重启终端窗口" class="headerlink" title="1.3.5.重启终端窗口"></a>1.3.5.重启终端窗口</h3><p>所有错误修改完毕，一定要重启你的 Xshell终端，否则配置无效。</p>
+<h3 id="1-3-6-启动"><a href="#1-3-6-启动" class="headerlink" title="1.3.6.启动"></a>1.3.6.启动</h3><p>再次启动，终于成功了！</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7149586-befb11c71dd54bf0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526472722397"></p>
+<p>可以看到绑定了两个端口:</p>
+<ul>
+<li>9300：集群节点间通讯接口</li>
+<li>9200：客户端访问接口</li>
+</ul>
+<p> <img src="http://upload-images.jianshu.io/upload_images/7149586-b5fff543536fe9ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526478245641"></p>
+<h3 id="1-4-2-安装"><a href="#1-4-2-安装" class="headerlink" title="1.4.2.安装"></a>1.4.2.安装</h3><p>因为Kibana依赖于node，我们的虚拟机没有安装node，而window中安装过。所以我们选择在window下使用kibana。</p>
+<p>最新版本与elasticsearch保持一致，也是6.2.4</p>
+<p> <img src="http://upload-images.jianshu.io/upload_images/7149586-a5a07f835ef4f7ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526481608877"></p>
+<p>解压即可：</p>
+<p> <img src="http://upload-images.jianshu.io/upload_images/7149586-1dfb9707c12c80d7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526482581793"></p>
+<h3 id="1-4-3-配置运行"><a href="#1-4-3-配置运行" class="headerlink" title="1.4.3.配置运行"></a>1.4.3.配置运行</h3><blockquote>
+<p>配置</p>
+</blockquote>
+<p>进入安装目录下的config目录，修改kibana.yml文件：</p>
+<p>修改elasticsearch服务器的地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elasticsearch.url: &quot;http://192.168.56.101:9200&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>运行</p>
+</blockquote>
+<p>进入安装目录下的bin目录：</p>
+<p> <img src="http://upload-images.jianshu.io/upload_images/7149586-6a8497303fe42c76.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526482642658"></p>
+<p>双击运行：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7149586-b7fe834ea59d9021.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526482862080"></p>
+<p>发现kibana的监听端口是5601</p>
+<p>我们访问：<a href="http://127.0.0.1:5601" target="_blank" rel="noopener">http://127.0.0.1:5601</a></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7149586-a32e903f702f1101.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526482926798"></p>
+<h3 id="1-4-4-控制台"><a href="#1-4-4-控制台" class="headerlink" title="1.4.4.控制台"></a>1.4.4.控制台</h3><p>选择左侧的DevTools菜单，即可进入控制台页面：</p>
+<p> [图片上传失败…(image-119e05-1555557371161)]</p>
+<p>在页面右侧，我们就可以输入请求，访问Elasticsearch了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7149586-0a84c2e6e33afc83.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526483200872"></p>
+<h2 id="1-5-安装ik分词器"><a href="#1-5-安装ik分词器" class="headerlink" title="1.5.安装ik分词器"></a>1.5.安装ik分词器</h2><p>Lucene的IK分词器早在2012年已经没有维护了，现在我们要使用的是在其基础上维护升级的版本，并且开发为Elasticsearch的集成插件了，与Elasticsearch一起维护升级，版本也保持一致，最新版本：6.2.4</p>
+<h3 id="1-5-1-安装"><a href="#1-5-1-安装" class="headerlink" title="1.5.1.安装"></a>1.5.1.安装</h3><p>上传课前资料中的zip包，解压到Elasticsearch目录的plugins目录中：</p>
+<p> <img src="http://upload-images.jianshu.io/upload_images/7149586-c901c6df7824c22a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526482432181"></p>
+<p>使用unzip命令解压：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip elasticsearch-analysis-ik-6.2.4.zip</span><br></pre></td></tr></table></figure>
+<p>得到一个名为elasticsearch的目录：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7149586-8ff7cce2681f993b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526482469109"></p>
+<p>我们将其改名为<code>ik-analyzer</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv elasticsearch ik-analyzer</span><br></pre></td></tr></table></figure>
+<p>然后重启elasticsearch：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7149586-4b7c070babcef998.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526523386610"></p>
+<h3 id="1-5-2-测试"><a href="#1-5-2-测试" class="headerlink" title="1.5.2.测试"></a>1.5.2.测试</h3><p>大家先不管语法，我们先测试一波。</p>
+<p>在kibana控制台输入下面的请求：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST _analyze</span><br><span class="line">&#123;</span><br><span class="line">  &quot;analyzer&quot;: &quot;ik_smart&quot;,</span><br><span class="line">  &quot;text&quot;:     &quot;我是小武&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行得到结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;tokens&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;token&quot;: &quot;我&quot;,</span><br><span class="line">      &quot;start_offset&quot;: 0,</span><br><span class="line">      &quot;end_offset&quot;: 1,</span><br><span class="line">      &quot;type&quot;: &quot;CN_CHAR&quot;,</span><br><span class="line">      &quot;position&quot;: 0</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;token&quot;: &quot;是&quot;,</span><br><span class="line">      &quot;start_offset&quot;: 1,</span><br><span class="line">      &quot;end_offset&quot;: 2,</span><br><span class="line">      &quot;type&quot;: &quot;CN_CHAR&quot;,</span><br><span class="line">      &quot;position&quot;: 1</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;token&quot;: &quot;小&quot;,</span><br><span class="line">      &quot;start_offset&quot;: 2,</span><br><span class="line">      &quot;end_offset&quot;: 3,</span><br><span class="line">      &quot;type&quot;: &quot;CN_CHAR&quot;,</span><br><span class="line">      &quot;position&quot;: 2</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;token&quot;: &quot;武&quot;,</span><br><span class="line">      &quot;start_offset&quot;: 3,</span><br><span class="line">      &quot;end_offset&quot;: 4,</span><br><span class="line">      &quot;type&quot;: &quot;CN_CHAR&quot;,</span><br><span class="line">      &quot;position&quot;: 3</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="1-7-API"><a href="#1-7-API" class="headerlink" title="1.7.API"></a>1.7.API</h2><p>Elasticsearch提供了Rest风格的API，即http请求接口，而且也提供了各种语言的客户端API</p>
+<h3 id="1-7-1-Rest风格API"><a href="#1-7-1-Rest风格API" class="headerlink" title="1.7.1.Rest风格API"></a>1.7.1.Rest风格API</h3><p>文档地址：<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started.html</a></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/7149586-0f23654cad45bda3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526518410240"></p>
+<h3 id="1-7-2-客户端API"><a href="#1-7-2-客户端API" class="headerlink" title="1.7.2.客户端API"></a>1.7.2.客户端API</h3><p>Elasticsearch支持的客户端非常多：<a href="https://www.elastic.co/guide/en/elasticsearch/client/index.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elasticsearch/client/index.html</a></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/7149586-22910b78bc698d78.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526518624942"></p>
+<p>点击Java Rest Client后，你会发现又有两个：</p>
+<p> <img src="http://upload-images.jianshu.io/upload_images/7149586-16b83a8048b3310c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526518662013"></p>
+<p>Low Level Rest Client是低级别封装，提供一些基础功能，但更灵活</p>
+<p>High Level Rest Client，是在Low  Level Rest Client基础上进行的高级别封装，功能更丰富和完善，而且API会变的简单</p>
+<p> <img src="http://upload-images.jianshu.io/upload_images/7149586-df1c98bc0d7b3f34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1526518875072"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/java/" rel="tag"># java</a>
+          
+            <a href="/blog/tags/乐优商城/" rel="tag"># 乐优商城</a>
+          
+            <a href="/blog/tags/springboot/" rel="tag"># springboot</a>
+          
+            <a href="/blog/tags/Elasticsearch/" rel="tag"># Elasticsearch</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2019/04/18/lyshop-12/" rel="next" title="乐优商城学习笔记十二-Elasticsearch学习（四）">
+                <i class="fa fa-chevron-left"></i> 乐优商城学习笔记十二-Elasticsearch学习（四）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2019/04/18/lyshop-10/" rel="prev" title="乐优商城学习笔记十-Elasticsearch学习（二）">
+                乐优商城学习笔记十-Elasticsearch学习（二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">小武</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/blog/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/blog/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/blog/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/smallmartial" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-globe"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="豆瓣">
+                      
+                        <i class="fa fa-fw fa-globe"></i>豆瓣</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0-学习目标"><span class="nav-number">1.</span> <span class="nav-text">0.学习目标</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Elasticsearch介绍和安装"><span class="nav-number">2.</span> <span class="nav-text">1.Elasticsearch介绍和安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-简介"><span class="nav-number">2.1.</span> <span class="nav-text">1.1.简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-1-Elastic"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.1.1.Elastic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-2-Elasticsearch"><span class="nav-number">2.1.2.</span> <span class="nav-text">1.1.2.Elasticsearch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-3-版本"><span class="nav-number">2.1.3.</span> <span class="nav-text">1.1.3.版本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-安装和配置"><span class="nav-number">2.2.</span> <span class="nav-text">1.2.安装和配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-新建一个用户leyou"><span class="nav-number">2.2.1.</span> <span class="nav-text">1.2.1.新建一个用户leyou</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-2-上传安装包-并解压"><span class="nav-number">2.2.2.</span> <span class="nav-text">1.2.2.上传安装包,并解压</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-3-修改配置"><span class="nav-number">2.2.3.</span> <span class="nav-text">1.2.3.修改配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-4-创建data和logs目录"><span class="nav-number">2.2.4.</span> <span class="nav-text">1.2.4.创建data和logs目录</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-运行"><span class="nav-number">2.3.</span> <span class="nav-text">1.3.运行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1-错误1：内核过低"><span class="nav-number">2.3.1.</span> <span class="nav-text">1.3.1.错误1：内核过低</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-错误2："><span class="nav-number">2.3.2.</span> <span class="nav-text">1.3.2.错误2：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-3-错误3"><span class="nav-number">2.3.3.</span> <span class="nav-text">1.3.3.错误3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-4-错误4"><span class="nav-number">2.3.4.</span> <span class="nav-text">1.3.4.错误4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-5-重启终端窗口"><span class="nav-number">2.3.5.</span> <span class="nav-text">1.3.5.重启终端窗口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-6-启动"><span class="nav-number">2.3.6.</span> <span class="nav-text">1.3.6.启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-2-安装"><span class="nav-number">2.3.7.</span> <span class="nav-text">1.4.2.安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-3-配置运行"><span class="nav-number">2.3.8.</span> <span class="nav-text">1.4.3.配置运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-4-控制台"><span class="nav-number">2.3.9.</span> <span class="nav-text">1.4.4.控制台</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-安装ik分词器"><span class="nav-number">2.4.</span> <span class="nav-text">1.5.安装ik分词器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-1-安装"><span class="nav-number">2.4.1.</span> <span class="nav-text">1.5.1.安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-2-测试"><span class="nav-number">2.4.2.</span> <span class="nav-text">1.5.2.测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-7-API"><span class="nav-number">2.5.</span> <span class="nav-text">1.7.API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-7-1-Rest风格API"><span class="nav-number">2.5.1.</span> <span class="nav-text">1.7.1.Rest风格API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-7-2-客户端API"><span class="nav-number">2.5.2.</span> <span class="nav-text">1.7.2.客户端API</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小武</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("wVtY9vYudJ7sIqDYeIQpLXhk-gzGzoHsz", "1jpXi8YPzcRJN87pX2KJQCBP");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

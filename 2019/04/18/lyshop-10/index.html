@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,乐优商城,springboot,Elasticsearch,">
+
+
+
+
+
+  <link rel="alternate" href="/blog/atom.xml" title="smallmartial's blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="1.操作索引1.1.基本概念Elasticsearch也是基于Lucene的全文检索库，本质也是存储数据，很多概念与MySQL类似的。 对比关系： 索引（indices）——————————–Databases 数据库 ​    类型（type）—————————–Table 数据表 ​         文档（Document）—————-Row 行 ​           字段（Field）——">
+<meta name="keywords" content="java,乐优商城,springboot,Elasticsearch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="乐优商城学习笔记十-Elasticsearch学习（二）">
+<meta property="og:url" content="https://github.com/smallmartial/blog.git/2019/04/18/lyshop-10/index.html">
+<meta property="og:site_name" content="smallmartial&#39;s blog">
+<meta property="og:description" content="1.操作索引1.1.基本概念Elasticsearch也是基于Lucene的全文检索库，本质也是存储数据，很多概念与MySQL类似的。 对比关系： 索引（indices）——————————–Databases 数据库 ​    类型（type）—————————–Table 数据表 ​         文档（Document）—————-Row 行 ​           字段（Field）——">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://img.smallmartial.cn/20190417204740.png">
+<meta property="og:image" content="http://img.smallmartial.cn//20190417205256.png">
+<meta property="og:image" content="http://img.smallmartial.cn//20190417205401.png">
+<meta property="og:image" content="http://img.smallmartial.cn//20190417205505.png">
+<meta property="og:image" content="http://img.smallmartial.cn//20190417205538.png">
+<meta property="og:image" content="http://img.smallmartial.cn//20190417205646.png">
+<meta property="og:image" content="https://github.com/smallmartial/blog.git/2019/04/18/lyshop-10/assets/1526523877042.png">
+<meta property="og:image" content="https://github.com/smallmartial/blog.git/2019/04/18/lyshop-10/assets/1526525159369.png">
+<meta property="og:updated_time" content="2019-04-18T03:27:40.327Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="乐优商城学习笔记十-Elasticsearch学习（二）">
+<meta name="twitter:description" content="1.操作索引1.1.基本概念Elasticsearch也是基于Lucene的全文检索库，本质也是存储数据，很多概念与MySQL类似的。 对比关系： 索引（indices）——————————–Databases 数据库 ​    类型（type）—————————–Table 数据表 ​         文档（Document）—————-Row 行 ​           字段（Field）——">
+<meta name="twitter:image" content="http://img.smallmartial.cn/20190417204740.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/smallmartial/blog.git/2019/04/18/lyshop-10/">
+
+
+
+
+
+  <title>乐优商城学习笔记十-Elasticsearch学习（二） | smallmartial's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">smallmartial's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-首页"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-作者简介"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-标签"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-分类"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/smallmartial/blog.git/blog/2019/04/18/lyshop-10/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小武">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="smallmartial's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">乐优商城学习笔记十-Elasticsearch学习（二）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-18T11:26:50+08:00">
+                2019-04-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/乐优商城/" itemprop="url" rel="index">
+                    <span itemprop="name">乐优商城</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/blog/2019/04/18/lyshop-10/" class="leancloud_visitors" data-flag-title="乐优商城学习笔记十-Elasticsearch学习（二）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-操作索引"><a href="#1-操作索引" class="headerlink" title="1.操作索引"></a>1.操作索引</h1><h2 id="1-1-基本概念"><a href="#1-1-基本概念" class="headerlink" title="1.1.基本概念"></a>1.1.基本概念</h2><p>Elasticsearch也是基于Lucene的全文检索库，本质也是存储数据，很多概念与MySQL类似的。</p>
+<p>对比关系：</p>
+<p>索引（indices）——————————–Databases 数据库</p>
+<p>​    类型（type）—————————–Table 数据表</p>
+<p>​         文档（Document）—————-Row 行</p>
+<p>​           字段（Field）——————-Columns 列 </p>
+<p>详细说明：</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>索引库（indices)</td>
+<td>indices是index的复数，代表许多的索引，</td>
+</tr>
+<tr>
+<td>类型（type）</td>
+<td>类型是模拟mysql中的table概念，一个索引库下可以有不同类型的索引，比如商品索引，订单索引，其数据格式不同。不过这会导致索引库混乱，因此未来版本中会移除这个概念</td>
+</tr>
+<tr>
+<td>文档（document）</td>
+<td>存入索引库原始的数据。比如每一条商品信息，就是一个文档</td>
+</tr>
+<tr>
+<td>字段（field）</td>
+<td>文档中的属性</td>
+</tr>
+<tr>
+<td>映射配置（mappings）</td>
+<td>字段的数据类型、属性、是否索引、是否存储等特性</td>
+</tr>
+</tbody>
+</table>
+<p>是不是与Lucene和solr中的概念类似。</p>
+<p>另外，在SolrCloud中，有一些集群相关的概念，在Elasticsearch也有类似的：</p>
+<ul>
+<li>索引集（Indices，index的复数）：逻辑上的完整索引</li>
+<li>分片（shard）：数据拆分后的各个部分</li>
+<li>副本（replica）：每个分片的复制</li>
+</ul>
+<p>要注意的是：Elasticsearch本身就是分布式的，因此即便你只有一个节点，Elasticsearch默认也会对你的数据进行分片和副本操作，当你向集群添加新数据时，数据也会在新加入的节点中进行平衡。</p>
+<h2 id="1-2-创建索引"><a href="#1-2-创建索引" class="headerlink" title="1.2.创建索引"></a>1.2.创建索引</h2><h3 id="1-2-1-语法"><a href="#1-2-1-语法" class="headerlink" title="1.2.1.语法"></a>1.2.1.语法</h3><p>Elasticsearch采用Rest风格API，因此其API就是一次http请求，你可以用任何工具发起http请求</p>
+<p>创建索引的请求格式：</p>
+<ul>
+<li><p>请求方式：PUT</p>
+</li>
+<li><p>请求路径：/索引库名</p>
+</li>
+<li><p>请求参数：json格式：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"settings"</span>: &#123;</span><br><span class="line">        <span class="attr">"number_of_shards"</span>: <span class="number">3</span>,</span><br><span class="line">        <span class="attr">"number_of_replicas"</span>: <span class="number">2</span></span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>settings：索引库的设置<ul>
+<li>number_of_shards：分片数量</li>
+<li>number_of_replicas：副本数量</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-2-2-使用kibana创建"><a href="#1-2-2-使用kibana创建" class="headerlink" title="1.2.2.使用kibana创建"></a>1.2.2.使用kibana创建</h3><p>kibana的控制台，可以对http请求进行简化，示例：</p>
+<p><img src="http://img.smallmartial.cn/20190417204740.png" alt="1526519787118"></p>
+<p>相当于是省去了elasticsearch的服务器地址</p>
+<p>而且还有语法提示，非常舒服。</p>
+<h2 id="1-3-查看索引设置"><a href="#1-3-查看索引设置" class="headerlink" title="1.3.查看索引设置"></a>1.3.查看索引设置</h2><blockquote>
+<p>语法</p>
+</blockquote>
+<p>Get请求可以帮我们查看索引信息，格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /索引库名</span><br></pre></td></tr></table></figure>
+<p><img src="http://img.smallmartial.cn//20190417205256.png" alt="1526520159937"></p>
+<p>或者，我们可以使用*来查询所有索引库配置：</p>
+<p><img src="http://img.smallmartial.cn//20190417205401.png" alt="1526520202284"></p>
+<h2 id="1-4-删除索引"><a href="#1-4-删除索引" class="headerlink" title="1.4.删除索引"></a>1.4.删除索引</h2><p>删除索引使用DELETE请求</p>
+<blockquote>
+<p>语法</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DELETE /索引库名</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>示例</p>
+</blockquote>
+<p><img src="http://img.smallmartial.cn//20190417205505.png" alt="1526520267195"></p>
+<p>再次查看：</p>
+<p><img src="http://img.smallmartial.cn//20190417205538.png" alt="1526520309064"></p>
+<p>当然，我们也可以用HEAD请求，查看索引是否存在：</p>
+<p> <img src="http://img.smallmartial.cn//20190417205646.png" alt="1526520441966"></p>
+<h2 id="1-5-映射配置"><a href="#1-5-映射配置" class="headerlink" title="1.5.映射配置"></a>1.5.映射配置</h2><p>索引有了，接下来肯定是添加数据。不过数据存储到索引库中，必须指定一些相关属性，在学习Lucene中我们都见到过，包括到不限于：</p>
+<ul>
+<li>字段的数据类型</li>
+<li>是否要存储</li>
+<li>是否要索引</li>
+<li>是否分词</li>
+<li>分词器是什么</li>
+</ul>
+<p>只有配置清楚，Elasticsearch才会帮我们进行索引库的创建（不一定）</p>
+<h3 id="1-5-1-创建映射字段"><a href="#1-5-1-创建映射字段" class="headerlink" title="1.5.1.创建映射字段"></a>1.5.1.创建映射字段</h3><blockquote>
+<p>语法</p>
+</blockquote>
+<p>请求方式依然是PUT</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">PUT /索引库名/_mapping/类型名称</span><br><span class="line">&#123;</span><br><span class="line">  &quot;properties&quot;: &#123;</span><br><span class="line">    &quot;字段名&quot;: &#123;</span><br><span class="line">      &quot;type&quot;: &quot;类型&quot;,</span><br><span class="line">      &quot;index&quot;: true，</span><br><span class="line">      &quot;store&quot;: true，</span><br><span class="line">      &quot;analyzer&quot;: &quot;分词器&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>类型名称：就是前面将的type的概念，类似于数据库中的不同表<br>   字段名：任意填写    ，可以指定许多属性，例如：<ul>
+<li>type：类型，可以是text、long、short、date、integer、object等</li>
+<li>index：是否索引，默认为true</li>
+<li>store：是否存储，默认为false</li>
+<li>analyzer：分词器，这里的<code>ik_max_word</code>即使用ik分词器</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>示例</p>
+</blockquote>
+<p>发起请求：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">PUT smallmartial/_mapping/goods</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"properties"</span>: &#123;</span><br><span class="line">    <span class="attr">"title"</span>: &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"text"</span>,</span><br><span class="line">      <span class="attr">"analyzer"</span>: <span class="string">"ik_max_word"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"images"</span>: &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"keyword"</span>,</span><br><span class="line">      <span class="attr">"index"</span>: <span class="string">"false"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"price"</span>: &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"float"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>响应结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;acknowledged&quot;: true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-5-2-查看映射关系"><a href="#1-5-2-查看映射关系" class="headerlink" title="1.5.2.查看映射关系"></a>1.5.2.查看映射关系</h3><blockquote>
+<p>语法：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /索引库名/_mapping</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>示例：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /smallmartial/_mapping</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>响应：</p>
+</blockquote>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"smallmartial"</span>: &#123;</span><br><span class="line">    <span class="attr">"mappings"</span>: &#123;</span><br><span class="line">      <span class="attr">"goods"</span>: &#123;</span><br><span class="line">        <span class="attr">"properties"</span>: &#123;</span><br><span class="line">          <span class="attr">"images"</span>: &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"keyword"</span>,</span><br><span class="line">            <span class="attr">"index"</span>: <span class="literal">false</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">"price"</span>: &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"float"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">"title"</span>: &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"text"</span>,</span><br><span class="line">            <span class="attr">"analyzer"</span>: <span class="string">"ik_max_word"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-5-3-字段属性详解"><a href="#1-5-3-字段属性详解" class="headerlink" title="1.5.3.字段属性详解"></a>1.5.3.字段属性详解</h3><h4 id="1）type"><a href="#1）type" class="headerlink" title="1）type"></a>1）type</h4><p>Elasticsearch中支持的数据类型非常丰富：</p>
+<p> <img src="assets/1526523877042.png" alt="1526523877042"></p>
+<p>我们说几个关键的：</p>
+<ul>
+<li><p>String类型，又分两种：</p>
+<ul>
+<li>text：可分词，不可参与聚合</li>
+<li>keyword：不可分词，数据会作为完整字段进行匹配，可以参与聚合</li>
+</ul>
+</li>
+<li><p>Numerical：数值类型，分两类</p>
+<ul>
+<li>基本数据类型：long、interger、short、byte、double、float、half_float</li>
+<li>浮点数的高精度类型：scaled_float<ul>
+<li>需要指定一个精度因子，比如10或100。elasticsearch会把真实值乘以这个因子后存储，取出时再还原。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Date：日期类型</p>
+<p>elasticsearch可以对日期格式化为字符串存储，但是建议我们存储为毫秒值，存储为long，节省空间。</p>
+</li>
+</ul>
+<h4 id="2）index"><a href="#2）index" class="headerlink" title="2）index"></a>2）index</h4><p>index影响字段的索引情况。</p>
+<ul>
+<li>true：字段会被索引，则可以用来进行搜索。默认值就是true</li>
+<li>false：字段不会被索引，不能用来搜索</li>
+</ul>
+<p>index的默认值就是true，也就是说你不进行任何配置，所有字段都会被索引。</p>
+<p>但是有些字段是我们不希望被索引的，比如商品的图片信息，就需要手动设置index为false。</p>
+<h4 id="3）store"><a href="#3）store" class="headerlink" title="3）store"></a>3）store</h4><p>是否将数据进行额外存储。</p>
+<p>在学习lucene和solr时，我们知道如果一个字段的store设置为false，那么在文档列表中就不会有这个字段的值，用户的搜索结果中不会显示出来。</p>
+<p>但是在Elasticsearch中，即便store设置为false，也可以搜索到结果。</p>
+<p>原因是Elasticsearch在创建文档索引时，会将文档中的原始数据备份，保存到一个叫做<code>_source</code>的属性中。而且我们可以通过过滤<code>_source</code>来选择哪些要显示，哪些不显示。</p>
+<p>而如果设置store为true，就会在<code>_source</code>以外额外存储一份数据，多余，因此一般我们都会将store设置为false，事实上，<strong>store的默认值就是false。</strong></p>
+<h4 id="4）boost"><a href="#4）boost" class="headerlink" title="4）boost"></a>4）boost</h4><p>激励因子，这个与lucene中一样</p>
+<p>其它的不再一一讲解，用的不多，大家参考官方文档：</p>
+<p> <img src="assets/1526525159369.png" alt="1526525159369"></p>
+<h2 id="1-6-新增数据"><a href="#1-6-新增数据" class="headerlink" title="1.6.新增数据"></a>1.6.新增数据</h2><h3 id="1-6-1-随机生成id"><a href="#1-6-1-随机生成id" class="headerlink" title="1.6.1.随机生成id"></a>1.6.1.随机生成id</h3><p>通过POST请求，可以向一个已经存在的索引库中添加数据。</p>
+<blockquote>
+<p>语法：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">POST /索引库名/类型名</span><br><span class="line">&#123;</span><br><span class="line">    &quot;key&quot;:&quot;value&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>示例：</p>
+</blockquote>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">POST /heima/goods/</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"title"</span>:<span class="string">"小米手机"</span>,</span><br><span class="line">    <span class="attr">"images"</span>:<span class="string">"http://image.leyou.com/12479122.jpg"</span>,</span><br><span class="line">    <span class="attr">"price"</span>:<span class="number">2699.00</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>响应：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"_index"</span>: <span class="string">"smallmartial"</span>,</span><br><span class="line">  <span class="attr">"_type"</span>: <span class="string">"goods"</span>,</span><br><span class="line">  <span class="attr">"_id"</span>: <span class="string">"vV5xK2oBwnpoSx5Aac1y"</span>,</span><br><span class="line">  <span class="attr">"_version"</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">"result"</span>: <span class="string">"created"</span>,</span><br><span class="line">  <span class="attr">"_shards"</span>: &#123;</span><br><span class="line">    <span class="attr">"total"</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">"successful"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"failed"</span>: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"_seq_no"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"_primary_term"</span>: <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过kibana查看数据：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET _search</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"query"</span>:&#123;</span><br><span class="line">        <span class="string">"match_all"</span>:&#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"took"</span>: <span class="number">3</span>,</span><br><span class="line">  <span class="attr">"timed_out"</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">"_shards"</span>: &#123;</span><br><span class="line">    <span class="attr">"total"</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">"successful"</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">"skipped"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"failed"</span>: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"hits"</span>: &#123;</span><br><span class="line">    <span class="attr">"total"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"max_score"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"hits"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"_index"</span>: <span class="string">"smallmartial"</span>,</span><br><span class="line">        <span class="attr">"_type"</span>: <span class="string">"goods"</span>,</span><br><span class="line">        <span class="attr">"_id"</span>: <span class="string">"vV5xK2oBwnpoSx5Aac1y"</span>,</span><br><span class="line">        <span class="attr">"_score"</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="attr">"_source"</span>: &#123;</span><br><span class="line">          <span class="attr">"title"</span>: <span class="string">"小米手机"</span>,</span><br><span class="line">          <span class="attr">"images"</span>: <span class="string">"http://image.leyou.com/12479122.jpg"</span>,</span><br><span class="line">          <span class="attr">"price"</span>: <span class="number">2699</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>_source</code>：源文档信息，所有的数据都在里面。</li>
+<li><code>_id</code>：这条文档的唯一标示，与文档自己的id字段没有关联</li>
+</ul>
+<h3 id="1-6-2-自定义id"><a href="#1-6-2-自定义id" class="headerlink" title="1.6.2.自定义id"></a>1.6.2.自定义id</h3><p>如果我们想要自己新增的时候指定id，可以这么做：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">POST /索引库名/类型/id值</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">POST /smallmartial/goods/2</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"title"</span>:<span class="string">"大米手机"</span>,</span><br><span class="line">    <span class="attr">"images"</span>:<span class="string">"http://image.leyou.com/12479122.jpg"</span>,</span><br><span class="line">    <span class="attr">"price"</span>:<span class="number">2899.00</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>得到的数据：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"_index"</span>: <span class="string">"smallmartial"</span>,</span><br><span class="line">  <span class="attr">"_type"</span>: <span class="string">"goods"</span>,</span><br><span class="line">  <span class="attr">"_id"</span>: <span class="string">"2"</span>,</span><br><span class="line">  <span class="attr">"_version"</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">"result"</span>: <span class="string">"created"</span>,</span><br><span class="line">  <span class="attr">"_shards"</span>: &#123;</span><br><span class="line">    <span class="attr">"total"</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">"successful"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"failed"</span>: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"_seq_no"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="attr">"_primary_term"</span>: <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-6-3-智能判断"><a href="#1-6-3-智能判断" class="headerlink" title="1.6.3.智能判断"></a>1.6.3.智能判断</h3><p>在学习Solr时我们发现，我们在新增数据时，只能使用提前配置好映射属性的字段，否则就会报错。</p>
+<p>不过在Elasticsearch中并没有这样的规定。</p>
+<p>事实上Elasticsearch非常智能，你不需要给索引库设置任何mapping映射，它也可以根据你输入的数据来判断类型，动态添加数据映射。</p>
+<p>测试一下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">POST /smallmartial/goods/3</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"title"</span>:<span class="string">"超米手机"</span>,</span><br><span class="line">    <span class="attr">"images"</span>:<span class="string">"http://image.leyou.com/12479122.jpg"</span>,</span><br><span class="line">    <span class="attr">"price"</span>:<span class="number">2899.00</span>,</span><br><span class="line">    <span class="attr">"stock"</span>: <span class="number">200</span>,</span><br><span class="line">    <span class="attr">"saleable"</span>:<span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们额外添加了stock库存，和saleable是否上架两个字段。</p>
+<p>来看结果：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"_index"</span>: <span class="string">"smallmartial"</span>,</span><br><span class="line">  <span class="attr">"_type"</span>: <span class="string">"goods"</span>,</span><br><span class="line">  <span class="attr">"_id"</span>: <span class="string">"3"</span>,</span><br><span class="line">  <span class="attr">"_version"</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">"result"</span>: <span class="string">"created"</span>,</span><br><span class="line">  <span class="attr">"_shards"</span>: &#123;</span><br><span class="line">    <span class="attr">"total"</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">"successful"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"failed"</span>: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"_seq_no"</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">"_primary_term"</span>: <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在看下索引库的映射关系:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"smallmartial"</span>: &#123;</span><br><span class="line">    <span class="attr">"aliases"</span>: &#123;&#125;,</span><br><span class="line">    <span class="attr">"mappings"</span>: &#123;</span><br><span class="line">      <span class="attr">"goods"</span>: &#123;</span><br><span class="line">        <span class="attr">"properties"</span>: &#123;</span><br><span class="line">          <span class="attr">"images"</span>: &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"keyword"</span>,</span><br><span class="line">            <span class="attr">"index"</span>: <span class="literal">false</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">"price"</span>: &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"float"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">"saleable"</span>: &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"boolean"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">"stock"</span>: &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"long"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">"title"</span>: &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"text"</span>,</span><br><span class="line">            <span class="attr">"analyzer"</span>: <span class="string">"ik_max_word"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"settings"</span>: &#123;</span><br><span class="line">      <span class="attr">"index"</span>: &#123;</span><br><span class="line">        <span class="attr">"creation_date"</span>: <span class="string">"1555506269515"</span>,</span><br><span class="line">        <span class="attr">"number_of_shards"</span>: <span class="string">"3"</span>,</span><br><span class="line">        <span class="attr">"number_of_replicas"</span>: <span class="string">"2"</span>,</span><br><span class="line">        <span class="attr">"uuid"</span>: <span class="string">"e0Q01dDzTUyuMG_qfmJ0XQ"</span>,</span><br><span class="line">        <span class="attr">"version"</span>: &#123;</span><br><span class="line">          <span class="attr">"created"</span>: <span class="string">"6020499"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"provided_name"</span>: <span class="string">"smallmartial"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>stock和saleable都被成功映射了。</p>
+<h2 id="1-7-修改数据"><a href="#1-7-修改数据" class="headerlink" title="1.7.修改数据"></a>1.7.修改数据</h2><p>把刚才新增的请求方式改为PUT，就是修改了。不过修改必须指定id，</p>
+<ul>
+<li>id对应文档存在，则修改</li>
+<li>id对应文档不存在，则新增</li>
+</ul>
+<p>比如，我们把id为3的数据进行修改：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PUT /smallmartial/goods/3</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"title"</span>:<span class="string">"超大米手机"</span>,</span><br><span class="line">    <span class="attr">"images"</span>:<span class="string">"http://image.leyou.com/12479122.jpg"</span>,</span><br><span class="line">    <span class="attr">"price"</span>:<span class="number">3899.00</span>,</span><br><span class="line">    <span class="attr">"stock"</span>: <span class="number">100</span>,</span><br><span class="line">    <span class="attr">"saleable"</span>:<span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+ <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> &#123;</span><br><span class="line">  <span class="attr">"_index"</span>: <span class="string">"smallmartial"</span>,</span><br><span class="line">  <span class="attr">"_type"</span>: <span class="string">"goods"</span>,</span><br><span class="line">  <span class="attr">"_id"</span>: <span class="string">"3"</span>,</span><br><span class="line">  <span class="attr">"_version"</span>: <span class="number">2</span>,</span><br><span class="line">  <span class="attr">"result"</span>: <span class="string">"updated"</span>,</span><br><span class="line">  <span class="attr">"_shards"</span>: &#123;</span><br><span class="line">    <span class="attr">"total"</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">"successful"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"failed"</span>: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"_seq_no"</span>: <span class="number">2</span>,</span><br><span class="line">  <span class="attr">"_primary_term"</span>: <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-8-删除数据"><a href="#2-8-删除数据" class="headerlink" title="2.8.删除数据"></a>2.8.删除数据</h2><p>删除使用DELETE请求，同样，需要根据id进行删除：</p>
+<blockquote>
+<p>语法</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DELETE /索引库名/类型名/id值</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>示例：</p>
+</blockquote>
+ <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> DELETE /smallmartial/goods/3</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"title"</span>:<span class="string">"超大米手机"</span>,</span><br><span class="line">    <span class="attr">"images"</span>:<span class="string">"http://image.leyou.com/12479122.jpg"</span>,</span><br><span class="line">    <span class="attr">"price"</span>:<span class="number">3899.00</span>,</span><br><span class="line">    <span class="attr">"stock"</span>: <span class="number">100</span>,</span><br><span class="line">    <span class="attr">"saleable"</span>:<span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>result<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"_index"</span>: <span class="string">"smallmartial"</span>,</span><br><span class="line">  <span class="attr">"_type"</span>: <span class="string">"goods"</span>,</span><br><span class="line">  <span class="attr">"_id"</span>: <span class="string">"3"</span>,</span><br><span class="line">  <span class="attr">"_version"</span>: <span class="number">3</span>,</span><br><span class="line">  <span class="attr">"result"</span>: <span class="string">"deleted"</span>,</span><br><span class="line">  <span class="attr">"_shards"</span>: &#123;</span><br><span class="line">    <span class="attr">"total"</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">"successful"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"failed"</span>: <span class="number">0</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"_seq_no"</span>: <span class="number">3</span>,</span><br><span class="line">  <span class="attr">"_primary_term"</span>: <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/java/" rel="tag"># java</a>
+          
+            <a href="/blog/tags/乐优商城/" rel="tag"># 乐优商城</a>
+          
+            <a href="/blog/tags/springboot/" rel="tag"># springboot</a>
+          
+            <a href="/blog/tags/Elasticsearch/" rel="tag"># Elasticsearch</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2019/04/18/lyshop-9/" rel="next" title="乐优商城学习笔记九-Elasticsearch学习（一）">
+                <i class="fa fa-chevron-left"></i> 乐优商城学习笔记九-Elasticsearch学习（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2019/04/18/lyshop-11/" rel="prev" title="乐优商城学习笔记十一-Elasticsearch学习（三）">
+                乐优商城学习笔记十一-Elasticsearch学习（三） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">小武</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/blog/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/blog/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/blog/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/smallmartial" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-globe"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="豆瓣">
+                      
+                        <i class="fa fa-fw fa-globe"></i>豆瓣</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-操作索引"><span class="nav-number">1.</span> <span class="nav-text">1.操作索引</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-基本概念"><span class="nav-number">1.1.</span> <span class="nav-text">1.1.基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-创建索引"><span class="nav-number">1.2.</span> <span class="nav-text">1.2.创建索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-语法"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.2.1.语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-2-使用kibana创建"><span class="nav-number">1.2.2.</span> <span class="nav-text">1.2.2.使用kibana创建</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-查看索引设置"><span class="nav-number">1.3.</span> <span class="nav-text">1.3.查看索引设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-删除索引"><span class="nav-number">1.4.</span> <span class="nav-text">1.4.删除索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-映射配置"><span class="nav-number">1.5.</span> <span class="nav-text">1.5.映射配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-1-创建映射字段"><span class="nav-number">1.5.1.</span> <span class="nav-text">1.5.1.创建映射字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-2-查看映射关系"><span class="nav-number">1.5.2.</span> <span class="nav-text">1.5.2.查看映射关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-3-字段属性详解"><span class="nav-number">1.5.3.</span> <span class="nav-text">1.5.3.字段属性详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1）type"><span class="nav-number">1.5.3.1.</span> <span class="nav-text">1）type</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2）index"><span class="nav-number">1.5.3.2.</span> <span class="nav-text">2）index</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3）store"><span class="nav-number">1.5.3.3.</span> <span class="nav-text">3）store</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4）boost"><span class="nav-number">1.5.3.4.</span> <span class="nav-text">4）boost</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-6-新增数据"><span class="nav-number">1.6.</span> <span class="nav-text">1.6.新增数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-1-随机生成id"><span class="nav-number">1.6.1.</span> <span class="nav-text">1.6.1.随机生成id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-2-自定义id"><span class="nav-number">1.6.2.</span> <span class="nav-text">1.6.2.自定义id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-3-智能判断"><span class="nav-number">1.6.3.</span> <span class="nav-text">1.6.3.智能判断</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-7-修改数据"><span class="nav-number">1.7.</span> <span class="nav-text">1.7.修改数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-8-删除数据"><span class="nav-number">1.8.</span> <span class="nav-text">2.8.删除数据</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小武</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("wVtY9vYudJ7sIqDYeIQpLXhk-gzGzoHsz", "1jpXi8YPzcRJN87pX2KJQCBP");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
