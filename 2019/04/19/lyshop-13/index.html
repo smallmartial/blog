@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,乐优商城,springboot,">
+
+
+
+
+
+  <link rel="alternate" href="/blog/atom.xml" title="smallmartial's blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="0.学习目标 独立编写数据导入功能 独立实现基本搜索 独立实现页面分页 独立实现结果排序  1.索引库数据导入昨天我们学习了Elasticsearch的基本应用。今天就学以致用，搭建搜索微服务，实现搜索功能。 1.1.创建搜索服务创建module：     Pom文件： 1234567891011121314151617181920212223242526272829303132333435363">
+<meta name="keywords" content="java,乐优商城,springboot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="乐优商城学习笔记十二-搜素微服务">
+<meta property="og:url" content="https://github.com/smallmartial/blog.git/2019/04/19/lyshop-13/index.html">
+<meta property="og:site_name" content="smallmartial&#39;s blog">
+<meta property="og:description" content="0.学习目标 独立编写数据导入功能 独立实现基本搜索 独立实现页面分页 独立实现结果排序  1.索引库数据导入昨天我们学习了Elasticsearch的基本应用。今天就学以致用，搭建搜索微服务，实现搜索功能。 1.1.创建搜索服务创建module：     Pom文件： 1234567891011121314151617181920212223242526272829303132333435363">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://img.smallmartial.cn/1526603473533.png">
+<meta property="og:image" content="http://img.smallmartial.cn//1526604426671.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526607712207.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526608095471.png">
+<meta property="og:image" content="http://img.smallmartial.cn/20190419144205.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526614742882.png">
+<meta property="og:image" content="http://img.smallmartial.cn//1526614174352.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526628384103.png">
+<meta property="og:updated_time" content="2019-04-19T06:56:06.081Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="乐优商城学习笔记十二-搜素微服务">
+<meta name="twitter:description" content="0.学习目标 独立编写数据导入功能 独立实现基本搜索 独立实现页面分页 独立实现结果排序  1.索引库数据导入昨天我们学习了Elasticsearch的基本应用。今天就学以致用，搭建搜索微服务，实现搜索功能。 1.1.创建搜索服务创建module：     Pom文件： 1234567891011121314151617181920212223242526272829303132333435363">
+<meta name="twitter:image" content="http://img.smallmartial.cn/1526603473533.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/smallmartial/blog.git/2019/04/19/lyshop-13/">
+
+
+
+
+
+  <title>乐优商城学习笔记十二-搜素微服务 | smallmartial's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">smallmartial's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-首页"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-作者简介"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-标签"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-分类"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/smallmartial/blog.git/blog/2019/04/19/lyshop-13/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小武">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="smallmartial's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">乐优商城学习笔记十二-搜素微服务</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-19T14:30:36+08:00">
+                2019-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/乐优商城/" itemprop="url" rel="index">
+                    <span itemprop="name">乐优商城</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/blog/2019/04/19/lyshop-13/" class="leancloud_visitors" data-flag-title="乐优商城学习笔记十二-搜素微服务">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="0-学习目标"><a href="#0-学习目标" class="headerlink" title="0.学习目标"></a>0.学习目标</h1><ul>
+<li>独立编写数据导入功能</li>
+<li>独立实现基本搜索</li>
+<li>独立实现页面分页</li>
+<li>独立实现结果排序</li>
+</ul>
+<h1 id="1-索引库数据导入"><a href="#1-索引库数据导入" class="headerlink" title="1.索引库数据导入"></a>1.索引库数据导入</h1><p>昨天我们学习了Elasticsearch的基本应用。今天就学以致用，搭建搜索微服务，实现搜索功能。</p>
+<h2 id="1-1-创建搜索服务"><a href="#1-1-创建搜索服务" class="headerlink" title="1.1.创建搜索服务"></a>1.1.创建搜索服务</h2><p>创建module：</p>
+<p> <img src="http://img.smallmartial.cn/1526603473533.png" alt="1526603473533"></p>
+<p> <img src="http://img.smallmartial.cn//1526604426671.png" alt="1526604426671"></p>
+<p>Pom文件：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>leyou<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.leyou.parent<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.leyou.service<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ly-search<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--eureka--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--web--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--elasticsearch--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-elasticsearch<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--feign--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>application.yml：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8083</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">search-service</span></span><br><span class="line"><span class="attr">  main:</span></span><br><span class="line"><span class="attr">    allow-bean-definition-overriding:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  data:</span></span><br><span class="line"><span class="attr">    elasticsearch:</span></span><br><span class="line"><span class="attr">      cluster-name:</span> <span class="string">elasticsearch</span></span><br><span class="line"><span class="attr">      cluster-nodes:</span> <span class="number">182.254</span><span class="number">.227</span><span class="number">.85</span><span class="string">:9300</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    service-url:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://127.0.0.1:10086/eureka</span></span><br><span class="line"><span class="attr">  instance:</span></span><br><span class="line"><span class="attr">    lease-renewal-interval-in-seconds:</span> <span class="number">5</span> <span class="comment"># 每隔5秒发送一次心跳</span></span><br><span class="line"><span class="attr">    lease-expiration-duration-in-seconds:</span> <span class="number">10</span> <span class="comment"># 10秒不发送就过期</span></span><br><span class="line"><span class="attr">    prefer-ip-address:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    ip-address:</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line"><span class="attr">    instance-id:</span> <span class="string">$&#123;spring.application.name&#125;:$&#123;server.port&#125;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Feign报错’xx.FeignClientSpecification’, defined in null, could not be registered.<br>在SpringBoot 2.1之前，这个配置默认就是true，而在2.1做了更改。<br>设置为true后，因为FeignClientSpecification的原因，FeignClient注解的configuration参数会被覆盖</p>
+</blockquote>
+<p>解决方案<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  main:</span></span><br><span class="line"><span class="attr">    allow-bean-definition-overriding:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure></p>
+<p>启动类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableDiscoveryClient</span></span><br><span class="line"><span class="meta">@EnableFeignClients</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LySearchService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(LySearchService.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-2-2-需要什么数据"><a href="#1-2-2-需要什么数据" class="headerlink" title="1.2.2.需要什么数据"></a>1.2.2.需要什么数据</h3><p>再来看看页面中有什么数据：</p>
+<p> <img src="http://img.smallmartial.cn/1526607712207.png" alt="1526607712207"> </p>
+<p>直观能看到的：图片、价格、标题、副标题</p>
+<p>暗藏的数据：spu的id，sku的id</p>
+<p>另外，页面还有过滤条件：</p>
+<p><img src="http://img.smallmartial.cn/1526608095471.png" alt="1526608095471"></p>
+<p>这些过滤条件也都需要存储到索引库中，包括：</p>
+<p>商品分类、品牌、可用来搜索的规格参数等</p>
+<p>综上所述，我们需要的数据格式有：</p>
+<p>spuId、SkuId、商品分类id、品牌id、图片、价格、商品的创建时间、sku信息集、可搜索的规格参数</p>
+<h3 id="1-2-3-最终的数据结构"><a href="#1-2-3-最终的数据结构" class="headerlink" title="1.2.3.最终的数据结构"></a>1.2.3.最终的数据结构</h3><p>我们创建一个类，封装要保存到索引库的数据，并设置映射属性：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Document</span>(indexName = <span class="string">"goods"</span>, type = <span class="string">"docs"</span>, shards = <span class="number">1</span>, replicas = <span class="number">0</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Goods</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="keyword">private</span> Long id; <span class="comment">// spuId</span></span><br><span class="line">    <span class="meta">@Field</span>(type = FieldType.text, analyzer = <span class="string">"ik_max_word"</span>)</span><br><span class="line">    <span class="keyword">private</span> String all; <span class="comment">// 所有需要被搜索的信息，包含标题，分类，甚至品牌</span></span><br><span class="line">    <span class="meta">@Field</span>(type = FieldType.keyword, index = <span class="keyword">false</span>)</span><br><span class="line">    <span class="keyword">private</span> String subTitle;<span class="comment">// 卖点</span></span><br><span class="line">    <span class="keyword">private</span> Long brandId;<span class="comment">// 品牌id</span></span><br><span class="line">    <span class="keyword">private</span> Long cid1;<span class="comment">// 1级分类id</span></span><br><span class="line">    <span class="keyword">private</span> Long cid2;<span class="comment">// 2级分类id</span></span><br><span class="line">    <span class="keyword">private</span> Long cid3;<span class="comment">// 3级分类id</span></span><br><span class="line">    <span class="keyword">private</span> Date createTime;<span class="comment">// 创建时间</span></span><br><span class="line">    <span class="keyword">private</span> List&lt;Long&gt; price;<span class="comment">// 价格</span></span><br><span class="line">    <span class="meta">@Field</span>(type = FieldType.keyword, index = <span class="keyword">false</span>)</span><br><span class="line">    <span class="keyword">private</span> String skus;<span class="comment">// sku信息的json结构</span></span><br><span class="line">    <span class="keyword">private</span> Map&lt;String, Object&gt; specs;<span class="comment">// 可搜索的规格参数，key是参数名，值是参数值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>一些特殊字段解释：</p>
+<ul>
+<li><p>all：用来进行全文检索的字段，里面包含标题、商品分类信息</p>
+</li>
+<li><p>price：价格数组，是所有sku的价格集合。方便根据价格进行筛选过滤</p>
+</li>
+<li><p>skus：用于页面展示的sku信息，不索引，不搜索。包含skuId、image、price、title字段</p>
+</li>
+<li><p>specs：所有规格参数的集合。key是参数名，值是参数值。</p>
+<p>例如：我们在specs中存储 内存：4G,6G，颜色为红色，转为json就是：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"specs"</span>:&#123;</span><br><span class="line">        <span class="attr">"内存"</span>:[<span class="number">4</span>G,<span class="number">6</span>G],</span><br><span class="line">        <span class="attr">"颜色"</span>:<span class="string">"红色"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当存储到索引库时，elasticsearch会处理为两个字段：</p>
+<ul>
+<li>specs.内存 ： [4G,6G]</li>
+<li>specs.颜色：红色</li>
+</ul>
+<p>另外， 对于字符串类型，还会额外存储一个字段，这个字段不会分词，用作聚合。</p>
+<ul>
+<li>specs.颜色.keyword：红色<h2 id="1-3-商品微服务提供接口"><a href="#1-3-商品微服务提供接口" class="headerlink" title="1.3.商品微服务提供接口"></a>1.3.商品微服务提供接口</h2></li>
+</ul>
+</li>
+</ul>
+<p>索引库中的数据来自于数据库，我们不能直接去查询商品的数据库，因为真实开发中，每个微服务都是相互独立的，包括数据库也是一样。所以我们只能调用商品微服务提供的接口服务。</p>
+<p>先思考我们需要的数据：</p>
+<ul>
+<li><p>SPU信息</p>
+</li>
+<li><p>SKU信息</p>
+</li>
+<li><p>SPU的详情</p>
+</li>
+<li><p>商品分类名称（拼接all字段）</p>
+</li>
+<li><p>规格参数</p>
+</li>
+</ul>
+<p>再思考我们需要哪些服务：</p>
+<ul>
+<li>第一：分批查询spu的服务，已经写过。</li>
+<li>第二：根据spuId查询sku的服务，已经写过</li>
+<li>第三：根据spuId查询SpuDetail的服务，已经写过</li>
+<li>第四：根据商品分类id，查询商品分类名称，没写过</li>
+</ul>
+<p>因此我们需要额外提供一个查询商品分类名称的接口。</p>
+<h3 id="1-3-1-商品分类名称查询"><a href="#1-3-1-商品分类名称查询" class="headerlink" title="1.3.1.商品分类名称查询"></a>1.3.1.商品分类名称查询</h3><p>controller：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 根据商品分类id查询名称</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> ids 要查询的分类id集合</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 多个名称的集合</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"names"</span>)</span><br><span class="line"><span class="keyword">public</span> ResponseEntity&lt;List&lt;String&gt;&gt; queryNameByIds(<span class="meta">@RequestParam</span>(<span class="string">"ids"</span>) List&lt;Long&gt; ids)&#123;</span><br><span class="line">    List&lt;String &gt; list = <span class="keyword">this</span>.categoryService.queryNameByIds(ids);</span><br><span class="line">    <span class="keyword">if</span> (list == <span class="keyword">null</span> || list.size() &lt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ResponseEntity.ok(list);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>service：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">queryNameByIds</span><span class="params">(List&lt;Long&gt; ids)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.categoryMapper.selectByIdList(ids).stream()</span><br><span class="line">        		.map(Category::getName).collect(Collectors.toList());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试：</p>
+<p> <img src="http://img.smallmartial.cn/20190419144205.png" alt="1526611720402"></p>
+<h3 id="1-3-2-编写FeignClient"><a href="#1-3-2-编写FeignClient" class="headerlink" title="1.3.2.编写FeignClient"></a>1.3.2.编写FeignClient</h3><h4 id="问题展现："><a href="#问题展现：" class="headerlink" title="问题展现："></a>问题展现：</h4><p>现在，我们要在搜索微服务调用商品微服务的接口。</p>
+<p>第一步要引入商品微服务依赖：<code>ly-item-interface</code>。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--商品微服务--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.leyou.service<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ly-item-interface<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;leyou.latest.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>第二步，编写FeignClient<br>商品的FeignClient：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient</span>(value = <span class="string">"item-service"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">GoodsClient</span> <span class="keyword">extends</span> <span class="title">GoodsApi</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>商品分类的FeignClient：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient</span>(value = <span class="string">"item-service"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CategoryClient</span> <span class="keyword">extends</span> <span class="title">CategoryApi</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>商品服务接口<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">GoodsApi</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 分页查询商品</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> page</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> rows</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> saleable</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="meta">@GetMapping</span>(<span class="string">"/spu/page"</span>)</span><br><span class="line">        <span class="function">PageResult&lt;SpuBo&gt; <span class="title">querySpuByPage</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">                @RequestParam(value = <span class="string">"page"</span>, defaultValue = <span class="string">"1"</span>)</span> Integer page,</span></span><br><span class="line"><span class="function">                @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"rows"</span>, defaultValue = <span class="string">"5"</span>)</span> Integer rows,</span></span><br><span class="line"><span class="function">                @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"saleable"</span>, defaultValue = <span class="string">"true"</span>)</span> Boolean saleable,</span></span><br><span class="line"><span class="function">                @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"key"</span>, required = <span class="keyword">false</span>)</span> String key)</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 根据spu商品id查询详情</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> id</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="meta">@GetMapping</span>(<span class="string">"/spu/detail/&#123;id&#125;"</span>)</span><br><span class="line">        <span class="function">SpuDetail <span class="title">querySpuDetailById</span><span class="params">(@PathVariable(<span class="string">"id"</span>)</span> Long id)</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 根据spu的id查询sku</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> id</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="meta">@GetMapping</span>(<span class="string">"sku/list"</span>)</span><br><span class="line">       <span class="comment">// List&lt;Sku&gt; querySkuBySpuId(@RequestParam("id") Long id);</span></span><br><span class="line">        <span class="function">List&lt;Sku&gt; <span class="title">queryBySkuSpuId</span><span class="params">(@RequestParam(<span class="string">"id"</span>)</span>Long id)</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CategoryApi</span> </span>&#123;</span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"category/list/ids"</span>)</span><br><span class="line">    <span class="function">List&lt;Category&gt; <span class="title">queryCategoryByIds</span><span class="params">(@RequestParam(<span class="string">"ids"</span>)</span> List&lt;Long&gt; ids)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要在ly-item-interface中引入一些依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-webmvc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.leyou.common<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ly-common<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>项目结构：</p>
+<p> <img src="http://img.smallmartial.cn/1526614742882.png" alt="1526614742882"></p>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p>引入springtest依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>创建测试类：</p>
+<p>在接口上按快捷键：<code>Ctrl + Shift + T</code><br>测试代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</span><br><span class="line"><span class="meta">@SpringBootTest</span>(classes = LySearchService.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CategoryClientTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> CategoryClient categoryClient;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testQueryCategories</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        List&lt;String&gt; names = <span class="keyword">this</span>.categoryClient.queryNameByIds(Arrays.asList(<span class="number">1L</span>, <span class="number">2L</span>, <span class="number">3L</span>));</span><br><span class="line">        names.forEach(System.out::println);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<p> <img src="http://img.smallmartial.cn//1526614174352.png" alt="1526614174352"></p>
+<h2 id="1-4-导入数据"><a href="#1-4-导入数据" class="headerlink" title="1.4.导入数据"></a>1.4.导入数据</h2><h3 id="1-4-1-创建GoodsRepository"><a href="#1-4-1-创建GoodsRepository" class="headerlink" title="1.4.1.创建GoodsRepository"></a>1.4.1.创建GoodsRepository</h3><p>java代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">GoodsRepository</span> <span class="keyword">extends</span> <span class="title">ElasticsearchRepository</span>&lt;<span class="title">Goods</span>, <span class="title">Long</span>&gt; </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-4-2-创建索引"><a href="#1-4-2-创建索引" class="headerlink" title="1.4.2.创建索引"></a>1.4.2.创建索引</h3><p>我们新建一个测试类，在里面进行数据的操作：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</span><br><span class="line"><span class="meta">@SpringBootTest</span>(classes = LySearchService.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ElasticsearchTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> GoodsRepository goodsRepository;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ElasticsearchTemplate elasticsearchTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">createIndex</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">// 创建索引</span></span><br><span class="line">        <span class="keyword">this</span>.elasticsearchTemplate.createIndex(Goods.class);</span><br><span class="line">        <span class="comment">// 配置映射</span></span><br><span class="line">        <span class="keyword">this</span>.elasticsearchTemplate.putMapping(Goods.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>查询结果<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">GET /goods</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"goods"</span>: &#123;</span><br><span class="line">    <span class="attr">"aliases"</span>: &#123;&#125;,</span><br><span class="line">    <span class="attr">"mappings"</span>: &#123;</span><br><span class="line">      <span class="attr">"docs"</span>: &#123;</span><br><span class="line">        <span class="attr">"properties"</span>: &#123;</span><br><span class="line">          <span class="attr">"all"</span>: &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"text"</span>,</span><br><span class="line">            <span class="attr">"analyzer"</span>: <span class="string">"ik_max_word"</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">"skus"</span>: &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"keyword"</span>,</span><br><span class="line">            <span class="attr">"index"</span>: <span class="literal">false</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">"subTitle"</span>: &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"keyword"</span>,</span><br><span class="line">            <span class="attr">"index"</span>: <span class="literal">false</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"settings"</span>: &#123;</span><br><span class="line">      <span class="attr">"index"</span>: &#123;</span><br><span class="line">        <span class="attr">"refresh_interval"</span>: <span class="string">"1s"</span>,</span><br><span class="line">        <span class="attr">"number_of_shards"</span>: <span class="string">"1"</span>,</span><br><span class="line">        <span class="attr">"provided_name"</span>: <span class="string">"goods"</span>,</span><br><span class="line">        <span class="attr">"creation_date"</span>: <span class="string">"1555572720690"</span>,</span><br><span class="line">        <span class="attr">"store"</span>: &#123;</span><br><span class="line">          <span class="attr">"type"</span>: <span class="string">"fs"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"number_of_replicas"</span>: <span class="string">"0"</span>,</span><br><span class="line">        <span class="attr">"uuid"</span>: <span class="string">"10qY2kDdTbq6EO8SEqfexA"</span>,</span><br><span class="line">        <span class="attr">"version"</span>: &#123;</span><br><span class="line">          <span class="attr">"created"</span>: <span class="string">"6020499"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="1-4-3-导入数据"><a href="#1-4-3-导入数据" class="headerlink" title="1.4.3.导入数据"></a>1.4.3.导入数据</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SearchService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> CategoryClient categoryClient;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> BrandClient brandClient;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> GoodClient goodClient;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> SpecificationClient specificationClient;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Goods <span class="title">bulidGoods</span><span class="params">(Spu spu)</span></span>&#123;</span><br><span class="line">        Long supId = spu.getId();</span><br><span class="line">        <span class="comment">//查询分类</span></span><br><span class="line">        List&lt;Category&gt; categories = categoryClient.queryCategoryByIds(</span><br><span class="line">                Arrays.asList(spu.getCid1(), spu.getCid2(), spu.getCid3()));</span><br><span class="line">        <span class="keyword">if</span> (CollectionUtils.isEmpty(categories))&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> LyException(ExceptionEnum.CATEGORY_NOT_FOND);</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;String&gt; names =categories.stream().map(Category::getName).collect(Collectors.toList());</span><br><span class="line">        <span class="comment">//查询品牌</span></span><br><span class="line">        Brand brand = brandClient.queryBrandById(spu.getBrandId());</span><br><span class="line">        <span class="keyword">if</span> (brand == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> LyException(ExceptionEnum.BRAND_NOT_FOUND);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//搜索字段</span></span><br><span class="line">        String all = spu.getTitle()+ StringUtils.join(names,<span class="string">""</span>)+brand.getName();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//查询sku</span></span><br><span class="line">        List&lt;Sku&gt; skuList = goodClient.queryBySkuSpuId(spu.getId());</span><br><span class="line">        <span class="keyword">if</span> (CollectionUtils.isEmpty(skuList))&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> LyException(ExceptionEnum.GOOD_SKU_NOT_FOND);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//对SKU进行处理</span></span><br><span class="line">        List&lt;Map&lt;String,Object&gt;&gt; skus = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">//价格集合</span></span><br><span class="line">        List&lt;Long&gt; priceList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (Sku sku : skuList) &#123;</span><br><span class="line">            Map&lt;String,Object&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">            map.put(<span class="string">"id"</span>,sku.getId());</span><br><span class="line">            map.put(<span class="string">"title"</span>,sku.getTitle());</span><br><span class="line">            map.put(<span class="string">"price"</span>,sku.getPrice());</span><br><span class="line">            map.put(<span class="string">"image"</span>,StringUtils.substringBefore(sku.getImages(),<span class="string">","</span>));</span><br><span class="line">            skus.add(map);</span><br><span class="line">            <span class="comment">//处理价格</span></span><br><span class="line">            priceList.add(sku.getPrice());</span><br><span class="line">        &#125;</span><br><span class="line">      <span class="comment">//  List&lt;Long&gt; priceList = skuList.stream().map(Sku::getPrice).collect(Collectors.toList());</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//查询规格产数</span></span><br><span class="line">        List&lt;SpecParam&gt; params = specificationClient.querySpecSpecParam(<span class="keyword">null</span>, spu.getCid3(), <span class="keyword">true</span>, <span class="keyword">null</span>);</span><br><span class="line">        <span class="keyword">if</span> (CollectionUtils.isEmpty(params))&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> LyException(ExceptionEnum.SPEC_PARAM_NOT_FIND);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//查询商品详情</span></span><br><span class="line">        SpuDetail spuDetail = goodClient.querySpuDetailById(supId);</span><br><span class="line">        <span class="comment">//String json = spuDetail.getGenericSpec();</span></span><br><span class="line">        Map&lt;Long,String&gt; genericSpec = JsonUtils.parseMap(spuDetail.getGenericSpec(),Long.class,String.class);</span><br><span class="line">        <span class="comment">//规格参数</span></span><br><span class="line">        String json =spuDetail.getSpecialSpec();</span><br><span class="line">        Map&lt;Long, List&lt;String&gt;&gt; specialSpec = JsonUtils.nativeRead(json, <span class="keyword">new</span> TypeReference&lt;Map&lt;Long, List&lt;String&gt;&gt;&gt;() &#123;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">//规格参数,key是规格参数的名字，值是规格参数的值</span></span><br><span class="line">        Map&lt;String,Object&gt; specs = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (SpecParam param : params) &#123;</span><br><span class="line">            <span class="comment">//规格名称</span></span><br><span class="line">            String key = param.getName();</span><br><span class="line">            Object value = <span class="string">""</span>;</span><br><span class="line">            <span class="keyword">if</span> (param.getGeneric())&#123;</span><br><span class="line">                value =genericSpec.get(param.getId());</span><br><span class="line">                <span class="comment">//判断是否是数值类型</span></span><br><span class="line">                <span class="keyword">if</span> (param.getNumeric())&#123;</span><br><span class="line">                    <span class="comment">//处理成段</span></span><br><span class="line">                    value = chooseSegment(value.toString(),param);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                value =specialSpec.get(param.getId());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//存入map</span></span><br><span class="line">            specs.put(key,value);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//构建goods对象</span></span><br><span class="line">        Goods goods = <span class="keyword">new</span> Goods();</span><br><span class="line">        goods.setBrandId(spu.getBrandId());</span><br><span class="line">        goods.setCid1(spu.getCid1());</span><br><span class="line">        goods.setCid2(spu.getCid2());</span><br><span class="line">        goods.setCid3(spu.getCid3());</span><br><span class="line">        goods.setCreateTime(spu.getCreateTime());</span><br><span class="line">        goods.setId(spu.getId());</span><br><span class="line">        goods.setAll(spu.getTitle() + <span class="string">" "</span> + StringUtils.join(names, <span class="string">" "</span>));</span><br><span class="line">        goods.setPrice(priceList);</span><br><span class="line">        goods.setSkus(JsonUtils.serialize(skus));</span><br><span class="line">        goods.setSpecs(specs);</span><br><span class="line">        goods.setSubTitle(spu.getSubTitle());</span><br><span class="line">        <span class="keyword">return</span> goods;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>因为过滤参数中有一类比较特殊，就是数值区间：</p>
+<p>所以我们在存入时要进行处理：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> String <span class="title">chooseSegment</span><span class="params">(String value, SpecParam p)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> val = NumberUtils.toDouble(value);</span><br><span class="line">    String result = <span class="string">"其它"</span>;</span><br><span class="line">    <span class="comment">// 保存数值段</span></span><br><span class="line">    <span class="keyword">for</span> (String segment : p.getSegments().split(<span class="string">","</span>)) &#123;</span><br><span class="line">        String[] segs = segment.split(<span class="string">"-"</span>);</span><br><span class="line">        <span class="comment">// 获取数值范围</span></span><br><span class="line">        <span class="keyword">double</span> begin = NumberUtils.toDouble(segs[<span class="number">0</span>]);</span><br><span class="line">        <span class="keyword">double</span> end = Double.MAX_VALUE;</span><br><span class="line">        <span class="keyword">if</span>(segs.length == <span class="number">2</span>)&#123;</span><br><span class="line">            end = NumberUtils.toDouble(segs[<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 判断是否在范围内</span></span><br><span class="line">        <span class="keyword">if</span>(val &gt;= begin &amp;&amp; val &lt; end)&#123;</span><br><span class="line">            <span class="keyword">if</span>(segs.length == <span class="number">1</span>)&#123;</span><br><span class="line">                result = segs[<span class="number">0</span>] + p.getUnit() + <span class="string">"以上"</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(begin == <span class="number">0</span>)&#123;</span><br><span class="line">                result = segs[<span class="number">1</span>] + p.getUnit() + <span class="string">"以下"</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                result = segment + p.getUnit();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后编写一个测试类，循环查询Spu，然后调用IndexService中的方法，把SPU变为Goods，然后写入索引库：</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loadData</span><span class="params">()</span></span>&#123;</span><br><span class="line">       <span class="keyword">int</span> page = <span class="number">1</span>;</span><br><span class="line">       <span class="keyword">int</span> rows = <span class="number">100</span>;</span><br><span class="line">       <span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line">       <span class="keyword">do</span> &#123;</span><br><span class="line">           <span class="comment">// 查询spu</span></span><br><span class="line">           PageResult&lt;SpuBo&gt; result = <span class="keyword">this</span>.goodClient.querySpuByPage(page, rows, <span class="keyword">true</span>, <span class="keyword">null</span>);</span><br><span class="line">           List&lt;SpuBo&gt; spus = result.getItem();</span><br><span class="line"></span><br><span class="line">           <span class="comment">// spu转为goods</span></span><br><span class="line">           List&lt;Goods&gt; goods = spus.stream().map(searchService::bulidGoods)</span><br><span class="line">                   .collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">           <span class="comment">// 把goods放入索引库</span></span><br><span class="line">           <span class="keyword">this</span>.goodsRepository.saveAll(goods);</span><br><span class="line"></span><br><span class="line">           size = spus.size();</span><br><span class="line">           <span class="comment">//翻页</span></span><br><span class="line">           page++;</span><br><span class="line">       &#125;<span class="keyword">while</span> (size == <span class="number">100</span>);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p> 通过kibana查询， 可以看到数据成功导入：</p>
+<p> <img src="http://img.smallmartial.cn/1526628384103.png" alt="1526628384103"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/java/" rel="tag"># java</a>
+          
+            <a href="/blog/tags/乐优商城/" rel="tag"># 乐优商城</a>
+          
+            <a href="/blog/tags/springboot/" rel="tag"># springboot</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2019/04/18/lyshop-11/" rel="next" title="乐优商城学习笔记十一-Elasticsearch学习（三）">
+                <i class="fa fa-chevron-left"></i> 乐优商城学习笔记十一-Elasticsearch学习（三）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">小武</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/blog/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/blog/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/blog/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/smallmartial" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-globe"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="豆瓣">
+                      
+                        <i class="fa fa-fw fa-globe"></i>豆瓣</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0-学习目标"><span class="nav-number">1.</span> <span class="nav-text">0.学习目标</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-索引库数据导入"><span class="nav-number">2.</span> <span class="nav-text">1.索引库数据导入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-创建搜索服务"><span class="nav-number">2.1.</span> <span class="nav-text">1.1.创建搜索服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-2-需要什么数据"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.2.2.需要什么数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-3-最终的数据结构"><span class="nav-number">2.1.2.</span> <span class="nav-text">1.2.3.最终的数据结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-商品微服务提供接口"><span class="nav-number">2.2.</span> <span class="nav-text">1.3.商品微服务提供接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1-商品分类名称查询"><span class="nav-number">2.2.1.</span> <span class="nav-text">1.3.1.商品分类名称查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-编写FeignClient"><span class="nav-number">2.2.2.</span> <span class="nav-text">1.3.2.编写FeignClient</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题展现："><span class="nav-number">2.2.2.1.</span> <span class="nav-text">问题展现：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">测试</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-导入数据"><span class="nav-number">2.3.</span> <span class="nav-text">1.4.导入数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-1-创建GoodsRepository"><span class="nav-number">2.3.1.</span> <span class="nav-text">1.4.1.创建GoodsRepository</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-2-创建索引"><span class="nav-number">2.3.2.</span> <span class="nav-text">1.4.2.创建索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-3-导入数据"><span class="nav-number">2.3.3.</span> <span class="nav-text">1.4.3.导入数据</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小武</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("wVtY9vYudJ7sIqDYeIQpLXhk-gzGzoHsz", "1jpXi8YPzcRJN87pX2KJQCBP");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
