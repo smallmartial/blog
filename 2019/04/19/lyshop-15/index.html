@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,乐优商城,springboot,">
+
+
+
+
+
+  <link rel="alternate" href="/blog/atom.xml" title="smallmartial's blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="3.页面分页效果刚才的查询中，我们默认了查询的页码和每页大小，因此所有的分页功能都无法使用，接下来我们一起看看分页功能条该如何制作。 这里要分两步，  第一步：如何生成分页条 第二步：点击分页按钮，我们做什么  3.1.如何生成分页条先看下页面关于分页部分的代码：   可以看到所有的分页栏内容都是写死的。 3.1.1.需要的数据分页数据应该是根据总页数、当前页、总条数等信息来计算得出。  当前页：">
+<meta name="keywords" content="java,乐优商城,springboot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="乐优商城学习笔记十五-搜素微服务（三）">
+<meta property="og:url" content="https://github.com/smallmartial/blog.git/2019/04/19/lyshop-15/index.html">
+<meta property="og:site_name" content="smallmartial&#39;s blog">
+<meta property="og:description" content="3.页面分页效果刚才的查询中，我们默认了查询的页码和每页大小，因此所有的分页功能都无法使用，接下来我们一起看看分页功能条该如何制作。 这里要分两步，  第一步：如何生成分页条 第二步：点击分页按钮，我们做什么  3.1.如何生成分页条先看下页面关于分页部分的代码：   可以看到所有的分页栏内容都是写死的。 3.1.1.需要的数据分页数据应该是根据总页数、当前页、总条数等信息来计算得出。  当前页：">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://img.smallmartial.cn/1526692249371.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526694848538.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526715358560.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526695144476.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526695592422.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526695713496.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526695967230.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526695821870.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526698486165.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526698842013.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526716056879.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526716212704.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526716388196.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526716565293.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526717586493.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526718252315.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526718448918.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526718637618.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526719415219.png">
+<meta property="og:updated_time" content="2019-04-19T08:56:12.110Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="乐优商城学习笔记十五-搜素微服务（三）">
+<meta name="twitter:description" content="3.页面分页效果刚才的查询中，我们默认了查询的页码和每页大小，因此所有的分页功能都无法使用，接下来我们一起看看分页功能条该如何制作。 这里要分两步，  第一步：如何生成分页条 第二步：点击分页按钮，我们做什么  3.1.如何生成分页条先看下页面关于分页部分的代码：   可以看到所有的分页栏内容都是写死的。 3.1.1.需要的数据分页数据应该是根据总页数、当前页、总条数等信息来计算得出。  当前页：">
+<meta name="twitter:image" content="http://img.smallmartial.cn/1526692249371.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/smallmartial/blog.git/2019/04/19/lyshop-15/">
+
+
+
+
+
+  <title>乐优商城学习笔记十五-搜素微服务（三） | smallmartial's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">smallmartial's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-首页"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-作者简介"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-标签"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-分类"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/smallmartial/blog.git/blog/2019/04/19/lyshop-15/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小武">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="smallmartial's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">乐优商城学习笔记十五-搜素微服务（三）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-19T16:51:52+08:00">
+                2019-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/乐优商城/" itemprop="url" rel="index">
+                    <span itemprop="name">乐优商城</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/blog/2019/04/19/lyshop-15/" class="leancloud_visitors" data-flag-title="乐优商城学习笔记十五-搜素微服务（三）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="3-页面分页效果"><a href="#3-页面分页效果" class="headerlink" title="3.页面分页效果"></a>3.页面分页效果</h1><p>刚才的查询中，我们默认了查询的页码和每页大小，因此所有的分页功能都无法使用，接下来我们一起看看分页功能条该如何制作。</p>
+<p>这里要分两步，</p>
+<ul>
+<li>第一步：如何生成分页条</li>
+<li>第二步：点击分页按钮，我们做什么</li>
+</ul>
+<h2 id="3-1-如何生成分页条"><a href="#3-1-如何生成分页条" class="headerlink" title="3.1.如何生成分页条"></a>3.1.如何生成分页条</h2><p>先看下页面关于分页部分的代码：</p>
+<p> <img src="http://img.smallmartial.cn/1526692249371.png" alt="1526692249371"></p>
+<p>可以看到所有的分页栏内容都是写死的。</p>
+<h3 id="3-1-1-需要的数据"><a href="#3-1-1-需要的数据" class="headerlink" title="3.1.1.需要的数据"></a>3.1.1.需要的数据</h3><p>分页数据应该是根据<strong>总页数</strong>、<strong>当前页</strong>、<strong>总条数</strong>等信息来计算得出。</p>
+<ul>
+<li>当前页：肯定是由页面来决定的，点击按钮会生成不同的页</li>
+<li>总页数：需要后台传递给我们</li>
+<li>总条数：需要后台传递给我们</li>
+</ul>
+<p>我们首先在data中记录下这几个值：</p>
+<p> <img src="http://img.smallmartial.cn/1526694848538.png" alt="1526694848538"></p>
+<p>因为page是搜索条件之一，所以记录在search对象中。</p>
+<p>要注意：我们在created钩子函数中，会读取url路径的参数，然后赋值给search。如果是第一次请求页面，page是不存在的。因此为了避免page被覆盖，我们应该这么做：</p>
+<p> <img src="http://img.smallmartial.cn/1526715358560.png" alt="1526715358560"></p>
+<p>不过，这个时候我们自己的search对象中的值就可有可无了</p>
+<h3 id="3-1-2-后台提供数据"><a href="#3-1-2-后台提供数据" class="headerlink" title="3.1.2.后台提供数据"></a>3.1.2.后台提供数据</h3><p>后台返回的结果中，要包含total和totalPage，我们改造下刚才的接口：</p>
+<p>在我们返回的PageResult对象中，其实是有totalPage字段的：</p>
+<p>  <img src="http://img.smallmartial.cn/1526695144476.png" alt="1526695144476"></p>
+<p>我们在返回时，把这个值填上：</p>
+<p> <img src="http://img.smallmartial.cn/1526695592422.png" alt="1526695592422"></p>
+<p>页面测试一下：</p>
+<p> <img src="http://img.smallmartial.cn/1526695713496.png" alt="1526695713496"></p>
+<p>OK</p>
+<h3 id="3-1-3-页面计算分页条"><a href="#3-1-3-页面计算分页条" class="headerlink" title="3.1.3.页面计算分页条"></a>3.1.3.页面计算分页条</h3><p>首先，把后台提供的数据保存在data中：</p>
+<p> <img src="http://img.smallmartial.cn/1526695967230.png" alt="1526695967230"></p>
+<p>然后看下我们要实现的效果：</p>
+<p><img src="http://img.smallmartial.cn/1526695821870.png" alt="1526695821870"></p>
+<p>这里最复杂的是中间的1~5的分页按钮，它需要动态变化。</p>
+<p>思路分析：</p>
+<ul>
+<li>最多有5个按钮，因此我们可以用<code>v-for</code>循环从1到5即可，假如遍历得到的值为<code>i</code></li>
+<li>但是分页条不一定是从1开始：<ul>
+<li>如果当前页值小于等于3的时候，分页条位置从1开始到5结束，页码就是遍历得到的<code>i</code>的值</li>
+<li>但是如果大于3，则不应该是<code>i</code>，而是要比<code>i</code>大了（page-3），所以就是<code>page-3 + i</code></li>
+</ul>
+</li>
+</ul>
+<p>所以，我们的页面这样来做：</p>
+<p> <img src="http://img.smallmartial.cn/1526698486165.png" alt="1526698486165"></p>
+<p>a标签中的分页数字通过<code>index</code>函数来计算，需要把<code>i</code>传递过去：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">index(i) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.search.page &lt;= <span class="number">3</span> || <span class="keyword">this</span>.totalPage &lt;= <span class="number">5</span>) &#123;</span><br><span class="line">        <span class="comment">// 当前页小于3，则页码就是从 i 开始</span></span><br><span class="line">        <span class="keyword">return</span> i;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">this</span>.search.page &lt;= <span class="keyword">this</span>.totalPage - <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="comment">// 大于3，则从page-2开始，然后逐个加1</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.search.page - <span class="number">3</span> + i;</span><br><span class="line">    &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.totalPage - <span class="number">5</span> + i;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是，如果总页数不足5页，我们就不应该遍历1~5，而是1~总页数，稍作改进：</p>
+<p><img src="http://img.smallmartial.cn/1526698842013.png" alt="1526698842013"></p>
+<p>分页条的其它部分就比较简单了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;sui-pagination pagination-large&quot;&gt;</span><br><span class="line">    &lt;ul style=&quot;width: 550px&quot;&gt;</span><br><span class="line">        &lt;li :class=&quot;&#123;prev:true,disabled:search.page === 1&#125;&quot;&gt;</span><br><span class="line">            &lt;a href=&quot;#&quot;&gt;«上一页&lt;/a&gt;</span><br><span class="line">        &lt;/li&gt;</span><br><span class="line">        &lt;li :class=&quot;&#123;active: index(i) === search.page&#125;&quot; v-for=&quot;i in Math.min(5,totalPage)&quot; :key=&quot;i&quot;&gt;</span><br><span class="line">            &lt;a href=&quot;#&quot;&gt;&#123;&#123;index(i)&#125;&#125;&lt;/a&gt;</span><br><span class="line">        &lt;/li&gt;</span><br><span class="line">        &lt;li class=&quot;dotted&quot; v-show=&quot;totalPage &gt; 5&quot;&gt;&lt;span&gt;...&lt;/span&gt;&lt;/li&gt;</span><br><span class="line">        &lt;li :class=&quot;&#123;next:true,disabled:search.page === totalPage&#125;&quot;&gt;</span><br><span class="line">            &lt;a href=&quot;#&quot;&gt;下一页»&lt;/a&gt;</span><br><span class="line">        &lt;/li&gt;</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;span&gt;共&#123;&#123;totalPage&#125;&#125;页&amp;nbsp;&lt;/span&gt;</span><br><span class="line">        &lt;span&gt;</span><br><span class="line">            到第</span><br><span class="line">            &lt;input type=&quot;text&quot; class=&quot;page-num&quot; :value=&quot;search.page&quot;&gt;</span><br><span class="line">            页 &lt;button class=&quot;page-confirm&quot; onclick=&quot;alert(1)&quot;&gt;确定&lt;/button&gt;</span><br><span class="line">        &lt;/span&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="3-2-点击分页做什么"><a href="#3-2-点击分页做什么" class="headerlink" title="3.2.点击分页做什么"></a>3.2.点击分页做什么</h2><p>点击分页按钮后，自然是要修改<code>page</code>的值</p>
+<p>所以，我们在<code>上一页</code>、<code>下一页</code>按钮添加点击事件，对page进行修改，在数字按钮上绑定点击事件，点击直接修改page：</p>
+<p> <img src="http://img.smallmartial.cn/1526716056879.png" alt="1526716056879"></p>
+<p>翻页事件的方法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">prevPage()&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.search.page &gt; <span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">this</span>.search.page--</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br><span class="line">nextPage()&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.search.page &lt; <span class="keyword">this</span>.totalPage)&#123;</span><br><span class="line">        <span class="keyword">this</span>.search.page++</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当<code>page</code>发生变化，我们应该去后台重新查询数据。</p>
+<p>不过，如果我们直接发起ajax请求，那么浏览器的地址栏中是不会有变化的，没有记录下分页信息。如果用户刷新页面，那么就会回到第一页。</p>
+<p>这样不太友好，我们应该把<strong>搜索条件记录在地址栏的查询参数中</strong>。</p>
+<p>因此，我们监听search的变化，然后把search的过滤字段拼接在url路径后：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">watch:&#123;</span><br><span class="line">    search:&#123;</span><br><span class="line">        deep:<span class="literal">true</span>,</span><br><span class="line">            handler(val)&#123;</span><br><span class="line">            <span class="comment">// 把search对象变成请求参数，拼接在url路径</span></span><br><span class="line">            <span class="built_in">window</span>.location.href = <span class="string">"http://www.leyou.com/search.html?"</span> + ly.stringify(val);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>刷新页面测试，然后就出现重大bug：页面无限刷新！为什么？</p>
+<p>因为Vue实例初始化的钩子函数中，我们读取请求参数，赋值给search的时候，也触发了watch监视！也就是说，每次页面创建完成，都会触发watch，然后就会去修改window.location路径，然后页面被刷新，再次触发created钩子，又触发watch，周而复始，无限循环。</p>
+<p>所以，我们需要在watch中进行监控，如果发现是第一次初始化，则不继续向下执行。</p>
+<p>那么问题是，如何判断是不是第一次？</p>
+<p>第一次初始化时，search中的key值肯定是空的，所以，我们这么做：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">watch:&#123;</span><br><span class="line">    search:&#123;</span><br><span class="line">        deep:<span class="literal">true</span>,</span><br><span class="line">            handler(val,old)&#123;</span><br><span class="line">            <span class="keyword">if</span>(!old || !old.key)&#123;</span><br><span class="line">                <span class="comment">// 如果旧的search值为空，或者search中的key为空，证明是第一次</span></span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 把search对象变成请求参数，拼接在url路径</span></span><br><span class="line">            <span class="built_in">window</span>.location.href = <span class="string">"http://www.leyou.com/search.html?"</span> + ly.stringify(val);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再次刷新，OK了！</p>
+<h2 id="3-3-页面顶部分页条"><a href="#3-3-页面顶部分页条" class="headerlink" title="3.3.页面顶部分页条"></a>3.3.页面顶部分页条</h2><p>在页面商品列表的顶部，也有一个分页条：</p>
+<p> <img src="http://img.smallmartial.cn/1526716212704.png" alt="1526716212704"></p>
+<p>我们把这一部分，也加上点击事件：</p>
+<p> <img src="http://img.smallmartial.cn/1526716388196.png" alt="1526716388196"></p>
+<p>###3.4.页面跳转<br>代码<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">到第</span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">class</span>=<span class="string">"page-num"</span> <span class="attr">ref</span>=<span class="string">"page"</span>&gt;</span></span><br><span class="line">页 <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"page-confirm"</span> @<span class="attr">click</span>=<span class="string">"navPage"</span>&gt;</span>确定<span class="tag">&lt;/<span class="name">button</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">navPage()&#123;</span><br><span class="line">    <span class="keyword">this</span>.search.page = <span class="keyword">this</span>.$refs.page.value;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h1 id="4-排序-作业"><a href="#4-排序-作业" class="headerlink" title="4.排序(作业)"></a>4.排序(作业)</h1><h2 id="4-1-页面搜索排序条件"><a href="#4-1-页面搜索排序条件" class="headerlink" title="4.1.页面搜索排序条件"></a>4.1.页面搜索排序条件</h2><p>在搜索商品列表的顶部，有这么一部分内容：</p>
+<p> <img src="http://img.smallmartial.cn/1526716565293.png" alt="1526716565293"></p>
+<p>这是用来做排序的，默认按照综合排序。点击新品，应该按照商品创建时间排序，点击价格应该按照价格排序。因为我们没有统计销量和评价，这里咱们以<code>新品</code>和<code>价格</code>为例，进行讲解，做法是想通的。</p>
+<p>排序需要知道两个内容：</p>
+<ul>
+<li>排序的字段</li>
+<li>排序的方式</li>
+</ul>
+<p>因此，我们首先在<code>search</code>中记录这两个信息，因为created钩子函数会对search进行覆盖，因此我们在钩子函数中对这两个信息进行初始化即可：</p>
+<p> <img src="http://img.smallmartial.cn/1526717586493.png" alt="1526717586493"></p>
+<p>然后，在页面上给按钮绑定点击事件，修改<code>sortBy</code>和<code>descending</code>的值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--排序字段--&gt;</span><br><span class="line">&lt;ul class=&quot;sui-nav&quot;&gt;</span><br><span class="line">    &lt;li :class=&quot;&#123;active:!search.sortBy&#125;&quot; @click=&quot;search.sortBy=&apos;&apos;&quot;&gt;</span><br><span class="line">        &lt;a href=&quot;#&quot;&gt;综合&lt;/a&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">    &lt;li&gt;</span><br><span class="line">        &lt;a href=&quot;#&quot;&gt;销量&lt;/a&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">    &lt;li @click=&quot;search.sortBy=&apos;createTime&apos;&quot; :class=&quot;&#123;active: search.sortBy===&apos;createTime&apos;&#125;&quot;&gt;</span><br><span class="line">        &lt;a href=&quot;#&quot;&gt;新品&lt;/a&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">    &lt;li&gt;</span><br><span class="line">        &lt;a href=&quot;#&quot;&gt;评价&lt;/a&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">    &lt;li @click=&quot;search.sortBy=&apos;price&apos;; search.descending = !search.descending&quot;</span><br><span class="line">        :class=&quot;&#123;active: search.sortBy===&apos;price&apos;&#125;&quot;&gt;</span><br><span class="line">        &lt;a href=&quot;#&quot;&gt;</span><br><span class="line">            价格</span><br><span class="line">            &lt;v-icon v-show=&quot;search.descending&quot;&gt;arrow_drop_down&lt;/v-icon&gt;</span><br><span class="line">            &lt;v-icon v-show=&quot;!search.descending&quot;&gt;arrow_drop_up&lt;/v-icon&gt;</span><br><span class="line">        &lt;/a&gt;</span><br><span class="line">    &lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+<p>可以看到，页面请求参数中已经有了排序字段了：</p>
+<p> <img src="http://img.smallmartial.cn/1526718252315.png" alt="1526718252315"></p>
+<h2 id="4-2-后台添加排序逻辑"><a href="#4-2-后台添加排序逻辑" class="headerlink" title="4.2.后台添加排序逻辑"></a>4.2.后台添加排序逻辑</h2><p>接下来，后台需要接收请求参数中的排序信息，然后在搜索中加入排序的逻辑。</p>
+<p>现在，我们的请求参数对象<code>SearchRequest</code>中，只有page、key两个字段。需要进行扩展：</p>
+<p> <img src="http://img.smallmartial.cn/1526718448918.png" alt="1526718448918"></p>
+<p>然后在搜索业务逻辑中，添加排序条件：</p>
+<p><img src="http://img.smallmartial.cn/1526718637618.png" alt="1526718637618"></p>
+<p>注意，因为我们存储在索引库中的的价格是一个数组，因此在按照价格排序时，会进行智能处理：</p>
+<ul>
+<li>如果是价格降序，则会把数组中的最大值拿来排序</li>
+<li>如果是价格升序，则会把数组中的最小值拿来排序</li>
+</ul>
+<p><img src="http://img.smallmartial.cn/1526719415219.png" alt="1526719415219"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/java/" rel="tag"># java</a>
+          
+            <a href="/blog/tags/乐优商城/" rel="tag"># 乐优商城</a>
+          
+            <a href="/blog/tags/springboot/" rel="tag"># springboot</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2019/04/19/lyshop-14/" rel="next" title="乐优商城学习笔记十四-搜素微服务（二）">
+                <i class="fa fa-chevron-left"></i> 乐优商城学习笔记十四-搜素微服务（二）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">小武</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/blog/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/blog/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/blog/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/smallmartial" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-globe"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="豆瓣">
+                      
+                        <i class="fa fa-fw fa-globe"></i>豆瓣</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#3-页面分页效果"><span class="nav-number">1.</span> <span class="nav-text">3.页面分页效果</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-如何生成分页条"><span class="nav-number">1.1.</span> <span class="nav-text">3.1.如何生成分页条</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-1-需要的数据"><span class="nav-number">1.1.1.</span> <span class="nav-text">3.1.1.需要的数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-2-后台提供数据"><span class="nav-number">1.1.2.</span> <span class="nav-text">3.1.2.后台提供数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-3-页面计算分页条"><span class="nav-number">1.1.3.</span> <span class="nav-text">3.1.3.页面计算分页条</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-点击分页做什么"><span class="nav-number">1.2.</span> <span class="nav-text">3.2.点击分页做什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-页面顶部分页条"><span class="nav-number">1.3.</span> <span class="nav-text">3.3.页面顶部分页条</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-排序-作业"><span class="nav-number">2.</span> <span class="nav-text">4.排序(作业)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-页面搜索排序条件"><span class="nav-number">2.1.</span> <span class="nav-text">4.1.页面搜索排序条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-后台添加排序逻辑"><span class="nav-number">2.2.</span> <span class="nav-text">4.2.后台添加排序逻辑</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小武</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("wVtY9vYudJ7sIqDYeIQpLXhk-gzGzoHsz", "1jpXi8YPzcRJN87pX2KJQCBP");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
