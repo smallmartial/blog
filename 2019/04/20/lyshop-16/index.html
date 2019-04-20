@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,乐优商城,springboot,">
+
+
+
+
+
+  <link rel="alternate" href="/blog/atom.xml" title="smallmartial's blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="0.学习目标 了解过滤功能的基本思路 独立实现分类和品牌展示 了解规格参数展示 实现过滤条件筛选 实现已选过滤项回显 实现取消选择过滤项  1.过滤功能分析首先看下页面要实现的效果：  整个过滤部分有3块：  顶部的导航，已经选择的过滤条件展示： 商品分类面包屑，根据用户选择的商品分类变化 其它已选择过滤参数   过滤条件展示，又包含3部分 商品分类展示 品牌展示 其它规格参数   展开或收起的过">
+<meta name="keywords" content="java,乐优商城,springboot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="乐优商城学习笔记十六-搜索过滤（一）">
+<meta property="og:url" content="https://github.com/smallmartial/blog.git/2019/04/20/lyshop-16/index.html">
+<meta property="og:site_name" content="smallmartial&#39;s blog">
+<meta property="og:description" content="0.学习目标 了解过滤功能的基本思路 独立实现分类和品牌展示 了解规格参数展示 实现过滤条件筛选 实现已选过滤项回显 实现取消选择过滤项  1.过滤功能分析首先看下页面要实现的效果：  整个过滤部分有3块：  顶部的导航，已经选择的过滤条件展示： 商品分类面包屑，根据用户选择的商品分类变化 其它已选择过滤参数   过滤条件展示，又包含3部分 商品分类展示 品牌展示 其它规格参数   展开或收起的过">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://img.smallmartial.cn/1526725119663.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526738120021.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526741462666.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526742664217.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526742817804.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526803067480.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1530442270378.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1530442355920.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1526803362517.png">
+<meta property="og:image" content="http://img.smallmartial.cn/20190419200531.png">
+<meta property="og:updated_time" content="2019-04-20T06:36:23.856Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="乐优商城学习笔记十六-搜索过滤（一）">
+<meta name="twitter:description" content="0.学习目标 了解过滤功能的基本思路 独立实现分类和品牌展示 了解规格参数展示 实现过滤条件筛选 实现已选过滤项回显 实现取消选择过滤项  1.过滤功能分析首先看下页面要实现的效果：  整个过滤部分有3块：  顶部的导航，已经选择的过滤条件展示： 商品分类面包屑，根据用户选择的商品分类变化 其它已选择过滤参数   过滤条件展示，又包含3部分 商品分类展示 品牌展示 其它规格参数   展开或收起的过">
+<meta name="twitter:image" content="http://img.smallmartial.cn/1526725119663.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/smallmartial/blog.git/2019/04/20/lyshop-16/">
+
+
+
+
+
+  <title>乐优商城学习笔记十六-搜索过滤（一） | smallmartial's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">smallmartial's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-首页"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-作者简介"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-标签"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-分类"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/smallmartial/blog.git/blog/2019/04/20/lyshop-16/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小武">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="smallmartial's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">乐优商城学习笔记十六-搜索过滤（一）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-20T14:21:51+08:00">
+                2019-04-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/乐优商城/" itemprop="url" rel="index">
+                    <span itemprop="name">乐优商城</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/blog/2019/04/20/lyshop-16/" class="leancloud_visitors" data-flag-title="乐优商城学习笔记十六-搜索过滤（一）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="0-学习目标"><a href="#0-学习目标" class="headerlink" title="0.学习目标"></a>0.学习目标</h1><ul>
+<li>了解过滤功能的基本思路</li>
+<li>独立实现分类和品牌展示</li>
+<li>了解规格参数展示</li>
+<li>实现过滤条件筛选</li>
+<li>实现已选过滤项回显</li>
+<li>实现取消选择过滤项</li>
+</ul>
+<h1 id="1-过滤功能分析"><a href="#1-过滤功能分析" class="headerlink" title="1.过滤功能分析"></a>1.过滤功能分析</h1><p>首先看下页面要实现的效果：</p>
+<p><img src="http://img.smallmartial.cn/1526725119663.png" alt="1526725119663"></p>
+<p>整个过滤部分有3块：</p>
+<ul>
+<li>顶部的导航，已经选择的过滤条件展示：<ul>
+<li>商品分类面包屑，根据用户选择的商品分类变化</li>
+<li>其它已选择过滤参数</li>
+</ul>
+</li>
+<li>过滤条件展示，又包含3部分<ul>
+<li>商品分类展示</li>
+<li>品牌展示</li>
+<li>其它规格参数</li>
+</ul>
+</li>
+<li>展开或收起的过滤条件的按钮</li>
+</ul>
+<p>顶部导航要展示的内容跟用户选择的过滤条件有关。</p>
+<ul>
+<li>比如用户选择了某个商品分类，则面包屑中才会展示具体的分类</li>
+<li>比如用户选择了某个品牌，列表中才会有品牌信息。</li>
+</ul>
+<p>所以，这部分需要依赖第二部分：过滤条件的展示和选择。因此我们先不着急去做。</p>
+<p>展开或收起的按钮是否显示，取决于过滤条件现在有多少，如果有很多，那么就没必要展示。所以也是跟第二部分的过滤条件有关。</p>
+<p>这样分析来看，我们必须先做第二部分：过滤条件展示。</p>
+<h1 id="2-生成分类和品牌过滤"><a href="#2-生成分类和品牌过滤" class="headerlink" title="2.生成分类和品牌过滤"></a>2.生成分类和品牌过滤</h1><p>先来看分类和品牌。在我们的数据库中已经有所有的分类和品牌信息。在这个位置，是不是把所有的分类和品牌信息都展示出来呢？</p>
+<p>显然不是，用户搜索的条件会对商品进行过滤，而在搜索结果中，不一定包含所有的分类和品牌，直接展示出所有商品分类，让用户选择显然是不合适的。</p>
+<p>无论是分类信息，还是品牌信息，都应该从搜索的结果商品中进行聚合得到。</p>
+<h2 id="2-1-扩展返回的结果"><a href="#2-1-扩展返回的结果" class="headerlink" title="2.1.扩展返回的结果"></a>2.1.扩展返回的结果</h2><p>原来，我们返回的结果是PageResult对象，里面只有total、totalPage、items3个属性。但是现在要对商品分类和品牌进行聚合，数据显然不够用，我们需要对返回的结果进行扩展，添加分类和品牌的数据。</p>
+<p>那么问题来了：以什么格式返回呢？</p>
+<p>看页面：</p>
+<p> <img src="http://img.smallmartial.cn/1526738120021.png" alt="1526738120021"></p>
+<p>分类：页面显示了分类名称，但背后肯定要保存id信息。所以至少要有id和name</p>
+<p>品牌：页面展示的有logo，有文字，当然肯定有id，基本上是品牌的完整数据</p>
+<p>我们新建一个类，继承PageResult，然后扩展两个新的属性：分类集合和品牌集合：<br>我们新建一个类，继承PageResult，然后扩展两个新的属性：分类集合和品牌集合：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SearchResult</span> <span class="keyword">extends</span> <span class="title">PageResult</span>&lt;<span class="title">Goods</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;Category&gt; categories;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;Brand&gt; brands;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SearchResult</span><span class="params">(Long total, Integer totalPage, List&lt;Goods&gt; items, List&lt;Category&gt; categories, List&lt;Brand&gt; brands)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(total, totalPage, items);</span><br><span class="line">        <span class="keyword">this</span>.categories = categories;</span><br><span class="line">        <span class="keyword">this</span>.brands = brands;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-2-聚合商品分类和品牌"><a href="#2-2-聚合商品分类和品牌" class="headerlink" title="2.2.聚合商品分类和品牌"></a>2.2.聚合商品分类和品牌</h2><p>我们修改搜索的业务逻辑，对分类和品牌聚合。</p>
+<p>因为索引库中只有id，所以我们根据id聚合，然后再根据id去查询完整数据。</p>
+<p>所以，商品微服务需要提供一个接口：根据品牌id集合，批量查询品牌。</p>
+<h3 id="2-2-1-提供查询品牌接口"><a href="#2-2-1-提供查询品牌接口" class="headerlink" title="2.2.1.提供查询品牌接口"></a>2.2.1.提供查询品牌接口</h3><p>BrandApi</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"brand"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BrandApi</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"list"</span>)</span><br><span class="line">    <span class="function">List&lt;Brand&gt; <span class="title">queryBrandByIds</span><span class="params">(@RequestParam(<span class="string">"ids"</span>)</span> List&lt;Long&gt; ids)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>BrandController</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 根据多个id查询品牌</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> ids</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"list"</span>)</span><br><span class="line"><span class="keyword">public</span> ResponseEntity&lt;List&lt;Brand&gt;&gt; queryBrandByIds(<span class="meta">@RequestParam</span>(<span class="string">"ids"</span>) List&lt;Long&gt; ids)&#123;</span><br><span class="line">    List&lt;Brand&gt; list = <span class="keyword">this</span>.brandService.queryBrandByIds(ids);</span><br><span class="line">    <span class="keyword">if</span>(list == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ResponseEntity.ok(list);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>BrandService</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> List&lt;Brand&gt; <span class="title">queryBrandByIds</span><span class="params">(List&lt;Long&gt; ids)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.brandMapper.selectByIdList(ids);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>BrandMapper</p>
+<p>继承通用mapper的 <code>SelectByIdListMapper</code>即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BrandMapper</span> <span class="keyword">extends</span> <span class="title">Mapper</span>&lt;<span class="title">Brand</span>&gt;, <span class="title">SelectByIdListMapper</span>&lt;<span class="title">Brand</span>,<span class="title">Long</span>&gt; </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-2-搜索功能改造"><a href="#2-2-2-搜索功能改造" class="headerlink" title="2.2.2.搜索功能改造"></a>2.2.2.搜索功能改造</h3><p>添加BrandClient</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient</span>(<span class="string">"item-service"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BrandClient</span> <span class="keyword">extends</span> <span class="title">BrandApi</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>修改SearchService：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SearchService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> CategoryClient categoryClient;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> BrandClient brandClient;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> GoodClient goodClient;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> SpecificationClient specificationClient;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> GoodsRepository repository;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ElasticsearchTemplate template;</span><br><span class="line">&#125;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> PageResult&lt;Goods&gt; <span class="title">search</span><span class="params">(SearchRequest request)</span> </span>&#123;</span><br><span class="line">        Integer page = request.getPage() - <span class="number">1</span>;</span><br><span class="line">        Integer size = request.getSize();</span><br><span class="line">        <span class="comment">//创建查询构建器</span></span><br><span class="line">        NativeSearchQueryBuilder queryBuilder = <span class="keyword">new</span> NativeSearchQueryBuilder();</span><br><span class="line">        <span class="comment">//过滤</span></span><br><span class="line">        queryBuilder.withSourceFilter(<span class="keyword">new</span> FetchSourceFilter(<span class="keyword">new</span> String[]&#123;<span class="string">"id"</span>,<span class="string">"skus"</span>,<span class="string">"subTitle"</span>&#125;, <span class="keyword">null</span>));</span><br><span class="line">        <span class="comment">//分页</span></span><br><span class="line">        queryBuilder.withPageable(PageRequest.of(page,size));</span><br><span class="line">        <span class="comment">//过滤</span></span><br><span class="line">        <span class="comment">//queryBuilder.withQuery(QueryBuilders.matchQuery("all",request.getKey()));</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//排序</span></span><br><span class="line">        String sortBy = request.getSortBy();</span><br><span class="line">        Boolean desc = request.getDescending();</span><br><span class="line">        <span class="keyword">if</span> (StringUtils.isNotBlank(sortBy))&#123;</span><br><span class="line">            queryBuilder.withSort(SortBuilders.fieldSort(sortBy).order(desc? SortOrder.DESC :SortOrder.ASC));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//聚合分类和品牌</span></span><br><span class="line">        <span class="comment">//聚合分类</span></span><br><span class="line">        String categoryAggName = <span class="string">"category_agg"</span>;</span><br><span class="line">        queryBuilder.addAggregation(AggregationBuilders.terms(categoryAggName).field(<span class="string">"cid3"</span>));</span><br><span class="line">        <span class="comment">//聚合品牌</span></span><br><span class="line">        String brandAggName = <span class="string">"brand_agg"</span>;</span><br><span class="line">        queryBuilder.addAggregation(AggregationBuilders.terms(brandAggName).field(<span class="string">"brandId"</span>));</span><br><span class="line">        AggregatedPage&lt;Goods&gt; pageInfo = (AggregatedPage&lt;Goods&gt;) <span class="keyword">this</span>.repository.search(queryBuilder.build());</span><br><span class="line"></span><br><span class="line">        <span class="comment">//查询</span></span><br><span class="line">        <span class="comment">//Page&lt;Goods&gt; result = repository.search(queryBuilder.build());</span></span><br><span class="line">        AggregatedPage&lt;Goods&gt; result = template.queryForPage(queryBuilder.build(),Goods.class);</span><br><span class="line">        <span class="comment">//解析结果</span></span><br><span class="line">        <span class="comment">//解析分页结果</span></span><br><span class="line">        <span class="keyword">long</span> total = result.getTotalElements();</span><br><span class="line">        Integer totalPage =result.getTotalPages();</span><br><span class="line">        List&lt;Goods&gt; goodsList = result.getContent();</span><br><span class="line">       <span class="comment">// return new PageResult&lt;&gt;(total, totalPage, goodsList);</span></span><br><span class="line">        <span class="comment">//解析聚合结果</span></span><br><span class="line">        Aggregations aggs = result.getAggregations();</span><br><span class="line">      <span class="comment">//List&lt;Category&gt; categories =parseBrandAgg(pageInfo.getAggregation(categoryAggName));</span></span><br><span class="line">         List&lt;Category&gt; categories =parseCategoryAgg(aggs.get(categoryAggName));</span><br><span class="line">        List&lt;Brand&gt; brands = parseBrandAgg(aggs.get(brandAggName));</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SearchResult(total,totalPage,goodsList,categories,brands);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> List&lt;Brand&gt; <span class="title">parseBrandAgg</span><span class="params">(LongTerms terms)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            List&lt;Long&gt; ids = terms.getBuckets()</span><br><span class="line">                    .stream().map(b -&gt; b.getKeyAsNumber()</span><br><span class="line">                            .longValue()).collect(Collectors.toList());</span><br><span class="line">            List&lt;Brand&gt; brands = brandClient.queryBrandByIds(ids);</span><br><span class="line">            <span class="keyword">return</span> brands;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> List&lt;Category&gt; <span class="title">parseCategoryAgg</span><span class="params">(LongTerms terms)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            List&lt;Long&gt; ids = terms.getBuckets()</span><br><span class="line">                    .stream().map(b -&gt; b.getKeyAsNumber()</span><br><span class="line">                            .longValue()).collect(Collectors.toList());</span><br><span class="line">            List&lt;Category&gt; categories = categoryClient.queryCategoryByIds(ids);</span><br><span class="line">            <span class="keyword">return</span> categories;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>测试：</p>
+<p> <img src="http://img.smallmartial.cn/1526741462666.png" alt="1526741462666"></p>
+<h2 id="2-3-页面渲染数据"><a href="#2-3-页面渲染数据" class="headerlink" title="2.3.页面渲染数据"></a>2.3.页面渲染数据</h2><h3 id="2-3-1-过滤参数数据结构"><a href="#2-3-1-过滤参数数据结构" class="headerlink" title="2.3.1.过滤参数数据结构"></a>2.3.1.过滤参数数据结构</h3><p>来看下页面的展示效果：</p>
+<p> <img src="http://img.smallmartial.cn/1526742664217.png" alt="1526742664217"></p>
+<p>虽然分类、品牌内容都不太一样，但是结构相似，都是key和value的结构。</p>
+<p>而且页面结构也极为类似：</p>
+<p> <img src="http://img.smallmartial.cn/1526742817804.png" alt="1526742817804"></p>
+<p>所以，我们可以把所有的过滤条件放入一个<code>数组</code>中，然后在页面利用<code>v-for</code>遍历一次生成。</p>
+<p>其基本结构是这样的：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        k:<span class="string">"过滤字段名"</span>,</span><br><span class="line">        options:[&#123;<span class="comment">/*过滤字段值对象*/</span>&#125;,&#123;<span class="comment">/*过滤字段值对象*/</span>&#125;]</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>我们先在data中定义数组，等待组装过滤参数：</p>
+<p> <img src="http://img.smallmartial.cn/1526803067480.png" alt="1526803067480"></p>
+<p>然后在查询搜索结果的回调函数中，对过滤参数进行封装：</p>
+<p> <img src="http://img.smallmartial.cn/1530442270378.png" alt="1530442270378"></p>
+<p>然后刷新页面，通过浏览器工具，查看封装的结果：</p>
+<p> <img src="http://img.smallmartial.cn/1530442355920.png" alt="1530442355920"></p>
+<h3 id="2-3-2-页面渲染数据"><a href="#2-3-2-页面渲染数据" class="headerlink" title="2.3.2.页面渲染数据"></a>2.3.2.页面渲染数据</h3><p>首先看页面原来的代码：</p>
+<p> <img src="http://img.smallmartial.cn/1526803362517.png" alt="1526803362517"></p>
+<p>我们注意到，虽然页面元素是一样的，但是品牌会比其它搜搜条件多出一些样式，因为品牌是以图片展示。需要进行特殊处理。数据展示是一致的，我们采用v-for处理：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-for</span>=<span class="string">"(f,i) in filters"</span> <span class="attr">:key</span>=<span class="string">"i"</span> <span class="attr">class</span>=<span class="string">"type-wrap"</span> <span class="attr">v-if</span>=<span class="string">"f.k !== 'brandId'"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"fl key"</span>&gt;</span>&#123;&#123;f.k === 'cid3' ? '分类' : f.k&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"fl value"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"type-list"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"(option,j) in f.options"</span> <span class="attr">:key</span>=<span class="string">"j"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript:void(0);"</span>&gt;</span>&#123;&#123;option.name&#125;&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"fl ext"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript:void(0);"</span> <span class="attr">class</span>=<span class="string">"sui-btn"</span>&gt;</span>多选<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"type-wrap logo"</span> <span class="attr">v-else</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"fl key brand"</span>&gt;</span>&#123;&#123;f.k&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"value logos"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"logo-list"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"(option,j) in f.options"</span> <span class="attr">:key</span>=<span class="string">"j"</span> <span class="attr">v-if</span>=<span class="string">"option.image"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">img</span> <span class="attr">:src</span>=<span class="string">"option.image"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">li</span> <span class="attr">style</span>=<span class="string">"text-align: center"</span> <span class="attr">v-else</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">a</span> <span class="attr">style</span>=<span class="string">"line-height: 30px; font-size: 12px"</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>&#123;&#123;option.name&#125;&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"fl ext"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript:void(0);"</span> <span class="attr">class</span>=<span class="string">"sui-btn"</span>&gt;</span>多选<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>结果：</p>
+<p><img src="http://img.smallmartial.cn/20190419200531.png" alt="1526804398051"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/java/" rel="tag"># java</a>
+          
+            <a href="/blog/tags/乐优商城/" rel="tag"># 乐优商城</a>
+          
+            <a href="/blog/tags/springboot/" rel="tag"># springboot</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2019/04/19/lyshop-15/" rel="next" title="乐优商城学习笔记十五-搜索微服务（三）">
+                <i class="fa fa-chevron-left"></i> 乐优商城学习笔记十五-搜索微服务（三）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2019/04/20/lyshop-17/" rel="prev" title="乐优商城学习笔记十七-搜索过滤（二）">
+                乐优商城学习笔记十七-搜索过滤（二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">小武</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives">
+              
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/blog/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/blog/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/blog/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/smallmartial" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-globe"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="豆瓣">
+                      
+                        <i class="fa fa-fw fa-globe"></i>豆瓣</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0-学习目标"><span class="nav-number">1.</span> <span class="nav-text">0.学习目标</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-过滤功能分析"><span class="nav-number">2.</span> <span class="nav-text">1.过滤功能分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-生成分类和品牌过滤"><span class="nav-number">3.</span> <span class="nav-text">2.生成分类和品牌过滤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-扩展返回的结果"><span class="nav-number">3.1.</span> <span class="nav-text">2.1.扩展返回的结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-聚合商品分类和品牌"><span class="nav-number">3.2.</span> <span class="nav-text">2.2.聚合商品分类和品牌</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-提供查询品牌接口"><span class="nav-number">3.2.1.</span> <span class="nav-text">2.2.1.提供查询品牌接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-搜索功能改造"><span class="nav-number">3.2.2.</span> <span class="nav-text">2.2.2.搜索功能改造</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-页面渲染数据"><span class="nav-number">3.3.</span> <span class="nav-text">2.3.页面渲染数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-1-过滤参数数据结构"><span class="nav-number">3.3.1.</span> <span class="nav-text">2.3.1.过滤参数数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2-页面渲染数据"><span class="nav-number">3.3.2.</span> <span class="nav-text">2.3.2.页面渲染数据</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小武</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("wVtY9vYudJ7sIqDYeIQpLXhk-gzGzoHsz", "1jpXi8YPzcRJN87pX2KJQCBP");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
