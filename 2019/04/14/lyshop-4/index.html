@@ -467,11 +467,11 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf fastdfs-nginx-module_v1.16.tar.gz</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>配置config文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 进入配置目录</span><br><span class="line">cd /home/ubuntu/leyou/fdfs/fastdfs-nginx-module/src/</span><br><span class="line"><span class="meta">#</span> 修改配置</span><br><span class="line">vim config</span><br><span class="line"><span class="meta">#</span> 执行下面命令（将配置中的/usr/local改为/usr）：</span><br><span class="line">:%s+/usr/local/+/usr/+g</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 进入配置目录</span></span><br><span class="line">cd /home/ubuntu/leyou/fdfs/fastdfs-nginx-module/src/</span><br><span class="line"><span class="meta">#</span><span class="bash"> 修改配置</span></span><br><span class="line">vim config</span><br><span class="line"><span class="meta">#</span><span class="bash"> 执行下面命令（将配置中的/usr/<span class="built_in">local</span>改为/usr）：</span></span><br><span class="line">:%s+/usr/local/+/usr/+g</span><br></pre></td></tr></table></figure>
 <p>​</p>
 </li>
 <li><p>配置mod_fastdfs.conf</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 将src目录下的mod_fastdfs.conf复制到 /etc/fdfs目录：</span><br><span class="line">sudo cp mod_fastdfs.conf /etc/fdfs/</span><br><span class="line"><span class="meta">#</span> 编辑该文件</span><br><span class="line">sudo vim /etc/fdfs/mod_fastdfs.cof</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 将src目录下的mod_fastdfs.conf复制到 /etc/fdfs目录：</span></span><br><span class="line">sudo cp mod_fastdfs.conf /etc/fdfs/</span><br><span class="line"><span class="meta">#</span><span class="bash"> 编辑该文件</span></span><br><span class="line">sudo vim /etc/fdfs/mod_fastdfs.cof</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>修改一下配置：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">connect_timeout=10                  		# 客户端访问文件连接超时时长（单位：秒）</span><br><span class="line">tracker_server=192.168.56.101:22122  	# tracker服务IP和端口</span><br><span class="line">url_have_group_name=true            		# 访问链接前缀加上组名</span><br><span class="line">store_path0=/leyou/fdfs/storage        		# 文件存储路径</span><br></pre></td></tr></table></figure>
@@ -639,7 +639,7 @@
               
                 <a href="/blog/archives">
               
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -661,7 +661,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/blog/tags/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
