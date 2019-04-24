@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,乐优商城,springboot,">
+
+
+
+
+
+  <link rel="alternate" href="/blog/atom.xml" title="smallmartial's blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="5.发送短信功能短信微服务已经准备好，我们就可以继续编写用户中心接口了。 5.1.接口说明 这里的业务逻辑是这样的：  1）我们接收页面发送来的手机号码 2）生成一个随机验证码 3）将验证码保存在服务端 4）发送短信，将验证码发送到用户手机  那么问题来了：验证码保存在哪里呢？ 验证码有一定有效期，一般是5分钟，我们可以利用Redis的过期机制来保存。 5.2.Redis5.2.2.Spring">
+<meta name="keywords" content="java,乐优商城,springboot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="乐优商城学习笔记二十三-用户注册（二）">
+<meta property="og:url" content="https://github.com/smallmartial/blog.git/2019/04/24/lyshop-24/index.html">
+<meta property="og:site_name" content="smallmartial&#39;s blog">
+<meta property="og:description" content="5.发送短信功能短信微服务已经准备好，我们就可以继续编写用户中心接口了。 5.1.接口说明 这里的业务逻辑是这样的：  1）我们接收页面发送来的手机号码 2）生成一个随机验证码 3）将验证码保存在服务端 4）发送短信，将验证码发送到用户手机  那么问题来了：验证码保存在哪里呢？ 验证码有一定有效期，一般是5分钟，我们可以利用Redis的过期机制来保存。 5.2.Redis5.2.2.Spring">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://img.smallmartial.cn/1527238127932.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1527250056698.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1527250218215.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1527256139407.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1527240486327.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1527240610713.png">
+<meta property="og:image" content="http://img.smallmartial.cn/212312314.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1527240855176.png">
+<meta property="og:image" content="http://img.smallmartial.cn/20190423165545.png">
+<meta property="og:image" content="http://img.smallmartial.cn/20190423165612.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1527244265451.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1527244393041.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1527247334410.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1527247422251.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1527247492172.png">
+<meta property="og:image" content="http://img.smallmartial.cn/20190423165912.png">
+<meta property="og:updated_time" content="2019-04-24T11:15:28.327Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="乐优商城学习笔记二十三-用户注册（二）">
+<meta name="twitter:description" content="5.发送短信功能短信微服务已经准备好，我们就可以继续编写用户中心接口了。 5.1.接口说明 这里的业务逻辑是这样的：  1）我们接收页面发送来的手机号码 2）生成一个随机验证码 3）将验证码保存在服务端 4）发送短信，将验证码发送到用户手机  那么问题来了：验证码保存在哪里呢？ 验证码有一定有效期，一般是5分钟，我们可以利用Redis的过期机制来保存。 5.2.Redis5.2.2.Spring">
+<meta name="twitter:image" content="http://img.smallmartial.cn/1527238127932.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/smallmartial/blog.git/2019/04/24/lyshop-24/">
+
+
+
+
+
+  <title>乐优商城学习笔记二十三-用户注册（二） | smallmartial's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">smallmartial's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-首页"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-作者简介"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-标签"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-分类"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/smallmartial/blog.git/blog/2019/04/24/lyshop-24/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小武">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="smallmartial's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">乐优商城学习笔记二十三-用户注册（二）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-24T18:25:58+08:00">
+                2019-04-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/乐优商城/" itemprop="url" rel="index">
+                    <span itemprop="name">乐优商城</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/blog/2019/04/24/lyshop-24/" class="leancloud_visitors" data-flag-title="乐优商城学习笔记二十三-用户注册（二）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="5-发送短信功能"><a href="#5-发送短信功能" class="headerlink" title="5.发送短信功能"></a>5.发送短信功能</h1><p>短信微服务已经准备好，我们就可以继续编写用户中心接口了。</p>
+<h2 id="5-1-接口说明"><a href="#5-1-接口说明" class="headerlink" title="5.1.接口说明"></a>5.1.接口说明</h2><p><img src="http://img.smallmartial.cn/1527238127932.png" alt="image"></p>
+<p>这里的业务逻辑是这样的：</p>
+<ul>
+<li>1）我们接收页面发送来的手机号码</li>
+<li>2）生成一个随机验证码</li>
+<li>3）将验证码保存在服务端</li>
+<li>4）发送短信，将验证码发送到用户手机</li>
+</ul>
+<p>那么问题来了：验证码保存在哪里呢？</p>
+<p>验证码有一定有效期，一般是5分钟，我们可以利用Redis的过期机制来保存。</p>
+<h2 id="5-2-Redis"><a href="#5-2-Redis" class="headerlink" title="5.2.Redis"></a>5.2.Redis</h2><h3 id="5-2-2-Spring-Data-Redis"><a href="#5-2-2-Spring-Data-Redis" class="headerlink" title="5.2.2.Spring Data Redis"></a>5.2.2.Spring Data Redis</h3><p>官网：<a href="http://projects.spring.io/spring-data-redis/" target="_blank" rel="noopener">http://projects.spring.io/spring-data-redis/</a></p>
+<p><img src="http://img.smallmartial.cn/1527250056698.png" alt="image">                                    </p>
+<p>Spring Data Redis，是Spring Data 家族的一部分。 对Jedis客户端进行了封装，与spring进行了整合。可以非常方便的来实现redis的配置和操作。 </p>
+<h3 id="5-2-3-RedisTemplate基本操作"><a href="#5-2-3-RedisTemplate基本操作" class="headerlink" title="5.2.3.RedisTemplate基本操作"></a>5.2.3.RedisTemplate基本操作</h3><p>Spring Data Redis 提供了一个工具类：RedisTemplate。里面封装了对于Redis的五种数据结构的各种操作，包括：</p>
+<ul>
+<li>redisTemplate.opsForValue() ：操作字符串</li>
+<li>redisTemplate.opsForHash() ：操作hash</li>
+<li>redisTemplate.opsForList()：操作list</li>
+<li>redisTemplate.opsForSet()：操作set</li>
+<li>redisTemplate.opsForZSet()：操作zset</li>
+</ul>
+<p>其它一些通用命令，如expire，可以通过redisTemplate.xx()来直接调用</p>
+<p>5种结构：</p>
+<ul>
+<li>String：等同于java中的，<code>Map&lt;String,String&gt;</code></li>
+<li>list：等同于java中的<code>Map&lt;String,List&lt;String&gt;&gt;</code></li>
+<li>set：等同于java中的<code>Map&lt;String,Set&lt;String&gt;&gt;</code></li>
+<li>sort_set：可排序的set</li>
+<li>hash：等同于java中的：`Map&lt;String,Map&lt;String,String&gt;&gt;</li>
+</ul>
+<h3 id="5-2-4-StringRedisTemplate"><a href="#5-2-4-StringRedisTemplate" class="headerlink" title="5.2.4.StringRedisTemplate"></a>5.2.4.StringRedisTemplate</h3><p>RedisTemplate在创建时，可以指定其泛型类型：</p>
+<ul>
+<li>K：代表key 的数据类型</li>
+<li>V: 代表value的数据类型</li>
+</ul>
+<p>注意：这里的类型不是Redis中存储的数据类型，而是Java中的数据类型，RedisTemplate会自动将Java类型转为Redis支持的数据类型：字符串、字节、二二进制等等。<br><img src="http://img.smallmartial.cn/1527250218215.png" alt="image"></p>
+<p>不过RedisTemplate默认会采用JDK自带的序列化（Serialize）来对对象进行转换。生成的数据十分庞大，因此一般我们都会指定key和value为String类型，这样就由我们自己把对象序列化为json字符串来存储即可。</p>
+<p>因为大部分情况下，我们都会使用key和value都为String的RedisTemplate，因此Spring就默认提供了这样一个实现：<br><img src="http://img.smallmartial.cn/1527256139407.png" alt="image"></p>
+<h3 id="5-2-5-测试"><a href="#5-2-5-测试" class="headerlink" title="5.2.5.测试"></a>5.2.5.测试</h3><p>我们在项目中编写一个测试案例：</p>
+<p>首先在项目中引入Redis启动器：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>然后在配置文件中指定Redis地址：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  redis:</span></span><br><span class="line"><span class="attr">    host:</span> <span class="number">192.168</span><span class="number">.56</span><span class="number">.101</span></span><br></pre></td></tr></table></figure>
+<p>然后就可以直接注入<code>StringRedisTemplate</code>对象了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</span><br><span class="line"><span class="meta">@SpringBootTest</span>(classes = LyUserService.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> StringRedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testRedis</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 存储数据</span></span><br><span class="line">        <span class="keyword">this</span>.redisTemplate.opsForValue().set(<span class="string">"key1"</span>, <span class="string">"value1"</span>);</span><br><span class="line">        <span class="comment">// 获取数据</span></span><br><span class="line">        String val = <span class="keyword">this</span>.redisTemplate.opsForValue().get(<span class="string">"key1"</span>);</span><br><span class="line">        System.out.println(<span class="string">"val = "</span> + val);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testRedis2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 存储数据，并指定剩余生命时间,5小时</span></span><br><span class="line">        <span class="keyword">this</span>.redisTemplate.opsForValue().set(<span class="string">"key2"</span>, <span class="string">"value2"</span>,</span><br><span class="line">                <span class="number">5</span>, TimeUnit.HOURS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testHash</span><span class="params">()</span></span>&#123;</span><br><span class="line">        BoundHashOperations&lt;String, Object, Object&gt; hashOps =</span><br><span class="line">                <span class="keyword">this</span>.redisTemplate.boundHashOps(<span class="string">"user"</span>);</span><br><span class="line">        <span class="comment">// 操作hash数据</span></span><br><span class="line">        hashOps.put(<span class="string">"name"</span>, <span class="string">"jack"</span>);</span><br><span class="line">        hashOps.put(<span class="string">"age"</span>, <span class="string">"21"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取单个数据</span></span><br><span class="line">        Object name = hashOps.get(<span class="string">"name"</span>);</span><br><span class="line">        System.out.println(<span class="string">"name = "</span> + name);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 获取所有数据</span></span><br><span class="line">        Map&lt;Object, Object&gt; map = hashOps.entries();</span><br><span class="line">        <span class="keyword">for</span> (Map.Entry&lt;Object, Object&gt; me : map.entrySet()) &#123;</span><br><span class="line">            System.out.println(me.getKey() + <span class="string">" : "</span> + me.getValue());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="5-3-controller"><a href="#5-3-controller" class="headerlink" title="5.3.controller"></a>5.3.controller</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 发送手机验证码</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> phone</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"code"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> ResponseEntity&lt;Void&gt; <span class="title">sendVerifyCode</span><span class="params">(String phone)</span> </span>&#123;</span><br><span class="line">    Boolean boo = <span class="keyword">this</span>.userService.sendVerifyCode(phone);</span><br><span class="line">    <span class="keyword">if</span> (boo == <span class="keyword">null</span> || !boo) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.INTERNAL_SERVER_ERROR);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.CREATED);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="5-4-service"><a href="#5-4-service" class="headerlink" title="5.4.service"></a>5.4.service</h2><p>这里的逻辑会稍微复杂：</p>
+<ul>
+<li>生成随机验证码</li>
+<li>将验证码保存到Redis中，用来在注册的时候验证</li>
+<li>发送验证码到<code>ly-sms-service</code>服务，发送短信</li>
+</ul>
+<p>因此，我们需要引入Redis和AMQP：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-amqp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>添加RabbitMQ和Redis配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  redis:</span></span><br><span class="line"><span class="attr">    host:</span> <span class="number">192.168</span><span class="number">.56</span><span class="number">.101</span></span><br><span class="line"><span class="attr">  rabbitmq:</span></span><br><span class="line"><span class="attr">    host:</span> <span class="number">192.168</span><span class="number">.56</span><span class="number">.101</span></span><br><span class="line"><span class="attr">    username:</span> <span class="string">leyou</span></span><br><span class="line"><span class="attr">    password:</span> <span class="string">leyou</span></span><br><span class="line"><span class="attr">    virtual-host:</span> <span class="string">/leyou</span></span><br><span class="line"><span class="attr">    template:</span></span><br><span class="line"><span class="attr">      retry:</span></span><br><span class="line"><span class="attr">        enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">        initial-interval:</span> <span class="number">10000</span><span class="string">ms</span></span><br><span class="line"><span class="attr">        max-interval:</span> <span class="number">210000</span><span class="string">ms</span></span><br><span class="line"><span class="attr">        multiplier:</span> <span class="number">2</span></span><br><span class="line"><span class="attr">    publisher-confirms:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>另外还要用到工具类，生成6位随机码，这个我们封装到了<code>ly-common</code>中，因此需要引入依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.leyou.common<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ly-common<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;leyou.latest.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>生成随机码的工具：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 生成指定位数的随机数字</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> len 随机数的位数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 生成的随机数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">generateCode</span><span class="params">(<span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">    len = Math.min(len, <span class="number">8</span>);</span><br><span class="line">    <span class="keyword">int</span> min = Double.valueOf(Math.pow(<span class="number">10</span>, len - <span class="number">1</span>)).intValue();</span><br><span class="line">    <span class="keyword">int</span> num = <span class="keyword">new</span> Random().nextInt(</span><br><span class="line">        Double.valueOf(Math.pow(<span class="number">10</span>, len + <span class="number">1</span>)).intValue() - <span class="number">1</span>) + min;</span><br><span class="line">    <span class="keyword">return</span> String.valueOf(num).substring(<span class="number">0</span>,len);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Service代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> StringRedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> AmqpTemplate amqpTemplate;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> String KEY_PREFIX = <span class="string">"user:code:phone:"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(UserService.class);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> Boolean <span class="title">sendVerifyCode</span><span class="params">(String phone)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 生成验证码</span></span><br><span class="line">    String code = NumberUtils.generateCode(<span class="number">6</span>);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 发送短信</span></span><br><span class="line">        Map&lt;String, String&gt; msg = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        msg.put(<span class="string">"phone"</span>, phone);</span><br><span class="line">        msg.put(<span class="string">"code"</span>, code);</span><br><span class="line">        <span class="keyword">this</span>.amqpTemplate.convertAndSend(<span class="string">"ly.sms.exchange"</span>, <span class="string">"sms.verify.code"</span>, msg);</span><br><span class="line">        <span class="comment">// 将code存入redis</span></span><br><span class="line">        <span class="keyword">this</span>.redisTemplate.opsForValue().set(KEY_PREFIX + phone, code, <span class="number">5</span>, TimeUnit.MINUTES);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        logger.error(<span class="string">"发送短信失败。phone：&#123;&#125;， code：&#123;&#125;"</span>, phone, code);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：要设置短信验证码在Redis的缓存时间为5分钟</p>
+<h2 id="5-5-测试"><a href="#5-5-测试" class="headerlink" title="5.5.测试"></a>5.5.测试</h2><p>通过RestClient发送请求试试：</p>
+<p><img src="http://img.smallmartial.cn/1527240486327.png" alt="image"></p>
+<p>查看Redis中的数据：</p>
+<p> <img src="http://img.smallmartial.cn/1527240610713.png" alt="image"></p>
+<p>查看短信：</p>
+<p><img src="http://img.smallmartial.cn/212312314.png" alt="image"></p>
+<h1 id="6-注册功能"><a href="#6-注册功能" class="headerlink" title="6.注册功能"></a>6.注册功能</h1><h2 id="6-1-接口说明"><a href="#6-1-接口说明" class="headerlink" title="6.1.接口说明"></a>6.1.接口说明</h2><p><img src="http://img.smallmartial.cn/1527240855176.png" alt="image"></p>
+<h2 id="6-2-controller"><a href="#6-2-controller" class="headerlink" title="6.2.controller"></a>6.2.controller</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 注册</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> user</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> code</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@PostMapping</span>(<span class="string">"register"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> ResponseEntity&lt;Void&gt; <span class="title">register</span><span class="params">(User user, @RequestParam(<span class="string">"code"</span>)</span> String code) </span>&#123;</span><br><span class="line">    Boolean boo = <span class="keyword">this</span>.userService.register(user, code);</span><br><span class="line">    <span class="keyword">if</span> (boo == <span class="keyword">null</span> || !boo) &#123;</span><br><span class="line">        <span class="keyword">return</span> ResponseEntity.status(HttpStatus.BAD_REQUEST).build();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.CREATED);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="6-3-service"><a href="#6-3-service" class="headerlink" title="6.3.service"></a>6.3.service</h2><p>基本逻辑：</p>
+<ul>
+<li>1）校验短信验证码</li>
+<li>2）生成盐</li>
+<li>3）对密码加密</li>
+<li>4）写入数据库</li>
+<li>5）删除Redis中的验证码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Boolean <span class="title">register</span><span class="params">(User user, String code)</span> </span>&#123;</span><br><span class="line">    String key = KEY_PREFIX + user.getPhone();</span><br><span class="line">    <span class="comment">// 从redis取出验证码</span></span><br><span class="line">    String codeCache = <span class="keyword">this</span>.redisTemplate.opsForValue().get(key);</span><br><span class="line">    <span class="comment">// 检查验证码是否正确</span></span><br><span class="line">    <span class="keyword">if</span> (!code.equals(codeCache)) &#123;</span><br><span class="line">        <span class="comment">// 不正确，返回</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    user.setId(<span class="keyword">null</span>);</span><br><span class="line">    user.setCreated(<span class="keyword">new</span> Date());</span><br><span class="line">    <span class="comment">// 生成盐</span></span><br><span class="line">    String salt = CodecUtils.generateSalt();</span><br><span class="line">    user.setSalt(salt);</span><br><span class="line">    <span class="comment">// 对密码进行加密</span></span><br><span class="line">    user.setPassword(CodecUtils.md5Hex(user.getPassword(), salt));</span><br><span class="line">    <span class="comment">// 写入数据库</span></span><br><span class="line">    <span class="keyword">boolean</span> boo = <span class="keyword">this</span>.userMapper.insertSelective(user) == <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果注册成功，删除redis中的code</span></span><br><span class="line">    <span class="keyword">if</span> (boo) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>.redisTemplate.delete(key);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            logger.error(<span class="string">"删除缓存验证码失败，code：&#123;&#125;"</span>, code, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> boo;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="6-4-测试"><a href="#6-4-测试" class="headerlink" title="6.4.测试"></a>6.4.测试</h2><p>我们通过在注册页面测试：</p>
+<p><img src="http://img.smallmartial.cn/20190423165545.png" alt="image"></p>
+<p>查看数据库：<br><img src="http://img.smallmartial.cn/20190423165612.png" alt="image"></p>
+<h2 id="6-5-服务端数据校验"><a href="#6-5-服务端数据校验" class="headerlink" title="6.5.服务端数据校验"></a>6.5.服务端数据校验</h2><p>刚才虽然实现了注册，但是服务端并没有进行数据校验，而前端的校验是很容易被有心人绕过的。所以我们必须在后台添加数据校验功能：</p>
+<p>我们这里会使用Hibernate-Validator框架完成数据校验：</p>
+<p>而SpringBoot的web启动器中已经集成了相关依赖：</p>
+<p><img src="http://img.smallmartial.cn/1527244265451.png" alt="image"></p>
+<h3 id="6-5-1-什么是Hibernate-Validator"><a href="#6-5-1-什么是Hibernate-Validator" class="headerlink" title="6.5.1.什么是Hibernate Validator"></a>6.5.1.什么是Hibernate Validator</h3><p>Hibernate Validator是Hibernate提供的一个开源框架，使用注解方式非常方便的实现服务端的数据校验。</p>
+<p>官网：<a href="http://hibernate.org/validator/" target="_blank" rel="noopener">http://hibernate.org/validator/</a></p>
+<p><img src="http://img.smallmartial.cn/1527244393041.png" alt="image"></p>
+<p><strong>hibernate Validator</strong> 是 Bean Validation 的参考实现 。</p>
+<p>Hibernate Validator 提供了 JSR 303 规范中所有内置 constraint（约束） 的实现，除此之外还有一些附加的 constraint。</p>
+<p>在日常开发中，Hibernate Validator经常用来验证bean的字段，基于注解，方便快捷高效。</p>
+<h3 id="6-5-2-Bean校验的注解"><a href="#6-5-2-Bean校验的注解" class="headerlink" title="6.5.2.Bean校验的注解"></a>6.5.2.Bean校验的注解</h3><p>常用注解如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>Constraint</strong></th>
+<th><strong>详细信息</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>@Valid</strong></td>
+<td>被注释的元素是一个对象，需要检查此对象的所有字段值</td>
+</tr>
+<tr>
+<td><strong>@Null</strong></td>
+<td>被注释的元素必须为 null</td>
+</tr>
+<tr>
+<td><strong>@NotNull</strong></td>
+<td>被注释的元素必须不为 null</td>
+</tr>
+<tr>
+<td><strong>@AssertTrue</strong></td>
+<td>被注释的元素必须为 true</td>
+</tr>
+<tr>
+<td><strong>@AssertFalse</strong></td>
+<td>被注释的元素必须为 false</td>
+</tr>
+<tr>
+<td><strong>@Min(value)</strong></td>
+<td>被注释的元素必须是一个数字，其值必须大于等于指定的最小值</td>
+</tr>
+<tr>
+<td><strong>@Max(value)</strong></td>
+<td>被注释的元素必须是一个数字，其值必须小于等于指定的最大值</td>
+</tr>
+<tr>
+<td><strong>@DecimalMin(value)</strong></td>
+<td>被注释的元素必须是一个数字，其值必须大于等于指定的最小值</td>
+</tr>
+<tr>
+<td><strong>@DecimalMax(value)</strong></td>
+<td>被注释的元素必须是一个数字，其值必须小于等于指定的最大值</td>
+</tr>
+<tr>
+<td><strong>@Size(max,   min)</strong></td>
+<td>被注释的元素的大小必须在指定的范围内</td>
+</tr>
+<tr>
+<td><strong>@Digits   (integer, fraction)</strong></td>
+<td>被注释的元素必须是一个数字，其值必须在可接受的范围内</td>
+</tr>
+<tr>
+<td><strong>@Past</strong></td>
+<td>被注释的元素必须是一个过去的日期</td>
+</tr>
+<tr>
+<td><strong>@Future</strong></td>
+<td>被注释的元素必须是一个将来的日期</td>
+</tr>
+<tr>
+<td><strong>@Pattern(value)</strong></td>
+<td>被注释的元素必须符合指定的正则表达式</td>
+</tr>
+<tr>
+<td><strong>@Email</strong></td>
+<td>被注释的元素必须是电子邮箱地址</td>
+</tr>
+<tr>
+<td><strong>@Length</strong></td>
+<td>被注释的字符串的大小必须在指定的范围内</td>
+</tr>
+<tr>
+<td><strong>@NotEmpty</strong></td>
+<td>被注释的字符串的必须非空</td>
+</tr>
+<tr>
+<td><strong>@Range</strong></td>
+<td>被注释的元素必须在合适的范围内</td>
+</tr>
+<tr>
+<td><strong>@NotBlank</strong></td>
+<td>被注释的字符串的必须非空</td>
+</tr>
+<tr>
+<td><strong>@URL(protocol=,host=,   port=,regexp=, flags=)</strong></td>
+<td>被注释的字符串必须是一个有效的url</td>
+</tr>
+<tr>
+<td><strong>@CreditCardNumber</strong></td>
+<td>被注释的字符串必须通过Luhn校验算法，银行卡，信用卡等号码一般都用Luhn计算合法性</td>
+</tr>
+</tbody>
+</table>
+<h3 id="6-5-3-给User添加校验"><a href="#6-5-3-给User添加校验" class="headerlink" title="6.5.3.给User添加校验"></a>6.5.3.给User添加校验</h3><p>我们在<code>ly-user-interface</code>中添加Hibernate-Validator依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.hibernate.validator<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hibernate-validator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>我们在User对象的部分属性上添加注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Table</span>(name = <span class="string">"tb_user"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@GeneratedValue</span>(strategy = GenerationType.IDENTITY)</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="meta">@Length</span>(min = <span class="number">4</span>, max = <span class="number">30</span>, message = <span class="string">"用户名只能在4~30位之间"</span>)</span><br><span class="line">    <span class="keyword">private</span> String username;<span class="comment">// 用户名</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@JsonIgnore</span></span><br><span class="line">    <span class="meta">@Length</span>(min = <span class="number">4</span>, max = <span class="number">30</span>, message = <span class="string">"用户名只能在4~30位之间"</span>)</span><br><span class="line">    <span class="keyword">private</span> String password;<span class="comment">// 密码</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Pattern</span>(regexp = <span class="string">"^1[35678]\\d&#123;9&#125;$"</span>, message = <span class="string">"手机号格式不正确"</span>)</span><br><span class="line">    <span class="keyword">private</span> String phone;<span class="comment">// 电话</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Date created;<span class="comment">// 创建时间</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@JsonIgnore</span></span><br><span class="line">    <span class="keyword">private</span> String salt;<span class="comment">// 密码的盐值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="6-5-4-在controller上进行控制"><a href="#6-5-4-在controller上进行控制" class="headerlink" title="6.5.4.在controller上进行控制"></a>6.5.4.在controller上进行控制</h3><p>在controller中只需要给User添加 @Valid注解即可。</p>
+<p><img src="http://img.smallmartial.cn/1527247334410.png" alt="image"></p>
+<h3 id="6-5-5-测试"><a href="#6-5-5-测试" class="headerlink" title="6.5.5.测试"></a>6.5.5.测试</h3><p>我们故意填错：</p>
+<p><img src="http://img.smallmartial.cn/1527247422251.png" alt="image"></p>
+<p>然后SpringMVC会自动返回错误信息：</p>
+<p><img src="http://img.smallmartial.cn/1527247492172.png" alt="image"></p>
+<h1 id="7-根据用户名和密码查询用户"><a href="#7-根据用户名和密码查询用户" class="headerlink" title="7.根据用户名和密码查询用户"></a>7.根据用户名和密码查询用户</h1><h2 id="7-1-接口说明"><a href="#7-1-接口说明" class="headerlink" title="7.1.接口说明"></a>7.1.接口说明</h2><h3 id="功能说明"><a href="#功能说明" class="headerlink" title="功能说明"></a>功能说明</h3><p>查询功能，根据参数中的用户名和密码查询指定用户</p>
+<h3 id="接口路径"><a href="#接口路径" class="headerlink" title="接口路径"></a>接口路径</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /query</span><br></pre></td></tr></table></figure>
+<h3 id="参数说明："><a href="#参数说明：" class="headerlink" title="参数说明："></a>参数说明：</h3><p>form表单格式</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>是否必须</th>
+<th>数据类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>username</td>
+<td>用户名，格式为4~30位字母、数字、下划线</td>
+<td>是</td>
+<td>String</td>
+<td>无</td>
+</tr>
+<tr>
+<td>password</td>
+<td>用户密码，格式为4~30位字母、数字、下划线</td>
+<td>是</td>
+<td>String</td>
+<td>无</td>
+</tr>
+</tbody>
+</table>
+<h3 id="返回结果："><a href="#返回结果：" class="headerlink" title="返回结果："></a>返回结果：</h3><p>用户的json格式数据</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"id"</span>: <span class="number">6572312</span>,</span><br><span class="line">    <span class="attr">"username"</span>:<span class="string">"test"</span>,</span><br><span class="line">    <span class="attr">"phone"</span>:<span class="string">"13688886666"</span>,</span><br><span class="line">    <span class="attr">"created"</span>: <span class="number">1342432424</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>状态码：</p>
+<ul>
+<li>200：注册成功</li>
+<li>400：用户名或密码错误</li>
+<li>500：服务器内部异常，注册失败</li>
+</ul>
+<h2 id="7-2-controller"><a href="#7-2-controller" class="headerlink" title="7.2.controller"></a>7.2.controller</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 根据用户名和密码查询用户</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> username</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> password</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"query"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> ResponseEntity&lt;User&gt; <span class="title">queryUser</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    @RequestParam(<span class="string">"username"</span>)</span> String username,</span></span><br><span class="line"><span class="function">    @<span class="title">RequestParam</span><span class="params">(<span class="string">"password"</span>)</span> String password</span></span><br><span class="line"><span class="function">    ) </span>&#123;</span><br><span class="line">        User user = <span class="keyword">this</span>.userService.queryUser(username, password);</span><br><span class="line">        <span class="keyword">if</span> (user == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> ResponseEntity.status(HttpStatus.BAD_REQUEST).build();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ResponseEntity.ok(user);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="7-3-service"><a href="#7-3-service" class="headerlink" title="7.3.service"></a>7.3.service</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> User <span class="title">queryUser</span><span class="params">(String username, String password)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 查询</span></span><br><span class="line">    User record = <span class="keyword">new</span> User();</span><br><span class="line">    record.setUsername(username);</span><br><span class="line">    User user = <span class="keyword">this</span>.userMapper.selectOne(record);</span><br><span class="line">    <span class="comment">// 校验用户名</span></span><br><span class="line">    <span class="keyword">if</span> (user == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 校验密码</span></span><br><span class="line">    <span class="keyword">if</span> (!user.getPassword().equals(CodecUtils.md5Hex(password, user.getSalt()))) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 用户名密码都正确</span></span><br><span class="line">    <span class="keyword">return</span> user;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>要注意，查询时也要对密码进行加密后判断是否一致。</p>
+<h2 id="7-4-测试"><a href="#7-4-测试" class="headerlink" title="7.4.测试"></a>7.4.测试</h2><p><img src="http://img.smallmartial.cn/20190423165912.png" alt="image"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/java/" rel="tag"># java</a>
+          
+            <a href="/blog/tags/乐优商城/" rel="tag"># 乐优商城</a>
+          
+            <a href="/blog/tags/springboot/" rel="tag"># springboot</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2019/04/23/lyshop-23/" rel="next" title="乐优商城学习笔记二十二-用户注册（一）">
+                <i class="fa fa-chevron-left"></i> 乐优商城学习笔记二十二-用户注册（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">小武</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives">
+              
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/blog/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/blog/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/blog/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/smallmartial" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-globe"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="豆瓣">
+                      
+                        <i class="fa fa-fw fa-globe"></i>豆瓣</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#5-发送短信功能"><span class="nav-number">1.</span> <span class="nav-text">5.发送短信功能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-接口说明"><span class="nav-number">1.1.</span> <span class="nav-text">5.1.接口说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-Redis"><span class="nav-number">1.2.</span> <span class="nav-text">5.2.Redis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-2-Spring-Data-Redis"><span class="nav-number">1.2.1.</span> <span class="nav-text">5.2.2.Spring Data Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-3-RedisTemplate基本操作"><span class="nav-number">1.2.2.</span> <span class="nav-text">5.2.3.RedisTemplate基本操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-4-StringRedisTemplate"><span class="nav-number">1.2.3.</span> <span class="nav-text">5.2.4.StringRedisTemplate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-5-测试"><span class="nav-number">1.2.4.</span> <span class="nav-text">5.2.5.测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-controller"><span class="nav-number">1.3.</span> <span class="nav-text">5.3.controller</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-service"><span class="nav-number">1.4.</span> <span class="nav-text">5.4.service</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-5-测试"><span class="nav-number">1.5.</span> <span class="nav-text">5.5.测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-注册功能"><span class="nav-number">2.</span> <span class="nav-text">6.注册功能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-接口说明"><span class="nav-number">2.1.</span> <span class="nav-text">6.1.接口说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-controller"><span class="nav-number">2.2.</span> <span class="nav-text">6.2.controller</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-service"><span class="nav-number">2.3.</span> <span class="nav-text">6.3.service</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-4-测试"><span class="nav-number">2.4.</span> <span class="nav-text">6.4.测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-5-服务端数据校验"><span class="nav-number">2.5.</span> <span class="nav-text">6.5.服务端数据校验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-5-1-什么是Hibernate-Validator"><span class="nav-number">2.5.1.</span> <span class="nav-text">6.5.1.什么是Hibernate Validator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-5-2-Bean校验的注解"><span class="nav-number">2.5.2.</span> <span class="nav-text">6.5.2.Bean校验的注解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-5-3-给User添加校验"><span class="nav-number">2.5.3.</span> <span class="nav-text">6.5.3.给User添加校验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-5-4-在controller上进行控制"><span class="nav-number">2.5.4.</span> <span class="nav-text">6.5.4.在controller上进行控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-5-5-测试"><span class="nav-number">2.5.5.</span> <span class="nav-text">6.5.5.测试</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-根据用户名和密码查询用户"><span class="nav-number">3.</span> <span class="nav-text">7.根据用户名和密码查询用户</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-1-接口说明"><span class="nav-number">3.1.</span> <span class="nav-text">7.1.接口说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#功能说明"><span class="nav-number">3.1.1.</span> <span class="nav-text">功能说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口路径"><span class="nav-number">3.1.2.</span> <span class="nav-text">接口路径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数说明："><span class="nav-number">3.1.3.</span> <span class="nav-text">参数说明：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#返回结果："><span class="nav-number">3.1.4.</span> <span class="nav-text">返回结果：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-controller"><span class="nav-number">3.2.</span> <span class="nav-text">7.2.controller</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-3-service"><span class="nav-number">3.3.</span> <span class="nav-text">7.3.service</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-4-测试"><span class="nav-number">3.4.</span> <span class="nav-text">7.4.测试</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小武</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("wVtY9vYudJ7sIqDYeIQpLXhk-gzGzoHsz", "1jpXi8YPzcRJN87pX2KJQCBP");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
