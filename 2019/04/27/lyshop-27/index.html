@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,乐优商城,springboot,">
+
+
+
+
+
+  <link rel="alternate" href="/blog/atom.xml" title="smallmartial's blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="4.已登录购物车接下来，我们完成已登录购物车。 在刚才的未登录购物车编写时，我们已经预留好了编写代码的位置，逻辑也基本一致。 4.1.添加登录校验购物车系统只负责登录状态的购物车处理，因此需要添加登录校验，我们通过JWT鉴权即可实现。 4.1.1.引入JWT相关依赖我们引入之前写的鉴权工具：ly-auth-common 12345&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;">
+<meta name="keywords" content="java,乐优商城,springboot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="乐优商城学习笔记二十五-购物车（一）">
+<meta property="og:url" content="https://github.com/smallmartial/blog.git/2019/04/27/lyshop-27/index.html">
+<meta property="og:site_name" content="smallmartial&#39;s blog">
+<meta property="og:description" content="4.已登录购物车接下来，我们完成已登录购物车。 在刚才的未登录购物车编写时，我们已经预留好了编写代码的位置，逻辑也基本一致。 4.1.添加登录校验购物车系统只负责登录状态的购物车处理，因此需要添加登录校验，我们通过JWT鉴权即可实现。 4.1.1.引入JWT相关依赖我们引入之前写的鉴权工具：ly-auth-common 12345&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://img.smallmartial.cn/1527775416855.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1527775487311.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1527775534467.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1531047750029.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1527776569221.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1527996579207.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1527776651321.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1527996642442.png">
+<meta property="og:image" content="http://img.smallmartial.cn/1527997061283.png">
+<meta property="og:updated_time" content="2019-04-27T00:42:26.822Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="乐优商城学习笔记二十五-购物车（一）">
+<meta name="twitter:description" content="4.已登录购物车接下来，我们完成已登录购物车。 在刚才的未登录购物车编写时，我们已经预留好了编写代码的位置，逻辑也基本一致。 4.1.添加登录校验购物车系统只负责登录状态的购物车处理，因此需要添加登录校验，我们通过JWT鉴权即可实现。 4.1.1.引入JWT相关依赖我们引入之前写的鉴权工具：ly-auth-common 12345&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;">
+<meta name="twitter:image" content="http://img.smallmartial.cn/1527775416855.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/smallmartial/blog.git/2019/04/27/lyshop-27/">
+
+
+
+
+
+  <title>乐优商城学习笔记二十五-购物车（一） | smallmartial's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">smallmartial's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-首页"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-作者简介"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-标签"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-分类"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/smallmartial/blog.git/blog/2019/04/27/lyshop-27/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="小武">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="smallmartial's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">乐优商城学习笔记二十五-购物车（一）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-27T08:36:09+08:00">
+                2019-04-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/乐优商城/" itemprop="url" rel="index">
+                    <span itemprop="name">乐优商城</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/blog/2019/04/27/lyshop-27/" class="leancloud_visitors" data-flag-title="乐优商城学习笔记二十五-购物车（一）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="4-已登录购物车"><a href="#4-已登录购物车" class="headerlink" title="4.已登录购物车"></a>4.已登录购物车</h1><p>接下来，我们完成已登录购物车。</p>
+<p>在刚才的未登录购物车编写时，我们已经预留好了编写代码的位置，逻辑也基本一致。</p>
+<h2 id="4-1-添加登录校验"><a href="#4-1-添加登录校验" class="headerlink" title="4.1.添加登录校验"></a>4.1.添加登录校验</h2><p>购物车系统只负责登录状态的购物车处理，因此需要添加登录校验，我们通过JWT鉴权即可实现。</p>
+<h3 id="4-1-1-引入JWT相关依赖"><a href="#4-1-1-引入JWT相关依赖" class="headerlink" title="4.1.1.引入JWT相关依赖"></a>4.1.1.引入JWT相关依赖</h3><p>我们引入之前写的鉴权工具：<code>ly-auth-common</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.leyou.service<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ly-auth-common<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-1-2-配置公钥"><a href="#4-1-2-配置公钥" class="headerlink" title="4.1.2.配置公钥"></a>4.1.2.配置公钥</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">ly:</span></span><br><span class="line"><span class="attr">  jwt:</span></span><br><span class="line"><span class="attr">    pubKeyPath:</span> <span class="attr">E:/nginx/rsa/rsa.pub</span> <span class="comment"># 公钥地址</span></span><br><span class="line"><span class="attr">    cookieName:</span> <span class="string">LY_TOKEN</span> <span class="comment"># cookie的名称</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-1-3-加载公钥"><a href="#4-1-3-加载公钥" class="headerlink" title="4.1.3.加载公钥"></a>4.1.3.加载公钥</h3><p> <img src="http://img.smallmartial.cn/1527775416855.png" alt="image"></p>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"ly.jwt"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JwtProperties</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String pubKeyPath;<span class="comment">// 公钥</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> PublicKey publicKey; <span class="comment">// 公钥</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String cookieName;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(JwtProperties.class);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostConstruct</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 获取公钥和私钥</span></span><br><span class="line">            <span class="keyword">this</span>.publicKey = RsaUtils.getPublicKey(pubKeyPath);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            logger.error(<span class="string">"初始化公钥失败！"</span>, e);</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getPubKeyPath</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> pubKeyPath;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPubKeyPath</span><span class="params">(String pubKeyPath)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.pubKeyPath = pubKeyPath;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> PublicKey <span class="title">getPublicKey</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> publicKey;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPublicKey</span><span class="params">(PublicKey publicKey)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.publicKey = publicKey;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getCookieName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> cookieName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCookieName</span><span class="params">(String cookieName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.cookieName = cookieName;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-1-4-编写过滤器"><a href="#4-1-4-编写过滤器" class="headerlink" title="4.1.4.编写过滤器"></a>4.1.4.编写过滤器</h3><p>因为很多接口都需要进行登录，我们直接编写SpringMVC拦截器，进行统一登录校验。同时，我们还要把解析得到的用户信息保存起来，以便后续的接口可以使用。</p>
+<p> <img src="http://img.smallmartial.cn/1527775487311.png" alt="image"></p>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginInterceptor</span> <span class="keyword">extends</span> <span class="title">HandlerInterceptorAdapter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> JwtProperties jwtProperties;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 定义一个线程域，存放登录用户</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ThreadLocal&lt;UserInfo&gt; tl = <span class="keyword">new</span> ThreadLocal&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LoginInterceptor</span><span class="params">(JwtProperties jwtProperties)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.jwtProperties = jwtProperties;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 查询token</span></span><br><span class="line">        String token = CookieUtils.getCookieValue(request, <span class="string">"LY_TOKEN"</span>);</span><br><span class="line">        <span class="keyword">if</span> (StringUtils.isBlank(token)) &#123;</span><br><span class="line">            <span class="comment">// 未登录,返回401</span></span><br><span class="line">            response.setStatus(HttpStatus.UNAUTHORIZED.value());</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 有token，查询用户信息</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 解析成功，证明已经登录</span></span><br><span class="line">            UserInfo user = JwtUtils.getInfoFromToken(token, jwtProperties.getPublicKey());</span><br><span class="line">            <span class="comment">// 放入线程域</span></span><br><span class="line">            tl.set(user);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">            <span class="comment">// 抛出异常，证明未登录,返回401</span></span><br><span class="line">            response.setStatus(HttpStatus.UNAUTHORIZED.value());</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterCompletion</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        tl.remove();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> UserInfo <span class="title">getLoginUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> tl.get();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li>这里我们使用了<code>ThreadLocal</code>来存储查询到的用户信息，线程内共享，因此请求到达<code>Controller</code>后可以共享User</li>
+<li>并且对外提供了静态的方法：<code>getLoginUser()</code>来获取User信息</li>
+</ul>
+<h3 id="4-1-5-配置过滤器"><a href="#4-1-5-配置过滤器" class="headerlink" title="4.1.5.配置过滤器"></a>4.1.5.配置过滤器</h3><p>配置SpringMVC，使过滤器生效：</p>
+<p> <img src="http://img.smallmartial.cn/1527775534467.png" alt="image"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties</span>(JwtProperties.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MvcConfig</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> JwtProperties jwtProperties;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> LoginInterceptor <span class="title">loginInterceptor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LoginInterceptor(jwtProperties);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">        registry.addInterceptor(loginInterceptor()).addPathPatterns(<span class="string">"/**"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4-2-后台购物车设计"><a href="#4-2-后台购物车设计" class="headerlink" title="4.2.后台购物车设计"></a>4.2.后台购物车设计</h2><h3 id="数据结构设计"><a href="#数据结构设计" class="headerlink" title="数据结构设计"></a>数据结构设计</h3><p>当用户登录时，我们需要把购物车数据保存到后台，可以选择保存在数据库。但是购物车是一个读写频率很高的数据。因此我们这里选择读写效率比较高的Redis作为购物车存储。</p>
+<p>Redis有5种不同数据结构，这里选择哪一种比较合适呢？</p>
+<ul>
+<li>首先不同用户应该有独立的购物车，因此购物车应该以用户的作为key来存储，Value是用户的所有购物车信息。这样看来基本的<code>k-v</code>结构就可以了。</li>
+<li>但是，我们对购物车中的商品进行增、删、改操作，基本都需要根据商品id进行判断，为了方便后期处理，我们的购物车也应该是<code>k-v</code>结构，key是商品id，value才是这个商品的购物车信息。</li>
+</ul>
+<p>综上所述，我们的购物车结构是一个双层Map：Map&lt;String,Map&lt;String,String&gt;&gt;</p>
+<ul>
+<li>第一层Map，Key是用户id</li>
+<li>第二层Map，Key是购物车中商品id，值是购物车数据</li>
+</ul>
+<h3 id="实体类"><a href="#实体类" class="headerlink" title="实体类"></a>实体类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Cart</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Long userId;<span class="comment">// 用户id</span></span><br><span class="line">    <span class="keyword">private</span> Long skuId;<span class="comment">// 商品id</span></span><br><span class="line">    <span class="keyword">private</span> String title;<span class="comment">// 标题</span></span><br><span class="line">    <span class="keyword">private</span> String image;<span class="comment">// 图片</span></span><br><span class="line">    <span class="keyword">private</span> Long price;<span class="comment">// 加入购物车时的价格</span></span><br><span class="line">    <span class="keyword">private</span> Integer num;<span class="comment">// 购买数量</span></span><br><span class="line">    <span class="keyword">private</span> String ownSpec;<span class="comment">// 商品规格参数</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Long <span class="title">getUserId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> userId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUserId</span><span class="params">(Long userId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.userId = userId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Long <span class="title">getSkuId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> skuId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSkuId</span><span class="params">(Long skuId)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.skuId = skuId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getTitle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> title;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTitle</span><span class="params">(String title)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.title = title;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getImage</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> image;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setImage</span><span class="params">(String image)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.image = image;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Long <span class="title">getPrice</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPrice</span><span class="params">(Long price)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.price = price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">getNum</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> num;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNum</span><span class="params">(Integer num)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.num = num;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getOwnSpec</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> ownSpec;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setOwnSpec</span><span class="params">(String ownSpec)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.ownSpec = ownSpec;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4-3-添加商品到购物车"><a href="#4-3-添加商品到购物车" class="headerlink" title="4.3.添加商品到购物车"></a>4.3.添加商品到购物车</h2><h3 id="4-3-1-页面发起请求："><a href="#4-3-1-页面发起请求：" class="headerlink" title="4.3.1.页面发起请求："></a>4.3.1.页面发起请求：</h3><p>已登录情况下，向后台添加购物车：</p>
+<p> <img src="http://img.smallmartial.cn/1531047750029.png" alt="image"></p>
+<p>这里发起的是Json请求。那么我们后台也要以json接收。</p>
+<h3 id="4-3-2-后台添加购物车"><a href="#4-3-2-后台添加购物车" class="headerlink" title="4.3.2.后台添加购物车"></a>4.3.2.后台添加购物车</h3><h4 id="controller"><a href="#controller" class="headerlink" title="controller"></a>controller</h4><p>先分析一下：</p>
+<ul>
+<li>请求方式：新增，肯定是Post</li>
+<li>请求路径：/cart ，这个其实是Zuul路由的路径，我们可以不管</li>
+<li>请求参数：Json对象，包含skuId和num属性</li>
+<li>返回结果：无</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CartController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> CartService cartService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 添加购物车</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PostMapping</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResponseEntity&lt;Void&gt; <span class="title">addCart</span><span class="params">(@RequestBody Cart cart)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.cartService.addCart(cart);</span><br><span class="line">        <span class="keyword">return</span> ResponseEntity.ok().build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h4><p>这里我们不访问数据库，而是直接操作Redis。基本思路：</p>
+<ul>
+<li>先查询之前的购物车数据</li>
+<li>判断要添加的商品是否存在<ul>
+<li>存在：则直接修改数量后写回Redis</li>
+<li>不存在：新建一条数据，然后写入Redis</li>
+</ul>
+</li>
+</ul>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CartService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> StringRedisTemplate redisTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> GoodsClient goodsClient;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> String KEY_PREFIX = <span class="string">"ly:cart:uid:"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(CartService.class);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addCart</span><span class="params">(Cart cart)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 获取登录用户</span></span><br><span class="line">        UserInfo user = LoginInterceptor.getLoginUser();</span><br><span class="line">        <span class="comment">// Redis的key</span></span><br><span class="line">        String key = KEY_PREFIX + user.getId();</span><br><span class="line">        <span class="comment">// 获取hash操作对象</span></span><br><span class="line">        BoundHashOperations&lt;String, Object, Object&gt; hashOps = <span class="keyword">this</span>.redisTemplate.boundHashOps(key);</span><br><span class="line">        <span class="comment">// 查询是否存在</span></span><br><span class="line">        Long skuId = cart.getSkuId();</span><br><span class="line">        Integer num = cart.getNum();</span><br><span class="line">        Boolean boo = hashOps.hasKey(skuId.toString());</span><br><span class="line">        <span class="keyword">if</span> (boo) &#123;</span><br><span class="line">            <span class="comment">// 存在，获取购物车数据</span></span><br><span class="line">            String json = hashOps.get(skuId.toString()).toString();</span><br><span class="line">            cart = JsonUtils.parse(json, Cart.class);</span><br><span class="line">            <span class="comment">// 修改购物车数量</span></span><br><span class="line">            cart.setNum(cart.getNum() + num);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 不存在，新增购物车数据</span></span><br><span class="line">            cart.setUserId(user.getId());</span><br><span class="line">            <span class="comment">// 其它商品信息， 需要查询商品服务</span></span><br><span class="line">            ResponseEntity&lt;Sku&gt; resp = <span class="keyword">this</span>.goodsClient.querySkuById(skuId);</span><br><span class="line">            <span class="keyword">if</span> (resp.getStatusCode() != HttpStatus.OK || !resp.hasBody()) &#123;</span><br><span class="line">                logger.error(<span class="string">"添加购物车的商品不存在：skuId:&#123;&#125;"</span>, skuId);</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException();</span><br><span class="line">            &#125;</span><br><span class="line">            Sku sku = resp.getBody();</span><br><span class="line">            cart.setImage(StringUtils.isBlank(sku.getImages()) ? <span class="string">""</span> : StringUtils.split(sku.getImages(), <span class="string">","</span>)[<span class="number">0</span>]);</span><br><span class="line">            cart.setPrice(sku.getPrice());</span><br><span class="line">            cart.setTitle(sku.getTitle());</span><br><span class="line">            cart.setOwnSpec(sku.getOwnSpec());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 将购物车数据写入redis</span></span><br><span class="line">        hashOps.put(cart.getSkuId().toString(), JsonUtils.serialize(cart));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-3-3-结果："><a href="#4-3-3-结果：" class="headerlink" title="4.3.3.结果："></a>4.3.3.结果：</h3><p> <img src="http://img.smallmartial.cn/1527776569221.png" alt="image"></p>
+<h2 id="4-4-查询购物车"><a href="#4-4-查询购物车" class="headerlink" title="4.4.查询购物车"></a>4.4.查询购物车</h2><h3 id="4-4-1-页面发起请求"><a href="#4-4-1-页面发起请求" class="headerlink" title="4.4.1.页面发起请求"></a>4.4.1.页面发起请求</h3><p><img src="http://img.smallmartial.cn/1527996579207.png" alt="image"></p>
+<h3 id="4-4-2-后台实现"><a href="#4-4-2-后台实现" class="headerlink" title="4.4.2.后台实现"></a>4.4.2.后台实现</h3><blockquote>
+<p>Controller</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 查询购物车列表</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@GetMapping</span></span><br><span class="line"><span class="keyword">public</span> ResponseEntity&lt;List&lt;Cart&gt;&gt; queryCartList() &#123;</span><br><span class="line">    List&lt;Cart&gt; carts = <span class="keyword">this</span>.cartService.queryCartList();</span><br><span class="line">    <span class="keyword">if</span> (carts == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> ResponseEntity.status(HttpStatus.NOT_FOUND).body(<span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ResponseEntity.ok(carts);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Service</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> List&lt;Cart&gt; <span class="title">queryCartList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 获取登录用户</span></span><br><span class="line">        UserInfo user = LoginInterceptor.getLoginUser();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 判断是否存在购物车</span></span><br><span class="line">        String key = KEY_PREFIX + user.getId();</span><br><span class="line">        <span class="keyword">if</span>(!<span class="keyword">this</span>.redisTemplate.hasKey(key))&#123;</span><br><span class="line">            <span class="comment">// 不存在，直接返回</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        BoundHashOperations&lt;String, Object, Object&gt; hashOps = <span class="keyword">this</span>.redisTemplate.boundHashOps(key);</span><br><span class="line">        List&lt;Object&gt; carts = hashOps.values();</span><br><span class="line">        <span class="comment">// 判断是否有数据</span></span><br><span class="line">        <span class="keyword">if</span>(CollectionUtils.isEmpty(carts))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 查询购物车数据</span></span><br><span class="line">        <span class="keyword">return</span> carts.stream().map(o -&gt; JsonUtils.parse(o.toString(), Cart.class)).collect(Collectors.toList());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-4-3-测试"><a href="#4-4-3-测试" class="headerlink" title="4.4.3.测试"></a>4.4.3.测试</h3><p><img src="http://img.smallmartial.cn/1527776651321.png" alt="image"></p>
+<h2 id="4-5-修改商品数量"><a href="#4-5-修改商品数量" class="headerlink" title="4.5.修改商品数量"></a>4.5.修改商品数量</h2><h3 id="4-5-1-页面发起请求"><a href="#4-5-1-页面发起请求" class="headerlink" title="4.5.1.页面发起请求"></a>4.5.1.页面发起请求</h3><p> <img src="http://img.smallmartial.cn/1527996642442.png" alt="image"></p>
+<h3 id="4-5-2-后台实现"><a href="#4-5-2-后台实现" class="headerlink" title="4.5.2.后台实现"></a>4.5.2.后台实现</h3><blockquote>
+<p>Controller</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PutMapping</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ResponseEntity&lt;Void&gt; <span class="title">updateNum</span><span class="params">(@RequestParam(<span class="string">"skuId"</span>)</span> Long skuId, </span></span><br><span class="line"><span class="function">                                      @<span class="title">RequestParam</span><span class="params">(<span class="string">"num"</span>)</span> Integer num) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.cartService.updateNum(skuId, num);</span><br><span class="line">    <span class="keyword">return</span> ResponseEntity.ok().build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Service</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateNum</span><span class="params">(Long skuId, Integer num)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 获取登录用户</span></span><br><span class="line">    UserInfo user = LoginInterceptor.getLoginUser();</span><br><span class="line">    String key = KEY_PREFIX + user.getId();</span><br><span class="line">    BoundHashOperations&lt;String, Object, Object&gt; hashOps = <span class="keyword">this</span>.redisTemplate.boundHashOps(key);</span><br><span class="line">    <span class="comment">// 获取购物车</span></span><br><span class="line">    String json = hashOps.get(skuId.toString()).toString();</span><br><span class="line">    Cart cart = JsonUtils.parse(json, Cart.class);</span><br><span class="line">    cart.setNum(num);</span><br><span class="line">    <span class="comment">// 写入购物车</span></span><br><span class="line">    hashOps.put(skuId.toString(), JsonUtils.serialize(cart));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4-6-删除购物车商品"><a href="#4-6-删除购物车商品" class="headerlink" title="4.6.删除购物车商品"></a>4.6.删除购物车商品</h2><h3 id="4-6-1-页面发起请求"><a href="#4-6-1-页面发起请求" class="headerlink" title="4.6.1.页面发起请求"></a>4.6.1.页面发起请求</h3><p> <img src="http://img.smallmartial.cn/1527997061283.png" alt="image"></p>
+<p>注意：后台成功响应后，要把页面的购物车中数据也删除</p>
+<h3 id="4-6-2-后台实现"><a href="#4-6-2-后台实现" class="headerlink" title="4.6.2.后台实现"></a>4.6.2.后台实现</h3><blockquote>
+<p>Controller</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DeleteMapping</span>(<span class="string">"&#123;skuId&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> ResponseEntity&lt;Void&gt; <span class="title">deleteCart</span><span class="params">(@PathVariable(<span class="string">"skuId"</span>)</span> String skuId) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.cartService.deleteCart(skuId);</span><br><span class="line">    <span class="keyword">return</span> ResponseEntity.ok().build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Service</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteCart</span><span class="params">(String skuId)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 获取登录用户</span></span><br><span class="line">    UserInfo user = LoginInterceptor.getLoginUser();</span><br><span class="line">    String key = KEY_PREFIX + user.getId();</span><br><span class="line">    BoundHashOperations&lt;String, Object, Object&gt; hashOps = <span class="keyword">this</span>.redisTemplate.boundHashOps(key);</span><br><span class="line">    hashOps.delete(skuId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/java/" rel="tag"># java</a>
+          
+            <a href="/blog/tags/乐优商城/" rel="tag"># 乐优商城</a>
+          
+            <a href="/blog/tags/springboot/" rel="tag"># springboot</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2019/04/25/lyshop-26/" rel="next" title="乐优商城学习笔记二十五-购物车（一）">
+                <i class="fa fa-chevron-left"></i> 乐优商城学习笔记二十五-购物车（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">小武</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/blog/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/blog/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/blog/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/smallmartial" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-globe"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="豆瓣">
+                      
+                        <i class="fa fa-fw fa-globe"></i>豆瓣</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="undefined" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#4-已登录购物车"><span class="nav-number">1.</span> <span class="nav-text">4.已登录购物车</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-添加登录校验"><span class="nav-number">1.1.</span> <span class="nav-text">4.1.添加登录校验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-1-引入JWT相关依赖"><span class="nav-number">1.1.1.</span> <span class="nav-text">4.1.1.引入JWT相关依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-2-配置公钥"><span class="nav-number">1.1.2.</span> <span class="nav-text">4.1.2.配置公钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-3-加载公钥"><span class="nav-number">1.1.3.</span> <span class="nav-text">4.1.3.加载公钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-4-编写过滤器"><span class="nav-number">1.1.4.</span> <span class="nav-text">4.1.4.编写过滤器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-5-配置过滤器"><span class="nav-number">1.1.5.</span> <span class="nav-text">4.1.5.配置过滤器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-后台购物车设计"><span class="nav-number">1.2.</span> <span class="nav-text">4.2.后台购物车设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据结构设计"><span class="nav-number">1.2.1.</span> <span class="nav-text">数据结构设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实体类"><span class="nav-number">1.2.2.</span> <span class="nav-text">实体类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-添加商品到购物车"><span class="nav-number">1.3.</span> <span class="nav-text">4.3.添加商品到购物车</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-1-页面发起请求："><span class="nav-number">1.3.1.</span> <span class="nav-text">4.3.1.页面发起请求：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-2-后台添加购物车"><span class="nav-number">1.3.2.</span> <span class="nav-text">4.3.2.后台添加购物车</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#controller"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">controller</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Service"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">Service</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-3-结果："><span class="nav-number">1.3.3.</span> <span class="nav-text">4.3.3.结果：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-查询购物车"><span class="nav-number">1.4.</span> <span class="nav-text">4.4.查询购物车</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-1-页面发起请求"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.4.1.页面发起请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-2-后台实现"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.4.2.后台实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-3-测试"><span class="nav-number">1.4.3.</span> <span class="nav-text">4.4.3.测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5-修改商品数量"><span class="nav-number">1.5.</span> <span class="nav-text">4.5.修改商品数量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-1-页面发起请求"><span class="nav-number">1.5.1.</span> <span class="nav-text">4.5.1.页面发起请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-2-后台实现"><span class="nav-number">1.5.2.</span> <span class="nav-text">4.5.2.后台实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-6-删除购物车商品"><span class="nav-number">1.6.</span> <span class="nav-text">4.6.删除购物车商品</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-1-页面发起请求"><span class="nav-number">1.6.1.</span> <span class="nav-text">4.6.1.页面发起请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-2-后台实现"><span class="nav-number">1.6.2.</span> <span class="nav-text">4.6.2.后台实现</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">小武</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("wVtY9vYudJ7sIqDYeIQpLXhk-gzGzoHsz", "1jpXi8YPzcRJN87pX2KJQCBP");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
